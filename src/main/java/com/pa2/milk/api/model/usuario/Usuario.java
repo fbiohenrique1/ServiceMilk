@@ -2,6 +2,8 @@ package com.pa2.milk.api.model.usuario;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -13,6 +15,7 @@ import javax.validation.constraints.NotBlank;
 import org.hibernate.validator.constraints.br.CPF;
 
 import com.pa2.milk.api.model.AbstractModel;
+import com.pa2.milk.api.model.usuario.enums.TipoPerfilUsuario;
 
 @Entity
 @Table
@@ -34,14 +37,19 @@ public class Usuario extends AbstractModel<Integer>{
     @CPF
     @Column(unique = true, length = 16)
 	private String cpf;
-		
+    
+    @Enumerated(EnumType.STRING)
+    @Column(name = "perfil", nullable = false)
+    private TipoPerfilUsuario tipoPerfilUsuario;
+    
 	public Usuario() {	
 	}	
 	
-	public Usuario(String email, String nome, String cpf) {
+	public Usuario(String email, String nome, String cpf, TipoPerfilUsuario tipoPerfilUsuario) {
 		this.email = email;
 		this.nome = nome;
 		this.cpf = cpf;
+		this.tipoPerfilUsuario = tipoPerfilUsuario;
 	}
 	
 	@Override
@@ -71,5 +79,13 @@ public class Usuario extends AbstractModel<Integer>{
 	}
 	public void setCpf(String cpf) {
 		this.cpf = cpf;
+	}
+	
+	public TipoPerfilUsuario getTipoPerfilUsuario() {
+		return tipoPerfilUsuario;
+	}
+	
+	public void setTipoPerfilUsuario(TipoPerfilUsuario tipoPerfilUsuario) {
+		this.tipoPerfilUsuario = tipoPerfilUsuario;
 	}
 }
