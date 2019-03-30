@@ -1,5 +1,5 @@
 package com.pa2.milk.api.model.enums;
 
-public enum Leite {
+public enum EnumLeite {
 
 }

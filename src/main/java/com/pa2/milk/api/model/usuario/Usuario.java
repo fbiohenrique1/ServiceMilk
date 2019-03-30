@@ -1,4 +1,4 @@
-package com.pa2.milk.api.model;
+package com.pa2.milk.api.model.usuario;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,6 +11,8 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 
 import org.hibernate.validator.constraints.br.CPF;
+
+import com.pa2.milk.api.model.AbstractModel;
 
 @Entity
 @Table
