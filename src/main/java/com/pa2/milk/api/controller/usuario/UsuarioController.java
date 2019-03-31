@@ -1,6 +1,7 @@
 package com.pa2.milk.api.controller.usuario;
 
 import java.security.NoSuchAlgorithmException;
+import java.util.List;
 import java.util.Optional;
 
 import javax.validation.Valid;
@@ -81,119 +82,136 @@ public class UsuarioController {
 	}
 	
 	
-	@GetMapping(value="{id}")
-	public ResponseEntity<Response<Cliente>> listarClientePorId(@PathVariable("id") Integer id){
-	
-		log.info("Buscar Cliente por Id");
-		
-		Response<Cliente> response = new Response<Cliente>();
-		
-    	Optional<Cliente> cliente = this.usuarioService.getClienteRepository().buscarPorId(id);
-    	
-    	if(!cliente.isPresent()) {
-    		log.info("Cliente não encontrado");
-    		
-    		response.getErros().add("Cliente não encontrado para o Id:" + id);
-    		
-    		return ResponseEntity.badRequest().body(response);
-    	}
-		response.setData(cliente);
-    	
-		return ResponseEntity.ok(response);
-	}
-		
-	@PutMapping(value="{id}")	
-	public ResponseEntity<Response<Cliente>> atualizarCliente(@PathVariable("id") Integer id, 
-			@Valid @RequestBody Cliente cliente, BindingResult result) throws NoSuchAlgorithmException {
-		
-		log.info("Atualizando o Cliente:{}",cliente.toString());
-		
-		Response<Cliente> response = new Response<Cliente>();
-		
-		Optional<Cliente> cliente1 = this.usuarioService.getClienteRepository().buscarPorId(id);
-		
-		
-		if(!cliente1.isPresent()) {
-			result.addError(new ObjectError("cliente", "Cliente não encontrado."));
-			response.getErros().add("Cliente não encontrado para o Id:" + id);
-			
-			return ResponseEntity.notFound().build();
-		}
-		
-		
-		this.atualizarDadosCliente(cliente1.get(), cliente, result);
-		
-		if(result.hasErrors()) {
-			log.error("Erro validando lancamento:{}", result.getAllErrors());
-			
-			result.getAllErrors().forEach(error -> response.getErros().add(error.getDefaultMessage()));
-			
-			return ResponseEntity.badRequest().body(response);
-		}
-		
-		usuarioService.getClienteRepository().salvar(cliente1.get());
-	
-		response.setData2(this.converterFuncionarioDto(cliente1.get()));
-		
-		return ResponseEntity.ok(response);
-		
-	}
-	
-	
-	@DeleteMapping(value="{id}")
-	public ResponseEntity<Response<Cliente>> deletarCliente(@PathVariable("id") Integer id) {
-			
-		log.info("Removendo Cliente: {}", id);
-		
-		Response<Cliente> response = new Response<Cliente>();
-		
-		Optional<Cliente> cliente = this.usuarioService.getClienteRepository().buscarPorId(id);
-		
-		if(!cliente.isPresent()) {
-			log.info("Erro ao remover devido ao lancamento Id: {} ser inválido.", id);
-			response.getErros().add("Erro ao remover lancamento. Resgistro não para o Id:" + id);
-			return ResponseEntity.badRequest().body(response);
-		}
-		
-		this.usuarioService.getClienteRepository().remover(id);
-		
-		return ResponseEntity.ok(response);
-	}
-
-	
-	private void atualizarDadosCliente(Cliente cliente, Cliente cliente2, BindingResult result) 
-			  throws NoSuchAlgorithmException {
-			
-		cliente.setNome(cliente2.getNome());
-			
-			if(!cliente.getEmail().equals(cliente2.getEmail())) {
-				this.usuarioService.getClienteRepository().buscarPorEmail(cliente2.getEmail())
-				    .ifPresent(clien -> result.addError(new ObjectError("email","Email já exitente.")));
-				cliente.setEmail(cliente2.getEmail());
-			}
-					
-			if(!cliente.getCpf().equals(cliente2.getEmail())) {
-				this.usuarioService.getClienteRepository().buscarPorCpf(cliente2.getCpf())
-				     .ifPresent(clien -> result.addError(new ObjectError("cpf", "CPF já existente.")));
-				cliente.setCpf(cliente2.getCpf());
-			}
-			
-		}
-
-	
-   private Cliente converterFuncionarioDto(Cliente cliente1) {
-		
-	   Cliente funcionarioDto = new Cliente();
-		
-		funcionarioDto.setId(cliente1.getId());
-		funcionarioDto.setEmail(cliente1.getEmail());
-		funcionarioDto.setNome(cliente1.getNome());
-		funcionarioDto.setCpf(cliente1.getCpf());
-		funcionarioDto.setTelefone(cliente1.getTelefone());
-		
-		return funcionarioDto;
-			
-   }
+//	@GetMapping(value="{id}")
+//	public ResponseEntity<Response<Cliente>> listarClientePorId(@PathVariable("id") Integer id){
+//	
+//		log.info("Buscar Cliente por Id");
+//		
+//		Response<Cliente> response = new Response<Cliente>();
+//		
+//    	Optional<Cliente> cliente = this.usuarioService.getClienteRepository().buscarPorId(id);
+//    	
+//    	if(!cliente.isPresent()) {
+//    		log.info("Cliente não encontrado");
+//    		
+//    		response.getErros().add("Cliente não encontrado para o Id:" + id);
+//    		
+//    		return ResponseEntity.badRequest().body(response);
+//    	}
+//		response.setData(cliente);
+//    	
+//		return ResponseEntity.ok(response);
+//	}
+//		
+//	@PutMapping(value="{id}")	
+//	public ResponseEntity<Response<Cliente>> atualizarCliente(@PathVariable("id") Integer id, 
+//			@Valid @RequestBody Cliente cliente, BindingResult result) throws NoSuchAlgorithmException {
+//		
+//		log.info("Atualizando o Cliente:{}",cliente.toString());
+//		
+//		Response<Cliente> response = new Response<Cliente>();
+//		
+//		Optional<Cliente> cliente1 = this.usuarioService.getClienteRepository().buscarPorId(id);
+//		
+//		
+//		if(!cliente1.isPresent()) {
+//			result.addError(new ObjectError("cliente", "Cliente não encontrado."));
+//			response.getErros().add("Cliente não encontrado para o Id:" + id);
+//			
+//			return ResponseEntity.notFound().build();
+//		}
+//		
+//		
+//		this.atualizarDadosCliente(cliente1.get(), cliente, result);
+//		
+//		if(result.hasErrors()) {
+//			log.error("Erro validando lancamento:{}", result.getAllErrors());
+//			
+//			result.getAllErrors().forEach(error -> response.getErros().add(error.getDefaultMessage()));
+//			
+//			return ResponseEntity.badRequest().body(response);
+//		}
+//		
+//		usuarioService.getClienteRepository().salvar(cliente1.get());
+//	
+//		response.setData2(this.converterFuncionarioDto(cliente1.get()));
+//		
+//		return ResponseEntity.ok(response);
+//		
+//	}
+//	
+//	
+//	@DeleteMapping(value="{id}")
+//	public ResponseEntity<Response<Cliente>> deletarCliente(@PathVariable("id") Integer id) {
+//			
+//		log.info("Removendo Cliente: {}", id);
+//		
+//		Response<Cliente> response = new Response<Cliente>();
+//		
+//		Optional<Cliente> cliente = this.usuarioService.getClienteRepository().buscarPorId(id);
+//		
+//		if(!cliente.isPresent()) {
+//			log.info("Erro ao remover devido ao lancamento Id: {} ser inválido.", id);
+//			response.getErros().add("Erro ao remover lancamento. Resgistro não para o Id:" + id);
+//			return ResponseEntity.badRequest().body(response);
+//		}
+//		
+//		this.usuarioService.getClienteRepository().remover(id);
+//		
+//		return ResponseEntity.ok(response);
+//	}
+//
+//	
+//	@GetMapping
+//	public ResponseEntity<List<Cliente>> listarClientes(){
+//	
+//		
+//		//List<Usuario> listarClientes = this.usuarioRepositorio.findAll();
+//		
+//		
+//		return null;
+//	}
+//	
+//	
+//	
+//	
+//	
+//	
+//	
+//	
+//	private void atualizarDadosCliente(Cliente cliente, Cliente cliente2, BindingResult result) 
+//			  throws NoSuchAlgorithmException {
+//			
+//		cliente.setNome(cliente2.getNome());
+//			
+//			if(!cliente.getEmail().equals(cliente2.getEmail())) {
+//				this.usuarioService.getClienteRepository().buscarPorEmail(cliente2.getEmail())
+//				    .ifPresent(clien -> result.addError(new ObjectError("email","Email já exitente.")));
+//				cliente.setEmail(cliente2.getEmail());
+//			}
+//					
+//			if(!cliente.getCpf().equals(cliente2.getEmail())) {
+//				this.usuarioService.getClienteRepository().buscarPorCpf(cliente2.getCpf())
+//				     .ifPresent(clien -> result.addError(new ObjectError("cpf", "CPF já existente.")));
+//				cliente.setCpf(cliente2.getCpf());
+//			}
+//			
+//		}
+//
+//	
+//   private Cliente converterFuncionarioDto(Cliente cliente1) {
+//		
+//	   Cliente funcionarioDto = new Cliente();
+//		
+//		funcionarioDto.setId(cliente1.getId());
+//		funcionarioDto.setEmail(cliente1.getEmail());
+//		funcionarioDto.setNome(cliente1.getNome());
+//		funcionarioDto.setCpf(cliente1.getCpf());
+//		funcionarioDto.setTelefone(cliente1.getTelefone());
+//		
+//		return funcionarioDto;
+//			
+//   }
    
 	
 }

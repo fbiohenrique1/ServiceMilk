@@ -1,5 +1,6 @@
 package com.pa2.milk.api.service.usuario.cliente;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.slf4j.Logger;
@@ -47,7 +48,13 @@ public class ClienteService {
 	
 	
 	public void remover(Integer id) {
-		log.info("Removendo Lancamento pelo Id: {}", id);
+		log.info("Removendo Cliente pelo Id: {}", id);
 		this.clienteRepository.deleteById(id);
+	}
+	
+	
+	public List<Cliente> listarClientes(){
+		log.info("Listando Clientes");
+		return this.clienteRepository.findAll();
 	}
 }
