@@ -23,7 +23,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.pa2.milk.api.controller.usuario.UsuarioController;
 import com.pa2.milk.api.model.usuario.Usuario;
 import com.pa2.milk.api.model.usuario.cliente.Cliente;
 import com.pa2.milk.api.model.usuario.enums.TipoPerfilUsuario;
@@ -32,7 +31,7 @@ import com.pa2.milk.api.response.Response;
 import com.pa2.milk.api.service.usuario.cliente.ClienteService;
 
 @RestController
-@RequestMapping(value = "/clientes")
+@RequestMapping(value = "/usuarios/clientes")
 @CrossOrigin(origins = "*")
 public class ClienteController {
 

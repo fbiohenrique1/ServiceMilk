@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping(value = "/administradores")
+@RequestMapping(value = "/usuarios/administradores")
 @CrossOrigin(origins = "*")
 public class AdministradorController {
 
