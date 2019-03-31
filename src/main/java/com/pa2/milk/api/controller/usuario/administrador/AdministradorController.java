@@ -15,4 +15,7 @@ public class AdministradorController {
 	public String findById() {
 		return "REST está adm123";
 	}
+	
+	
+	
 }
