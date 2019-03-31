@@ -7,12 +7,12 @@ import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
-import com.pa2.milk.api.model.AbstractModel;
+import com.pa2.milk.api.model.usuario.Usuario;
 
 
 @Entity
-@Table
-public class Cliente extends AbstractModel<Integer>{
+@Table(name="cliente")
+public class Cliente extends Usuario {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_CLIENTE")

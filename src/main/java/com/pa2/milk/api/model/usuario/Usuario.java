@@ -7,9 +7,9 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 import javax.persistence.OneToOne;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 
@@ -21,14 +21,14 @@ import com.pa2.milk.api.model.AbstractModel;
 import com.pa2.milk.api.model.usuario.enums.TipoPerfilUsuario;
 
 @Entity
-@Table(name="usuario")
-public class Usuario extends AbstractModel<Integer>{
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+public abstract class Usuario extends AbstractModel<Integer>{
 
 //	@Id
 //	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_USUARIO")
 //	@SequenceGenerator(name = "SEQ_USUARIO", sequenceName = "id_seq_usuario", allocationSize = 1)
 	@Id
-	@GeneratedValue(strategy= GenerationType.IDENTITY)
+	@GeneratedValue(strategy= GenerationType.SEQUENCE)
 	private Integer id;
 
 	@Email

@@ -1,4 +1,4 @@
-package com.pa2.milk.api.senhas;
+/*package com.pa2.milk.api.senhas;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,3 +23,4 @@ public class PasswordUtils {
 
 	
 }
+*/

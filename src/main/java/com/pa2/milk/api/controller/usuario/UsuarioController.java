@@ -17,10 +17,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.pa2.milk.api.model.usuario.Usuario;
+import com.pa2.milk.api.model.usuario.cliente.Cliente;
 import com.pa2.milk.api.model.usuario.enums.TipoPerfilUsuario;
 import com.pa2.milk.api.repository.usuario.UsuarioRepository;
 import com.pa2.milk.api.response.Response;
-import com.pa2.milk.api.senhas.PasswordUtils;
+//import com.pa2.milk.api.senhas.PasswordUtils;
+import com.pa2.milk.api.service.usuario.UsuarioService;
 
 @RestController
 @RequestMapping("/usuarios")
@@ -30,6 +32,10 @@ public class UsuarioController {
 	
 	@Autowired
 	private UsuarioRepository usuarioRepositorio;
+	
+	@Autowired
+	private UsuarioService usuarioService;
+	
 	
 //	@RequestMapping(method = RequestMethod.GET)
 	@GetMapping
@@ -45,9 +51,9 @@ public class UsuarioController {
 		
 		Response<Usuario> response = new Response<Usuario>();
 	
-		Usuario user = new Usuario();
+		Usuario user = new Cliente();
 		user.setNome(usuario.getNome());
-		user.setEmail(user.getEmail());
+		user.setEmail(usuario.getEmail());
 		user.setTipoPerfilUsuario(TipoPerfilUsuario.ROLE_CLIENTE);
 		user.setCpf(usuario.getCpf());
 		user.getCredencial().setUsername(usuario.getCredencial().getUsername());
@@ -61,7 +67,7 @@ public class UsuarioController {
 			return ResponseEntity.badRequest().body(response);
 		}
 	
-		this.usuarioRepositorio.save(user);
+		usuarioService.getClienteRepository().salvar((Cliente) user);
 		
 		return ResponseEntity.ok(response);
 	}
