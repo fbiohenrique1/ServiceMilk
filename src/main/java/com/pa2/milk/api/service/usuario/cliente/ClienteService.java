@@ -21,14 +21,14 @@ public class ClienteService {
 	@Autowired
 	private ClienteRepository clienteRepository;
 	
-	public Cliente buscar(Integer id) {
+	public Cliente buscarPorId(Integer id) {
 		Optional<Cliente> objCliente = clienteRepository.findById(id);
 		return objCliente.orElse(null);
 	}
-	
-	public Optional<Cliente> buscarPorId(Integer id) {
-		return this.clienteRepository.findById(id);
-	}
+//	
+//	public Optional<Cliente> buscarPorId(Integer id) {
+//		return this.clienteRepository.findById(id);
+//	}
 	
 	public void salvar(Cliente cliente) {
 		clienteRepository.save(cliente);

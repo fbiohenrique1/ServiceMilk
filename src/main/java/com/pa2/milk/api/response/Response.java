@@ -16,7 +16,7 @@ public class Response<T> {
 	}
 
 	public Object getData2() {
-		return data2;
+	   return data2;
 	}
 
 	public void setData2(Object object) {

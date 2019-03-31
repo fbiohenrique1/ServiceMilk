@@ -20,12 +20,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.pa2.milk.api.model.usuario.Usuario;
 import com.pa2.milk.api.model.usuario.cliente.Cliente;
-import com.pa2.milk.api.model.usuario.enums.TipoPerfilUsuario;
 import com.pa2.milk.api.repository.usuario.cliente.ClienteRepository;
 import com.pa2.milk.api.response.Response;
 import com.pa2.milk.api.service.usuario.cliente.ClienteService;
@@ -75,27 +73,19 @@ public class ClienteController {
 	}
 
 	@GetMapping(value = "{id}")
-	public ResponseEntity<Response<Cliente>> buscarCliente(@PathVariable("id") Integer id) {
+	public ResponseEntity<Response<Cliente>> buscarClientePorId(@PathVariable("id") Integer id) {
 
 		log.info("Buscar Cliente por Id");
 
 		Response<Cliente> response = new Response<Cliente>();
 
-		Cliente cliente = clienteService.buscar(id);
+		Cliente cliente = this.clienteService.buscarPorId(id);
+
 		response.setData(Optional.ofNullable(cliente));
-		verificarResposta(response);
+		
+	     verificarResposta(response);
 
-		return cliente != null ? ResponseEntity.ok(response) : ResponseEntity.badRequest().body(response);
-	}
-
-	private void verificarResposta(Response<Cliente> response) {
-		if (!response.getData().isPresent()) {
-			log.info("Cliente não encontrado");
-
-			response.getErros().add("Cliente não encontrado");
-
-			ResponseEntity.badRequest().body(response);
-		}
+		return ResponseEntity.ok(response);
 	}
 
 	@PutMapping(value = "{id}")
@@ -106,16 +96,13 @@ public class ClienteController {
 
 		Response<Cliente> response = new Response<Cliente>();
 
-		Optional<Cliente> cliente1 = this.clienteService.buscarPorId(id);
+		Cliente cliente1 = this.clienteService.buscarPorId(id);
 
-		if (!cliente1.isPresent()) {
-			result.addError(new ObjectError("cliente", "Cliente não encontrado."));
-			response.getErros().add("Cliente não encontrado para o Id:" + id);
+		response.setData(Optional.ofNullable(cliente1));
 
-			return ResponseEntity.notFound().build();
-		}
+		verificarResposta(response);
 
-		this.atualizarDadosCliente(cliente1.get(), cliente, result);
+		this.atualizarDadosCliente(cliente1, cliente, result);
 
 		if (result.hasErrors()) {
 			log.error("Erro validando lancamento:{}", result.getAllErrors());
@@ -126,8 +113,6 @@ public class ClienteController {
 		}
 
 		this.clienteService.salvar(cliente);
-
-		response.setData2(this.converterFuncionarioDto(cliente1.get()));
 
 		return ResponseEntity.ok(response);
 
@@ -140,14 +125,12 @@ public class ClienteController {
 
 		Response<Cliente> response = new Response<Cliente>();
 
-		Optional<Cliente> cliente = this.clienteService.buscarPorId(id);
+		Cliente cliente = this.clienteService.buscarPorId(id);
 
-		if (!cliente.isPresent()) {
-			log.info("Erro ao remover devido ao lancamento Id: {} ser inválido.", id);
-			response.getErros().add("Erro ao remover lancamento. Resgistro não para o Id:" + id);
-			return ResponseEntity.badRequest().body(response);
-		}
-
+		response.setData(Optional.ofNullable(cliente));
+		
+		verificarResposta(response);
+		
 		this.clienteService.remover(id);
 
 		return ResponseEntity.ok(response);
@@ -173,13 +156,17 @@ public class ClienteController {
 		}
 
 	}
+	
+	
+	
+	private void verificarResposta(Response<Cliente> response) {
+        if (!response.getData().isPresent()) {
+            log.info("Cliente não encontrado");
 
-	private Cliente converterFuncionarioDto(Cliente cliente1) {
+            response.getErros().add("Cliente não encontrado");
 
-		Cliente funcionarioDto = cliente1;
-
-		return funcionarioDto;
-
-	}
+            ResponseEntity.badRequest().body(response);
+        }
+    }
 
 }
