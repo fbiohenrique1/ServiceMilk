@@ -8,11 +8,11 @@
 5. Verifique com o comando **java -version**.
 6. Abra o XAMPP e inicie tanto o apache quanto o banco de dados MYSQL.
 7. Abra a URL *localhost/phpmyadmin* e crie um banco de dados chamado **milk**.
-8. Abra o arquivo **application.properties** e configure a usuario e senha de acordo com seu banco.
+8. Abra o arquivo **application.properties** e configure o usário e senha de acordo com seu banco MYSQL do phpmyadmin.
 9. No diretório do projeto onde se encontra o pom.xml, execute o comando **mvn clean install**.
 10. Após o build do projeto, entre no diretório **target** e execute o comando **java -jar nomedoarquivojar.jar**
 
 
-> **IMPORTANTE**: caso você não tenha o XAMPP instalado, basta comentar os códigos de configuração de banco MYSQL que estão no arquivo 
-> **application.properties** e descomentar a configuração de banco do **H2**. Feito isso, repita os passos **9** e **10**
+> **IMPORTANTE**: caso você não tenha o XAMPP instalado, basta comentar os códigos de configurações do banco MYSQL que estão no arquivo 
+> **application.properties** e descomentar as configurações do banco do **H2**. Feito isso, repita os passos **9** e **10**
 
