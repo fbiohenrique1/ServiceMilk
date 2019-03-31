@@ -1,11 +1,13 @@
 package com.pa2.milk.api.controller.usuario.administrador;
 
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping(value = "/administradores")
+@CrossOrigin(origins = "*")
 public class AdministradorController {
 
 	
