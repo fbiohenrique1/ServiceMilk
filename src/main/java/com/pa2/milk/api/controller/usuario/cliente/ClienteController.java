@@ -44,12 +44,6 @@ public class ClienteController {
 	@Autowired
 	private ClienteService clienteService;
 	
-//	@RequestMapping(value="{id}", method = RequestMethod.GET)
-//	public ResponseEntity<?> findById(@PathVariable Integer id) {
-//		
-//		
-//		return null;
-//	}
 	
 	@GetMapping
 	public List<Cliente> listarClientes(){
@@ -65,12 +59,7 @@ public class ClienteController {
 		
 		Response<Cliente> response = new Response<Cliente>();
 	
-		Usuario user = new Cliente();
-		user.setNome(cliente.getNome());
-		user.setEmail(cliente.getEmail());
-		user.setTipoPerfilUsuario(TipoPerfilUsuario.ROLE_CLIENTE);
-		user.setCpf(cliente.getCpf());
-		user.setTelefone(cliente.getTelefone());
+		Usuario user =	cliente;
 		
 		if(result.hasErrors()) {
             
@@ -80,8 +69,7 @@ public class ClienteController {
 			return ResponseEntity.badRequest().body(response);
 		}
 	
-//		usuarioService.getClienteRepository().salvar((Cliente) user);
-		this.clienteService.salvar(cliente);
+		this.clienteService.salvar((Cliente) user);
 
 		return ResponseEntity.ok(response);
 	}
@@ -94,7 +82,6 @@ public class ClienteController {
 		
 		Response<Cliente> response = new Response<Cliente>();
 		
-//    	Optional<Cliente> cliente = this.usuarioService.getClienteRepository().buscarPorId(id);
         Optional<Cliente> cliente = this.clienteService.buscarPorId(id);
 		
     	if(!cliente.isPresent()) {
@@ -117,7 +104,6 @@ public class ClienteController {
 		
 		Response<Cliente> response = new Response<Cliente>();
 		
-//		Optional<Cliente> cliente1 = this.usuarioService.getClienteRepository().buscarPorId(id);
 		Optional<Cliente> cliente1 = this.clienteService.buscarPorId(id);
 		
 		if(!cliente1.isPresent()) {
@@ -138,7 +124,6 @@ public class ClienteController {
 			return ResponseEntity.badRequest().body(response);
 		}
 		
-//		usuarioService.getClienteRepository().salvar(cliente1.get());
 	    this.clienteService.salvar(cliente);
 		
 		response.setData2(this.converterFuncionarioDto(cliente1.get()));
@@ -155,7 +140,6 @@ public class ClienteController {
 		
 		Response<Cliente> response = new Response<Cliente>();
 		
-//		Optional<Cliente> cliente = this.usuarioService.getClienteRepository().buscarPorId(id);
 		Optional<Cliente> cliente = this.clienteService.buscarPorId(id);
 		
 		if(!cliente.isPresent()) {
@@ -164,7 +148,6 @@ public class ClienteController {
 			return ResponseEntity.badRequest().body(response);
 		}
 		
-//		this.usuarioService.getClienteRepository().remover(id);
         this.clienteService.remover(id);
 		
 		return ResponseEntity.ok(response);
@@ -177,14 +160,14 @@ public class ClienteController {
 		cliente.setNome(cliente2.getNome());
 			
 			if(!cliente.getEmail().equals(cliente2.getEmail())) {
-//				this.usuarioService.getClienteRepository().buscarPorEmail(cliente2.getEmail())
+
 				this.clienteService.buscarPorEmail(cliente2.getEmail())
 				    .ifPresent(clien -> result.addError(new ObjectError("email","Email já exitente.")));
 				cliente.setEmail(cliente2.getEmail());
 			}
 					
 			if(!cliente.getCpf().equals(cliente2.getEmail())) {
-//				this.usuarioService.getClienteRepository().buscarPorCpf(cliente2.getCpf())
+
 				this.clienteService.buscarPorCpf(cliente.getCpf())
 				     .ifPresent(clien -> result.addError(new ObjectError("cpf", "CPF já existente.")));
 				cliente.setCpf(cliente2.getCpf());
