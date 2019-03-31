@@ -1,5 +1,7 @@
 package com.pa2.milk.api.model.usuario;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -22,7 +24,12 @@ import com.pa2.milk.api.model.usuario.enums.TipoPerfilUsuario;
 
 @Entity
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
-public abstract class Usuario extends AbstractModel<Integer>{
+public abstract class Usuario extends AbstractModel<Integer> implements Serializable{
+
+/**
+	 * 
+	 */
+	private static final long serialVersionUID = -3369905668869556989L;
 
 //	@Id
 //	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_USUARIO")
@@ -43,6 +50,9 @@ public abstract class Usuario extends AbstractModel<Integer>{
     @Column(unique = true, length = 16)
 	private String cpf;
     
+    @Column(length = 11)
+    private String telefone;
+    
     @Enumerated(EnumType.STRING)
     @Column(name = "perfil", nullable = false)
     private TipoPerfilUsuario tipoPerfilUsuario;
@@ -54,14 +64,18 @@ public abstract class Usuario extends AbstractModel<Integer>{
 	public Usuario() {	
 	}	
 
-	public Usuario(String email, String nome, String cpf, TipoPerfilUsuario tipoPerfilUsuario, Credencial credencial) {
+	public Usuario(String email, String nome, String cpf, String telefone, TipoPerfilUsuario tipoPerfilUsuario, 
+			Credencial credencial) {
 		super();
 		this.email = email;
 		this.nome = nome;
 		this.cpf = cpf;
+		this.telefone = telefone;
 		this.tipoPerfilUsuario = tipoPerfilUsuario;
 		this.credencial = credencial;
 	}
+
+
 
 
 	@Override
@@ -108,7 +122,14 @@ public abstract class Usuario extends AbstractModel<Integer>{
 	public void setCredencial(Credencial credencial) {
 		this.credencial = credencial;
 	}
-	
+
+	public String getTelefone() {
+		return telefone;
+	}
+
+	public void setTelefone(String telefone) {
+		this.telefone = telefone;
+	}
 	
 	
 }

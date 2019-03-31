@@ -1,5 +1,7 @@
 package com.pa2.milk.api.model.usuario.cliente;
 
+import java.io.Serializable;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -12,8 +14,12 @@ import com.pa2.milk.api.model.usuario.Usuario;
 
 @Entity
 @Table(name="cliente")
-public class Cliente extends Usuario {
+public class Cliente extends Usuario implements Serializable{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2910556186175499219L;
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_CLIENTE")
 	@SequenceGenerator(name = "SEQ_CLIENTE", sequenceName = "seq_cliente", allocationSize = 1)

@@ -2,10 +2,13 @@ package com.pa2.milk.api.response;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+
+import com.pa2.milk.api.model.usuario.cliente.Cliente;
 
 public class Response<T> {
 
-	private T data;
+	private Optional<T> data;
 	private List<String> erros;
 	
 	
@@ -13,12 +16,12 @@ public class Response<T> {
 	}
 
 
-	public T getData() {
+	public Optional<T> getData() {
 		return data;
 	}
 
 
-	public void setData(T data) {
+	public void setData(Optional<T> data) {
 		this.data = data;
 	}
 

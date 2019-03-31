@@ -1,20 +1,27 @@
 package com.pa2.milk.api.controller.usuario;
 
 import java.security.NoSuchAlgorithmException;
+import java.util.Optional;
 
 import javax.validation.Valid;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.data.domain.Sort.Direction;
+import org.springframework.beans.factory.annotation.Value;
 
 import com.pa2.milk.api.model.usuario.Usuario;
 import com.pa2.milk.api.model.usuario.cliente.Cliente;
@@ -37,28 +44,26 @@ public class UsuarioController {
 	private UsuarioService usuarioService;
 	
 	
-//	@RequestMapping(method = RequestMethod.GET)
-	@GetMapping
+	@GetMapping(value="hello")
 	public String findById() {
 		return "REST está funcionando123";
 	}
 	
 	@PostMapping
-	public ResponseEntity<Response<Usuario>> cadastrarCliente(@Valid @RequestBody Usuario usuario,
+	public ResponseEntity<Response<Cliente>> cadastrarCliente(@Valid @RequestBody Cliente cliente,
 			BindingResult result) throws NoSuchAlgorithmException {
 		
-		log.info("Cadastrando Usuario:{}",usuario.toString());
+		log.info("Cadastrando Usuario:{}",cliente.toString());
 		
-		Response<Usuario> response = new Response<Usuario>();
+		Response<Cliente> response = new Response<Cliente>();
 	
 		Usuario user = new Cliente();
-		user.setNome(usuario.getNome());
-		user.setEmail(usuario.getEmail());
+		user.setNome(cliente.getNome());
+		user.setEmail(cliente.getEmail());
 		user.setTipoPerfilUsuario(TipoPerfilUsuario.ROLE_CLIENTE);
-		user.setCpf(usuario.getCpf());
-		user.getCredencial().setUsername(usuario.getCredencial().getUsername());
-//		user.getCredencial().setSenha(PasswordUtils.gerarBCrypt(usuario.getCredencial().getSenha()));
-//		
+		user.setCpf(cliente.getCpf());
+		user.setTelefone(cliente.getTelefone());
+		
 		if(result.hasErrors()) {
             
 			log.error("Erro validando dados do cadastro Cliente: {}",result.getAllErrors());
@@ -71,5 +76,31 @@ public class UsuarioController {
 		
 		return ResponseEntity.ok(response);
 	}
+	
+	
+	@GetMapping(value="{id}")
+	public ResponseEntity<Response<Cliente>> listarClientePorId(@PathVariable("id") Integer id){
+	
+		log.info("Buscar Cliente por Id");
+		
+		Response<Cliente> response = new Response<Cliente>();
+		
+    	Optional<Cliente> cliente = this.usuarioService.getClienteRepository().buscarPorId(id);
+    	
+    	if(!cliente.isPresent()) {
+    		log.info("Cliente não encontrado");
+    		
+    		response.getErros().add("Cliente não encontrado para o Id:" + id);
+    		
+    		return ResponseEntity.badRequest().body(response);
+    	}
+		response.setData(cliente);
+    	
+		return ResponseEntity.ok(response);
+	}
+		
+		
+	
 		
 }
+	
