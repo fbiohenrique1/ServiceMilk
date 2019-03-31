@@ -10,11 +10,18 @@ public class Response<T> {
 
 	private Optional<T> data;
 	private List<String> erros;
-	
+	private Object data2;
 	
 	public Response() {
 	}
 
+	public Object getData2() {
+		return data2;
+	}
+
+	public void setData2(Object object) {
+		this.data2 = object;
+	}
 
 	public Optional<T> getData() {
 		return data;
@@ -40,7 +47,5 @@ public class Response<T> {
 	}
 	
 	
-		
-	
-	
+
 }
