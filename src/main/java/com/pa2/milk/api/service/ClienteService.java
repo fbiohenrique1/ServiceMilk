@@ -14,7 +14,7 @@ import com.pa2.milk.api.repository.ClienteRepository;
 @Service
 public class ClienteService {
 
-	private static final Logger log = LoggerFactory.getLogger(Cliente.class);
+	private static final Logger log = LoggerFactory.getLogger(ClienteService.class);
 
 	@Autowired
 	private ClienteRepository clienteRepository;
@@ -29,6 +29,7 @@ public class ClienteService {
 //	}
 
 	public void salvar(Cliente cliente) {
+		log.info("Salvando Cliente ");
 		clienteRepository.save(cliente);
 	}
 
