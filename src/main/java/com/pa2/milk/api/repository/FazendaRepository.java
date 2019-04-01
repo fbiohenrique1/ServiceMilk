@@ -4,4 +4,5 @@ import com.pa2.milk.api.model.Fazenda;
 
 public interface FazendaRepository extends GenericRepository<Fazenda, Integer> {
 	
+	Fazenda findByCnpj(String cnpj);
 }

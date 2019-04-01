@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.pa2.milk.api.model.Cliente;
 import com.pa2.milk.api.model.Fazenda;
 import com.pa2.milk.api.repository.FazendaRepository;
 
@@ -39,6 +40,11 @@ public class FazendaService {
 		log.info("Listando todas as fazendas");
 		return this.fazendaRepository.findAll();
 	}
+	
+	public Optional<Fazenda> buscarPorCnpj(String cnpj) {
+		log.info("Buscando Cliente pelo Cnpj: {}", cnpj);
+		return Optional.ofNullable(this.fazendaRepository.findByCnpj(cnpj));
+	} 
 	
 	
 }
