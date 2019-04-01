@@ -21,11 +21,8 @@ public class Fazenda extends AbstractModel<Integer> {
 	private Integer id;
 
 	@NotBlank
-	private String empresa;
-
-	@NotBlank
-	private String localizacao;
-
+	private String nome;
+	
 	@CNPJ
 	@NotBlank
 	private String cnpj;
@@ -41,6 +38,15 @@ public class Fazenda extends AbstractModel<Integer> {
 
 	@NotBlank
 	private String imagem;
+	
+	@NotBlank
+	private String bairro;
+	
+	@NotBlank
+	private String cidade;
+	
+	@NotBlank
+	private String estado;
 
 	@Override
 	public Integer getId() {
@@ -52,20 +58,12 @@ public class Fazenda extends AbstractModel<Integer> {
 		this.id = id;
 	}
 
-	public String getEmpresa() {
-		return empresa;
+	public String getNome() {
+		return nome;
 	}
 
-	public void setEmpresa(String empresa) {
-		this.empresa = empresa;
-	}
-
-	public String getLocalizacao() {
-		return localizacao;
-	}
-
-	public void setLocalizacao(String localizacao) {
-		this.localizacao = localizacao;
+	public void setNome(String nome) {
+		this.nome = nome;
 	}
 
 	public String getCnpj() {
@@ -108,4 +106,29 @@ public class Fazenda extends AbstractModel<Integer> {
 		this.imagem = imagem;
 	}
 
+	public String getBairro() {
+		return bairro;
+	}
+
+	public void setBairro(String bairro) {
+		this.bairro = bairro;
+	}
+
+	public String getCidade() {
+		return cidade;
+	}
+
+	public void setCidade(String cidade) {
+		this.cidade = cidade;
+	}
+
+	public String getEstado() {
+		return estado;
+	}
+
+	public void setEstado(String estado) {
+		this.estado = estado;
+	}
+
+	
 }
