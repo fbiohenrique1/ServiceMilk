@@ -1,5 +1,7 @@
 package com.pa2.milk.api.model.solicitacao;
 
+import java.util.List;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -35,8 +37,8 @@ public class Solicitacao extends AbstractModel<Integer> {
 	@OneToOne(cascade = CascadeType.ALL)
 	private OrdemServico ordemServico;
 
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "solicitacao")
-	private Analise analise;
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private List<Analise> analise;
 
 	@Enumerated(EnumType.STRING)
 	@Column(name = "produtos", nullable = false)
@@ -71,11 +73,11 @@ public class Solicitacao extends AbstractModel<Integer> {
 		this.ordemServico = ordemServico;
 	}
 
-	public Analise getAnalise() {
+	public List<Analise> getAnalise() {
 		return analise;
 	}
 
-	public void setAnalise(Analise analise) {
+	public void setAnalise(List<Analise> analise) {
 		this.analise = analise;
 	}
 

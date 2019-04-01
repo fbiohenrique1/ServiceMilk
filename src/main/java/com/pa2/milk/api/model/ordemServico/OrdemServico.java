@@ -31,8 +31,8 @@ public class OrdemServico extends AbstractModel<Integer> {
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date dataHora;
 
-	@OneToOne(cascade = CascadeType.ALL)
-	private Bolsista bolsista;
+//	@OneToOne(cascade = CascadeType.ALL)
+//	private Bolsista bolsista;
 
 	@OneToOne(cascade = CascadeType.ALL)
 	private Solicitacao solicitacao;
@@ -58,13 +58,11 @@ public class OrdemServico extends AbstractModel<Integer> {
 		this.dataHora = dataHora;
 	}
 
-	public Bolsista getBolsista() {
-		return bolsista;
-	}
-
-	public void setBolsista(Bolsista bolsista) {
-		this.bolsista = bolsista;
-	}
+	/*
+	 * public Bolsista getBolsista() { return bolsista; }
+	 * 
+	 * public void setBolsista(Bolsista bolsista) { this.bolsista = bolsista; }
+	 */
 
 	public Solicitacao getSolicitacao() {
 		return solicitacao;
