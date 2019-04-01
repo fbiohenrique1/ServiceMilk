@@ -11,10 +11,9 @@ import javax.persistence.Table;
 
 import com.pa2.milk.api.model.usuario.Usuario;
 
-
 @Entity
-@Table(name="cliente")
-public class Cliente extends Usuario implements Serializable{
+@Table(name = "cliente")
+public class Cliente extends Usuario implements Serializable {
 
 	/**
 	 * 
@@ -24,12 +23,12 @@ public class Cliente extends Usuario implements Serializable{
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_CLIENTE")
 	@SequenceGenerator(name = "SEQ_CLIENTE", sequenceName = "seq_cliente", allocationSize = 1)
 	private Integer id;
-	
+
 //	@NotNull
 //  @Fetch(FetchMode.SELECT)
 //  @ElementCollection(fetch = FetchType.EAGER)
 //	private List<String> telefone;
-	
+
 //	@JsonIgnore
 //  @OneToMany(mappedBy = "fazenda")
 //  private List<Fazenda> fazenda;
@@ -39,14 +38,14 @@ public class Cliente extends Usuario implements Serializable{
 //  private List<Solicitacao> solicitacao;	
 
 	@Override
-    public Integer getId() {
-        return id;
-    }
+	public Integer getId() {
+		return id;
+	}
 
-    @Override
-    public void setId(Integer id) {
-        this.id = id;
-    }
+	@Override
+	public void setId(Integer id) {
+		this.id = id;
+	}
 
 	/*
 	 * public List<String> getTelefone() { return telefone; }

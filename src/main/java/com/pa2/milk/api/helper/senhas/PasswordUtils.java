@@ -1,3 +1,4 @@
+package com.pa2.milk.api.helper.senhas;
 /*package com.pa2.milk.api.senhas;
 
 import org.slf4j.Logger;

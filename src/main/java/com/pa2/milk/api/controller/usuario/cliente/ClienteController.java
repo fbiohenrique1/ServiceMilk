@@ -22,10 +22,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.pa2.milk.api.helper.response.Response;
 import com.pa2.milk.api.model.usuario.Usuario;
 import com.pa2.milk.api.model.usuario.cliente.Cliente;
 import com.pa2.milk.api.repository.usuario.cliente.ClienteRepository;
-import com.pa2.milk.api.response.Response;
 import com.pa2.milk.api.service.usuario.cliente.ClienteService;
 
 @RestController
@@ -36,7 +36,7 @@ public class ClienteController {
 	private static final Logger log = LoggerFactory.getLogger(ClienteController.class);
 
 	@Autowired
-	private ClienteRepository clienteRepositorio;
+	private ClienteRepository clienteRepository;
 
 	@Autowired
 	private ClienteService clienteService;
@@ -82,8 +82,8 @@ public class ClienteController {
 		Cliente cliente = this.clienteService.buscarPorId(id);
 
 		response.setData(Optional.ofNullable(cliente));
-		
-	     verificarResposta(response);
+
+		verificarResposta(response);
 
 		return ResponseEntity.ok(response);
 	}
@@ -128,9 +128,9 @@ public class ClienteController {
 		Cliente cliente = this.clienteService.buscarPorId(id);
 
 		response.setData(Optional.ofNullable(cliente));
-		
+
 		verificarResposta(response);
-		
+
 		this.clienteService.remover(id);
 
 		return ResponseEntity.ok(response);
@@ -156,17 +156,15 @@ public class ClienteController {
 		}
 
 	}
-	
-	
-	
+
 	private void verificarResposta(Response<Cliente> response) {
-        if (!response.getData().isPresent()) {
-            log.info("Cliente não encontrado");
+		if (!response.getData().isPresent()) {
+			log.info("Cliente não encontrado");
 
-            response.getErros().add("Cliente não encontrado");
+			response.getErros().add("Cliente não encontrado");
 
-            ResponseEntity.badRequest().body(response);
-        }
-    }
+			ResponseEntity.badRequest().body(response);
+		}
+	}
 
 }

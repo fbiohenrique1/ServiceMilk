@@ -19,11 +19,11 @@ public abstract class AbstractModel<PK extends Serializable> {
 
 	/**
 	 * Atributo de controle para exclusão lógica
-	 * TRUE  = active
-	 * FALSE = inactive
+	 * TRUE  = ativo
+	 * FALSE = inativo
 	 */
 	@Column
-	private Boolean active = true;
+	private Boolean ativo = true;
 
 	@Override
 	public int hashCode() {
@@ -32,7 +32,7 @@ public abstract class AbstractModel<PK extends Serializable> {
 		result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
 		return result;
 	}
-	
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj) {
@@ -56,16 +56,17 @@ public abstract class AbstractModel<PK extends Serializable> {
 	}
 
 	@JsonIgnore
-	public Boolean getActive() {
-		return active;
+	public Boolean getAtivo() {
+		return ativo;
+	}
+
+	public void setAtivo(Boolean ativo) {
+		this.ativo = ativo;
 	}
 
 	@JsonIgnore
-	public Boolean isActive(){
-		return active;
+	public Boolean isAtivo() {
+		return ativo;
 	}
 
-	public void setActive(Boolean active) {
-		this.active = active;
-	}
 }

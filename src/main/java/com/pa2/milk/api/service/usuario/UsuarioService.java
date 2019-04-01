@@ -12,10 +12,10 @@ public class UsuarioService {
 
 	@Autowired
 	private ClienteService clienteService;
-	
+
 	@Autowired
 	private AdministradorService administradorService;
-	
+
 	@Autowired
 	private BolsistaService bolsistaService;
 
@@ -30,8 +30,5 @@ public class UsuarioService {
 	public BolsistaService getBolsistaService() {
 		return bolsistaService;
 	}
-	
-	
-	
-	
+
 }

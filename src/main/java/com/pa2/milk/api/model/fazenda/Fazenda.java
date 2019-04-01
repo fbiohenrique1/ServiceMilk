@@ -1,58 +1,55 @@
 package com.pa2.milk.api.model.fazenda;
 
 import javax.persistence.Entity;
+
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.br.CNPJ;
+
+import com.pa2.milk.api.model.AbstractModel;
+
 @Entity
-public class Fazenda {
-	//Erro no package, diz que esse package nao existe.
+@Table
+public class Fazenda extends AbstractModel<Integer> {
 	@Id
-	@GeneratedValue(strategy= GenerationType.SEQUENCE)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_FAZENDA")
+	@SequenceGenerator(name = "SEQ_FAZENDA", sequenceName = "id_seq_fazenda", allocationSize = 1)
 	private Integer id;
-	
+
 	@NotBlank
 	private String empresa;
-	
+
 	@NotBlank
 	private String localizacao;
-	
+
 	@CNPJ
 	@NotBlank
 	private String cnpj;
-	
+
 	@NotBlank
 	private String cep;
-	
+
 	@NotBlank
 	private String endereco;
-	
+
+	@NotNull
+	private int numero;
+
 	@NotBlank
 	private String imagem;
 
-	public Fazenda(@NotBlank String empresa, @NotBlank String imagem, @NotBlank String cep, @CNPJ @NotBlank String cnpj,
-			@NotBlank String localizacao, @NotBlank String endereco) {
-		super();
-		this.empresa = empresa;
-		this.imagem = imagem;
-		this.cep = cep;
-		this.cnpj = cnpj;
-		this.localizacao = localizacao;
-		this.endereco = endereco;
-	}
-
-	public Fazenda() {
-		super();
-	}
-
-	
+	@Override
 	public Integer getId() {
 		return id;
 	}
 
+	@Override
 	public void setId(Integer id) {
 		this.id = id;
 	}
@@ -97,6 +94,14 @@ public class Fazenda {
 		this.endereco = endereco;
 	}
 
+	public int getNumero() {
+		return numero;
+	}
+
+	public void setNumero(int numero) {
+		this.numero = numero;
+	}
+
 	public String getImagem() {
 		return imagem;
 	}
@@ -104,8 +109,5 @@ public class Fazenda {
 	public void setImagem(String imagem) {
 		this.imagem = imagem;
 	}
-	
-	
-	
 
 }

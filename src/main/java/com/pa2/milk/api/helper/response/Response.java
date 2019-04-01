@@ -1,4 +1,4 @@
-package com.pa2.milk.api.response;
+package com.pa2.milk.api.helper.response;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,4 +1,4 @@
-package com.pa2.milk.api.model.usuario.enums;
+package com.pa2.milk.api.model.enums;
 
 public enum TipoPerfilUsuario {
 	ROLE_CLIENTE, 

@@ -19,17 +19,17 @@ public interface GenericRepository<T extends AbstractModel<PK>, PK extends Seria
      * @return objects
      */
     @Override
-    @Query(value = "select * from #{#entityName} where active = true", nativeQuery = true)
+    @Query(value = "select * from #{#entityName} where ativo = true", nativeQuery = true)
     List<T> findAll();
 
     /**
-     * Buscar um objeto active
+     * Buscar um objeto ativo
      * 
      * @param arg0
      * @return object
      */
     @Override
-    @Query(value = "select * from #{#entityName} where id = ?1 and active = true", nativeQuery = true)
+    @Query(value = "select * from #{#entityName} where id = ?1 and ativo = true", nativeQuery = true)
     Optional<T> findById(PK arg0);
 
     /**
@@ -46,7 +46,7 @@ public interface GenericRepository<T extends AbstractModel<PK>, PK extends Seria
     @Override
     @Transactional
     @Modifying
-    @Query(value = "UPDATE #{#entityName} SET active=false where id = ?1", nativeQuery = true)
+    @Query(value = "UPDATE #{#entityName} SET ativo=false where id = ?1", nativeQuery = true)
     void deleteById(PK arg0);
 
     @Override
