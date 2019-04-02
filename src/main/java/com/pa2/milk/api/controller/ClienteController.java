@@ -144,9 +144,9 @@ public class ClienteController {
 			cliente.setEmail(cliente2.getEmail());
 		}
 
-		if (!cliente.getCpf().equals(cliente2.getEmail())) {
+		if (!cliente.getCpf().equals(cliente2.getCpf())) {
 
-			this.clienteService.buscarPorCpf(cliente.getCpf())
+			this.clienteService.buscarPorCpf(cliente2.getCpf())
 					.ifPresent(clien -> result.addError(new ObjectError("cpf", "CPF já existente.")));
 			cliente.setCpf(cliente2.getCpf());
 		}
