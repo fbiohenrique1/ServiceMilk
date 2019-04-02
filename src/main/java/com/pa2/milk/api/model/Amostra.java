@@ -7,12 +7,15 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 import org.springframework.format.annotation.DateTimeFormat;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table
@@ -36,6 +39,10 @@ public class Amostra extends AbstractModel<Integer> {
 
 	@Column(length = 2047)
 	private String Observacao;
+
+	@ManyToOne(optional = false)
+	@JsonIgnore
+	private Analise analise;
 
 	@Override
 	public Integer getId() {
@@ -77,6 +84,14 @@ public class Amostra extends AbstractModel<Integer> {
 
 	public void setObservacao(String observacao) {
 		Observacao = observacao;
+	}
+
+	public Analise getAnalise() {
+		return analise;
+	}
+
+	public void setAnalise(Analise analise) {
+		this.analise = analise;
 	}
 
 }

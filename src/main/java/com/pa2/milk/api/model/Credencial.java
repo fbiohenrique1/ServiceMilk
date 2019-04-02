@@ -3,32 +3,26 @@ package com.pa2.milk.api.model;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 
-import org.hibernate.annotations.Parameter;
-
 @Entity
-@Table(name = "credencial")
+@Table
 public class Credencial extends AbstractModel<Integer> {
+
 	@Id
-	@GeneratedValue(generator = "fk_credencial_id_cliente")
-	@org.hibernate.annotations.GenericGenerator(name = "fk_credencial_id_cliente", strategy = "foreign", parameters = @Parameter(name = "property", value = "cliente"))
-	@Column(name = "id_credencial")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 
-	@NotBlank
+	//@NotBlank(message = "O campo username não pode ser nulo.")
 	@Column(unique = true)
 	private String username;
 
-	@NotBlank
+	//@NotBlank(message = "O campo senha não pode ser nulo.")
 	@Column(unique = true, length = 8)
 	private String senha;
-
-	@OneToOne
-	private Usuario usuario;
 
 	@Override
 	public Integer getId() {
@@ -54,14 +48,6 @@ public class Credencial extends AbstractModel<Integer> {
 
 	public void setSenha(String senha) {
 		this.senha = senha;
-	}
-
-	public Usuario getUsuario() {
-		return usuario;
-	}
-
-	public void setUsuario(Usuario usuario) {
-		this.usuario = usuario;
 	}
 
 }

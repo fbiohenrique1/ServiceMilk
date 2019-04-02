@@ -1,16 +1,23 @@
 package com.pa2.milk.api.model;
 
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.pa2.milk.api.model.enums.EnumAnalisesSolicitadas;
 import com.pa2.milk.api.model.enums.EnumLeite;
 import com.pa2.milk.api.model.enums.EnumOrigemLeite;
@@ -43,6 +50,13 @@ public class Analise extends AbstractModel<Integer> {
 	@Enumerated(EnumType.STRING)
 	@Column(name = "analisesSolicitadas", nullable = false)
 	private EnumAnalisesSolicitadas analisesSolicitadas;
+
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private List<Amostra> amostra;
+
+	@ManyToOne(optional = false)
+	@JsonIgnore
+	private Solicitacao solicitacao;
 
 	@Override
 	public Integer getId() {
@@ -93,4 +107,21 @@ public class Analise extends AbstractModel<Integer> {
 	public void setAnalisesSolicitadas(EnumAnalisesSolicitadas analisesSolicitadas) {
 		this.analisesSolicitadas = analisesSolicitadas;
 	}
+
+	public List<Amostra> getAmostra() {
+		return amostra;
+	}
+
+	public void setAmostra(List<Amostra> amostra) {
+		this.amostra = amostra;
+	}
+
+	public Solicitacao getSolicitacao() {
+		return solicitacao;
+	}
+
+	public void setSolicitacao(Solicitacao solicitacao) {
+		this.solicitacao = solicitacao;
+	}
+
 }

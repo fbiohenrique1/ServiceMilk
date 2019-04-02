@@ -11,6 +11,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
@@ -23,9 +24,12 @@ import com.pa2.milk.api.model.enums.EnumStatusSolicitacao;
 public class Solicitacao extends AbstractModel<Integer> {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_ORDEM_SERVICO")
-	@SequenceGenerator(name = "SEQ_ORDEM_SERVICO", sequenceName = "id_seq_ordem_servico", allocationSize = 1)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_SOLICITACAO")
+	@SequenceGenerator(name = "SEQ_SOLICITACAO", sequenceName = "id_seq_solicitacao", allocationSize = 1)
 	private Integer id;
+
+	@ManyToOne(optional = false)
+	private Cliente cliente;
 
 	@OneToOne(cascade = CascadeType.ALL)
 	private Fazenda fazenda;
@@ -33,7 +37,7 @@ public class Solicitacao extends AbstractModel<Integer> {
 	@OneToOne(cascade = CascadeType.ALL)
 	private OrdemServico ordemServico;
 
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "solicitacao")
 	private List<Analise> analise;
 
 	@Enumerated(EnumType.STRING)
@@ -51,6 +55,14 @@ public class Solicitacao extends AbstractModel<Integer> {
 	@Override
 	public void setId(Integer id) {
 		this.id = id;
+	}
+
+	public Cliente getCliente() {
+		return cliente;
+	}
+
+	public void setCliente(Cliente cliente) {
+		this.cliente = cliente;
 	}
 
 	public Fazenda getFazenda() {

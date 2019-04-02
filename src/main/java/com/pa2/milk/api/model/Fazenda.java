@@ -1,16 +1,18 @@
 package com.pa2.milk.api.model;
 
 import javax.persistence.Entity;
-
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.br.CNPJ;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table
@@ -22,7 +24,10 @@ public class Fazenda extends AbstractModel<Integer> {
 
 	@NotBlank
 	private String nome;
-	
+
+	@NotBlank
+	private String imagem;
+
 	@CNPJ
 	@NotBlank
 	private String cnpj;
@@ -37,16 +42,17 @@ public class Fazenda extends AbstractModel<Integer> {
 	private int numero;
 
 	@NotBlank
-	private String imagem;
-	
-	@NotBlank
 	private String bairro;
-	
+
 	@NotBlank
 	private String cidade;
-	
+
 	@NotBlank
 	private String estado;
+
+	@ManyToOne(optional = false)
+	@JsonIgnore
+	private Cliente cliente;
 
 	@Override
 	public Integer getId() {
@@ -62,8 +68,12 @@ public class Fazenda extends AbstractModel<Integer> {
 		return nome;
 	}
 
-	public void setNome(String nome) {
-		this.nome = nome;
+	public String getImagem() {
+		return imagem;
+	}
+
+	public void setImagem(String imagem) {
+		this.imagem = imagem;
 	}
 
 	public String getCnpj() {
@@ -98,14 +108,6 @@ public class Fazenda extends AbstractModel<Integer> {
 		this.numero = numero;
 	}
 
-	public String getImagem() {
-		return imagem;
-	}
-
-	public void setImagem(String imagem) {
-		this.imagem = imagem;
-	}
-
 	public String getBairro() {
 		return bairro;
 	}
@@ -130,5 +132,16 @@ public class Fazenda extends AbstractModel<Integer> {
 		this.estado = estado;
 	}
 
-	
+	public Cliente getCliente() {
+		return cliente;
+	}
+
+	public void setCliente(Cliente cliente) {
+		this.cliente = cliente;
+	}
+
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
+
 }

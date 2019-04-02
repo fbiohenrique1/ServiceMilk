@@ -25,7 +25,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.pa2.milk.api.helper.Response;
 import com.pa2.milk.api.model.Cliente;
 import com.pa2.milk.api.model.Usuario;
-import com.pa2.milk.api.repository.ClienteRepository;
 import com.pa2.milk.api.service.ClienteService;
 
 @RestController
@@ -34,9 +33,6 @@ import com.pa2.milk.api.service.ClienteService;
 public class ClienteController {
 
 	private static final Logger log = LoggerFactory.getLogger(ClienteController.class);
-
-	@Autowired
-	private ClienteRepository clienteRepository;
 
 	@Autowired
 	private ClienteService clienteService;
