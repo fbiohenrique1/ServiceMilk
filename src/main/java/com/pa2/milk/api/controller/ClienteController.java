@@ -33,7 +33,7 @@ import com.pa2.milk.api.service.ClienteService;
 public class ClienteController {
 
 	private static final Logger log = LoggerFactory.getLogger(ClienteController.class);
-
+	
 	@Autowired
 	private ClienteService clienteService;
 
@@ -108,7 +108,7 @@ public class ClienteController {
 			return ResponseEntity.badRequest().body(response);
 		}
 
-		this.clienteService.salvar(cliente);
+		this.clienteService.salvar(cliente1);
 
 		return ResponseEntity.ok(response);
 
