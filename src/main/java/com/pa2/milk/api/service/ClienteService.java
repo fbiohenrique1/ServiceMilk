@@ -37,6 +37,11 @@ public class ClienteService {
 		log.info("Buscando Cliente pelo Cpf: {}", cpf);
 		return Optional.ofNullable(this.clienteRepository.findByCpf(cpf));
 	}
+	
+	public Cliente buscarPorCpfNormal(String cpf) {
+		log.info("Buscando Cliente pelo Cpf: {}", cpf);
+		return this.clienteRepository.findByCpf(cpf);
+	}
 
 	public Optional<Cliente> buscarPorEmail(String email) {
 		log.info("Buscando Cliente pelo Email: {}", email);
@@ -52,4 +57,5 @@ public class ClienteService {
 		log.info("Listando Clientes");
 		return this.clienteRepository.findAll();
 	}
+	
 }

@@ -1,5 +1,6 @@
 package com.pa2.milk.api.controller;
 
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,8 +22,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.pa2.milk.api.helper.CadastroFazendaDto;
 import com.pa2.milk.api.helper.Response;
+import com.pa2.milk.api.model.Cliente;
 import com.pa2.milk.api.model.Fazenda;
+import com.pa2.milk.api.model.enums.TipoPerfilUsuario;
+import com.pa2.milk.api.service.ClienteService;
 import com.pa2.milk.api.service.FazendaService;
 
 @RestController
@@ -35,6 +40,9 @@ public class FazendaController {
 	@Autowired
 	private FazendaService fazendaService;
 	
+	@Autowired
+	private ClienteService clienteService;
+	
 	@GetMapping
 	public List<Fazenda> listarFazendas(){
 		List<Fazenda> fazendas =  this.fazendaService.listarFazenda();
@@ -42,26 +50,33 @@ public class FazendaController {
 	}
 	
 	@PostMapping
-	public ResponseEntity<Response<Fazenda>> cadastrarFazenda (@Valid @RequestBody Fazenda fazenda, BindingResult result){
-		log.info("Cadastrando Fazenda: {}", fazenda.toString());
+	public ResponseEntity<Response<CadastroFazendaDto>> cadastrarFazenda (@Valid @RequestBody CadastroFazendaDto fazendaDto,
+			BindingResult result) throws NoSuchAlgorithmException {
+		log.info("Cadastrando Fazenda: {}", fazendaDto.toString());
 		
-		Response<Fazenda> response = new Response<Fazenda>();
+		Response<CadastroFazendaDto> response = new Response<CadastroFazendaDto>();
 		
-		response.setData(Optional.ofNullable(fazenda));
-
-		Fazenda farm = fazenda;
+		validarDadosExistentes(fazendaDto, result);
 		
-		if (result.hasErrors()) {
-
-			log.error("Erro validando dados do cadastro Fazenda: {}", result.getAllErrors());
-
+//		Cliente c = this.converterDtoParaCliente(fazendaDto);
+		Cliente c = this.clienteService.buscarPorCpfNormal(fazendaDto.getCpf());
+		
+		Fazenda f = this.converterDtoParaFazenda(fazendaDto, result);
+		
+		if(result.hasErrors()) {
+			log.info("Erro validando dados de cadastro da Fazenda: {}", result.getAllErrors());
 			result.getAllErrors().forEach(error -> response.getErros().add(error.getDefaultMessage()));
 			return ResponseEntity.badRequest().body(response);
 		}
 		
-		this.fazendaService.salvar(farm);
-
-		return ResponseEntity.ok(response);	}
+//		this.clienteService.salvar(c);
+		f.setCliente(c);
+		this.fazendaService.salvar(f);
+		
+		response.setData2(this.converterCadastroFazendaDto(f));
+		
+		return ResponseEntity.ok(response);
+	}
 
 
 	@GetMapping(value = "{id}")
@@ -147,6 +162,53 @@ public class FazendaController {
 
 			ResponseEntity.badRequest().body(response);
 		}
+	}
+	
+	private void validarDadosExistentes(CadastroFazendaDto FazendaDto, BindingResult result) {
+		this.fazendaService.buscarPorCnpj(FazendaDto.getCnpj())
+		                   .ifPresent(emp -> result.addError(new ObjectError("fazenda", "Fazenda já existente.")));
+	
+	}
+
+
+	
+	private Fazenda converterDtoParaFazenda(CadastroFazendaDto fazendaDto, BindingResult result)
+			throws NoSuchAlgorithmException {
+	
+		Fazenda f = new Fazenda();
+		
+		f.setNome(fazendaDto.getNomeFazenda());
+		f.setImagem(fazendaDto.getImagem());
+		f.setEstado(fazendaDto.getEstado());
+		f.setBairro(fazendaDto.getBairro());
+		f.setCep(fazendaDto.getCep());
+		f.setCidade(fazendaDto.getCidade());
+		f.setEndereco(fazendaDto.getEndereco());
+	    f.setCnpj(fazendaDto.getCnpj());
+	    f.setNumero(fazendaDto.getNumero());
+		
+		return f;
+	}
+	
+	
+	private CadastroFazendaDto converterCadastroFazendaDto(Fazenda fazenda) {
+		CadastroFazendaDto fazendaDto = new CadastroFazendaDto();
+		
+		fazendaDto.setId(fazenda.getId());
+		fazendaDto.setNomeFazenda(fazenda.getNome());
+		fazendaDto.setBairro(fazenda.getBairro());
+		fazendaDto.setCep(fazenda.getCep());
+		fazendaDto.setCidade(fazenda.getCidade());
+		fazendaDto.setCnpj(fazenda.getCnpj());
+		fazendaDto.setEndereco(fazenda.getEndereco());
+		fazendaDto.setEstado(fazenda.getEstado());
+		fazendaDto.setImagem(fazenda.getImagem());
+		fazendaDto.setNumero(fazenda.getNumero());
+		                                                            
+		fazendaDto.setCpf(fazenda.getCliente().getCpf());
+		fazendaDto.setEmail(fazenda.getCliente().getEmail());
+		
+		return fazendaDto;
 	}
 
 
