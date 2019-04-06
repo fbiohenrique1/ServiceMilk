@@ -1,43 +1,50 @@
 package com.pa2.milk.api.model.enums;
 
 public enum TipoPerfilUsuario {
+
+
+
 	ROLE_CLIENTE(1, "ROLE_CLIENTE"),
 	ROLE_BOLSISTA(2, "ROLE_BOLSISTA"),
 	ROLE_ADMINISTRADOR(3, "ROLE_ADMINISTRADOR");
 
-	private Integer cod;
-	private String desc;
+	private Integer codigo;
+	private String descricao;
 
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	private TipoPerfilUsuario(Integer cod, String desc) {
-		this.cod = cod;
-		this.desc = desc;
+	private TipoPerfilUsuario(Integer codigo, String descricao) {
+		this.codigo = codigo;
+		this.descricao = descricao;
 	}
 
-	public Integer getCod() {
-		return cod;
+	public Integer getCodigo() {
+		return codigo;
 	}
 
-	public void setCod(Integer cod) {
-		this.cod = cod;
+	public void setCodigo(Integer codigo) {
+		this.codigo = codigo;
 	}
 
-	public String getDesc() {
-		return desc;
+	public String getDescricao() {
+		return descricao;
 	}
 
-	public void setDesc(String desc) {
-		this.desc = desc;
+	public void setDescricao(String descricao) {
+		this.descricao = descricao;
 	}
 	
+	public static EnumStatusSolicitacao porCodigo(Integer codigo) {
+		if (codigo.equals(null)) {
+			return null;
+		}
+
+		for (EnumStatusSolicitacao status : EnumStatusSolicitacao.values()) {
+			if (codigo.equals(status.getCodigo())) {
+				return status;
+			}
+		}
+		throw new IllegalArgumentException("Código Inválido: " + codigo);
+	}
 	
+
 
 }
