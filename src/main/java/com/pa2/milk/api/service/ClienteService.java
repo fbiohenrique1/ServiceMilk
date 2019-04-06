@@ -20,13 +20,10 @@ public class ClienteService {
 	private ClienteRepository clienteRepository;
 
 	public Cliente buscarPorId(Integer id) {
+		log.info("Buscando Cliente por ID ");
 		Optional<Cliente> objCliente = clienteRepository.findById(id);
 		return objCliente.orElse(null);
 	}
-//	
-//	public Optional<Cliente> buscarPorId(Integer id) {
-//		return this.clienteRepository.findById(id);
-//	}
 
 	public void salvar(Cliente cliente) {
 		log.info("Salvando Cliente ");
@@ -37,7 +34,7 @@ public class ClienteService {
 		log.info("Buscando Cliente pelo Cpf: {}", cpf);
 		return Optional.ofNullable(this.clienteRepository.findByCpf(cpf));
 	}
-	
+
 	public Cliente buscarPorCpfNormal(String cpf) {
 		log.info("Buscando Cliente pelo Cpf: {}", cpf);
 		return this.clienteRepository.findByCpf(cpf);
@@ -57,5 +54,5 @@ public class ClienteService {
 		log.info("Listando Clientes");
 		return this.clienteRepository.findAll();
 	}
-	
+
 }

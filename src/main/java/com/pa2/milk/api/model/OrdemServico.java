@@ -9,7 +9,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
@@ -19,16 +18,15 @@ import org.springframework.format.annotation.DateTimeFormat;
 @Table
 public class OrdemServico extends AbstractModel<Integer> {
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_ORDEM_SERVICO")
-	@SequenceGenerator(name = "SEQ_ORDEM_SERVICO", sequenceName = "id_seq_ordem_servico", allocationSize = 1)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 
 	@Column(nullable = true)
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date dataHora;
 
-//	@OneToOne(cascade = CascadeType.ALL)
-//	private Bolsista bolsista;
+	@OneToOne(cascade = CascadeType.ALL)
+	private Bolsista bolsista;
 
 	@OneToOne(cascade = CascadeType.ALL)
 	private Solicitacao solicitacao;

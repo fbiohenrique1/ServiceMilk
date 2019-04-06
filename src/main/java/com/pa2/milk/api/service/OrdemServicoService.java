@@ -5,8 +5,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 @Service
-public class AnaliseService {
+public class OrdemServicoService {
 	
-	private static final Logger log = LoggerFactory.getLogger(AnaliseService.class);
+	private static final Logger log = LoggerFactory.getLogger(OrdemServicoService.class);
 
 }

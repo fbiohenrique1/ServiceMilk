@@ -7,7 +7,6 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import com.pa2.milk.api.model.Credencial;
-import com.pa2.milk.api.model.Usuario;
 import com.pa2.milk.api.model.enums.TipoPerfilUsuario;
 
 public class JwtUserFactory {

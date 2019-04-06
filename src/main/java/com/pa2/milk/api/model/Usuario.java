@@ -1,6 +1,5 @@
 package com.pa2.milk.api.model;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -10,8 +9,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
-import javax.persistence.OneToOne;
-import javax.persistence.SequenceGenerator;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 
@@ -20,12 +17,12 @@ import org.hibernate.validator.constraints.br.CPF;
 import com.pa2.milk.api.model.enums.TipoPerfilUsuario;
 
 @Entity
-@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+//@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public abstract class Usuario extends AbstractModel<Integer> {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_USUARIO")
-	@SequenceGenerator(name = "SEQ_USUARIO", sequenceName = "id_seq_usuario", allocationSize = 1)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 
 	@Email(message = "O campo email é inválido.")
@@ -84,5 +81,4 @@ public abstract class Usuario extends AbstractModel<Integer> {
 	public void setTipoPerfilUsuario(TipoPerfilUsuario tipoPerfilUsuario) {
 		this.tipoPerfilUsuario = tipoPerfilUsuario;
 	}
-
 }

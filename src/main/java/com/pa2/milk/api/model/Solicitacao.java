@@ -14,7 +14,6 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import com.pa2.milk.api.model.enums.EnumStatusSolicitacao;
@@ -24,8 +23,7 @@ import com.pa2.milk.api.model.enums.EnumStatusSolicitacao;
 public class Solicitacao extends AbstractModel<Integer> {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_SOLICITACAO")
-	@SequenceGenerator(name = "SEQ_SOLICITACAO", sequenceName = "id_seq_solicitacao", allocationSize = 1)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 
 	@ManyToOne(optional = false)

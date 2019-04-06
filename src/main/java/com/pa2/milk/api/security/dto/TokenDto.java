@@ -1,7 +1,7 @@
 package com.pa2.milk.api.security.dto;
 
 public class TokenDto {
-	
+
 	private String token;
 
 	public TokenDto() {
@@ -18,9 +18,5 @@ public class TokenDto {
 	public void setToken(String token) {
 		this.token = token;
 	}
-
-	
-	
-	
 
 }

@@ -1,6 +1,5 @@
 package com.pa2.milk.api.model;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -8,7 +7,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.validation.constraints.NotBlank;
+
+import org.hibernate.annotations.Cascade;
 
 @Entity
 @Table
@@ -18,17 +18,18 @@ public class Credencial extends AbstractModel<Integer> {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 
-	//@NotBlank(message = "O campo username não pode ser nulo.")
+	// @NotBlank(message = "O campo username não pode ser nulo.")
 	@Column(unique = true)
 	private String username;
 
-	//@NotBlank(message = "O campo senha não pode ser nulo.")
-	@Column(unique = true)
+	// @NotBlank(message = "O campo senha não pode ser nulo.")
+	@Column(unique = true/* , length = 8 */)
 	private String senha;
 
-	@OneToOne(cascade = CascadeType.ALL)
+	@OneToOne
+	@Cascade({org.hibernate.annotations.CascadeType.ALL})
 	private Usuario usuario;
-	
+
 	@Override
 	public Integer getId() {
 		return id;
@@ -63,5 +64,4 @@ public class Credencial extends AbstractModel<Integer> {
 		this.usuario = usuario;
 	}
 
-	
 }

@@ -1,5 +1,8 @@
 package com.pa2.milk.api.model;
 
-public class Administrador {
+import javax.persistence.Entity;
+
+@Entity
+public class Administrador extends Usuario {
 
 }

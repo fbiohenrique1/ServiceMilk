@@ -6,9 +6,9 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 public class JwtUser implements UserDetails {
-	
+
 	private static final long serialVersionUID = -4095686232791196181L;
-	
+
 	private Integer id;
 	private String username;
 	private String password;
@@ -22,15 +22,13 @@ public class JwtUser implements UserDetails {
 		this.authorities = authorities;
 	}
 
-	
 	public Integer getId() {
 		return id;
 	}
 
-    public void setId(Integer id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
-
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -73,6 +71,5 @@ public class JwtUser implements UserDetails {
 		// TODO Auto-generated method stub
 		return true;
 	}
-	
 
 }

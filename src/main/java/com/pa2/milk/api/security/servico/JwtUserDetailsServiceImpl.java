@@ -9,10 +9,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import com.pa2.milk.api.model.Credencial;
-import com.pa2.milk.api.model.Usuario;
 import com.pa2.milk.api.security.JwtUserFactory;
 import com.pa2.milk.api.service.CredencialService;
-import com.pa2.milk.api.service.UsuarioService;
 
 @Service("userDetailsService")
 public class JwtUserDetailsServiceImpl implements UserDetailsService {
@@ -22,7 +20,6 @@ public class JwtUserDetailsServiceImpl implements UserDetailsService {
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		// TODO Auto-generated method stub
 		Optional<Credencial> credencial = this.credencialService.buscarPorUsername(username);
 
 		if (credencial.isPresent()) {

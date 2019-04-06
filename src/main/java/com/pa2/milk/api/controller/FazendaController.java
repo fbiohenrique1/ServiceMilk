@@ -26,7 +26,6 @@ import com.pa2.milk.api.helper.CadastroFazendaDto;
 import com.pa2.milk.api.helper.Response;
 import com.pa2.milk.api.model.Cliente;
 import com.pa2.milk.api.model.Fazenda;
-import com.pa2.milk.api.model.enums.TipoPerfilUsuario;
 import com.pa2.milk.api.service.ClienteService;
 import com.pa2.milk.api.service.FazendaService;
 

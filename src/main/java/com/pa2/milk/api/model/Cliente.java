@@ -6,9 +6,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.Id;
 import javax.persistence.OneToMany;
-import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.Fetch;
@@ -17,13 +15,7 @@ import org.hibernate.annotations.FetchMode;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
-@Table
 public class Cliente extends Usuario {
-
-	@Id
-//	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_CLIENTE")
-//	@SequenceGenerator(name = "SEQ_CLIENTE", sequenceName = "seq_cliente", allocationSize = 1)
-	private Integer id;
 
 	@NotNull(message = "O campo telefone não pode ser nulo.")
 	@Fetch(FetchMode.SELECT)
@@ -37,16 +29,6 @@ public class Cliente extends Usuario {
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "cliente")
 	@JsonIgnore
 	private List<Solicitacao> solicitacao;
-
-	@Override
-	public Integer getId() {
-		return id;
-	}
-
-	@Override
-	public void setId(Integer id) {
-		this.id = id;
-	}
 
 	public List<String> getTelefones() {
 		return telefones;
