@@ -75,9 +75,10 @@ public class ClienteController {
 
 		Response<Cliente> response = new Response<Cliente>();
 
-		Cliente cliente = this.clienteService.buscarPorId(id);
+		Usuario cliente = new Cliente();
+		cliente = this.clienteService.buscarPorId(id);
 
-		response.setData(Optional.ofNullable(cliente));
+		response.setData2(Optional.ofNullable(cliente));
 
 		verificarResposta(response);
 
