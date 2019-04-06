@@ -26,14 +26,14 @@ public class OrdemServico extends AbstractModel<Integer> {
 	private Date dataHora;
 
 	@OneToOne
-	@JoinColumn(name = "bolsista_id")
+	@JoinColumn(name = "bolsista_id", nullable = false)
 	private Bolsista bolsista;
 
 	@OneToOne
-	@JoinColumn(name = "solicitacao_id")
+	@JoinColumn(name = "solicitacao_id", nullable = false)
 	private Solicitacao solicitacao;
 
-	@NotNull
+	@NotNull(message = "O campo valor não pode ser nulo.")
 	private double valor;
 
 	@Override

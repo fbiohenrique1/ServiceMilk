@@ -33,6 +33,7 @@ public abstract class Usuario extends AbstractModel<Integer> {
 	private String nome;
 
 	@CPF(message = "O campo CPF é inválido.")
+	@NotBlank(message = "O campo CPF não pode ser nulo.")
 	@Column(unique = true, length = 16)
 	private String cpf;
 

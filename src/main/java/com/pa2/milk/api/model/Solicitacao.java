@@ -33,6 +33,7 @@ public class Solicitacao extends AbstractModel<Integer> {
 	private Integer id;
 
 	@ManyToOne
+	@JoinColumn(name = "cliente_id", nullable = false)
 	private Cliente cliente;
 
 	@OneToOne

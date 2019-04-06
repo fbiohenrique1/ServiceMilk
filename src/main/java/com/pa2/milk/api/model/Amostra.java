@@ -28,10 +28,10 @@ public class Amostra extends AbstractModel<Integer> {
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date dataColeta;
 
-	@NotNull
+	@NotNull(message = "O campo número de Amostra não pode ser nulo.")
 	private int numeroAmostra;
 
-	@NotBlank
+	@NotBlank(message = "O campo qrCode não pode ser nulo.")
 	@Column(unique = true)
 	private String qrCode;
 

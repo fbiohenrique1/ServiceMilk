@@ -10,6 +10,8 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
+import org.hibernate.validator.constraints.br.CNPJ;
+
 @Entity
 @Table
 public class Fazenda extends AbstractModel<Integer> {
@@ -17,32 +19,32 @@ public class Fazenda extends AbstractModel<Integer> {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 
-	@NotBlank
+	@NotBlank(message = "O campo nome não pode ser nulo.")
 	private String nome;
 
-	@NotBlank
+	@NotBlank (message = "O campo imagem não pode ser nulo.")
 	private String imagem;
 
-	// @CNPJ
-	@NotBlank
+	@CNPJ(message = "O campo CNPJ é invalido")
+	@NotBlank(message = "O campo CNPJ não pode ser nulo.")
 	private String cnpj;
 
-	@NotBlank
+	@NotBlank(message = "O campo cep não pode ser nulo.")
 	private String cep;
 
-	@NotBlank
+	@NotBlank(message = "O campo endereço não pode ser nulo.")
 	private String endereco;
 
-	@NotNull
+	@NotNull(message = "O campo numero não pode ser nulo.")
 	private int numero;
 
-	@NotBlank
+	@NotBlank(message = "O campo bairro não pode ser nulo.")
 	private String bairro;
 
-	@NotBlank
+	@NotBlank(message = "O campo cidade não pode ser nulo.")
 	private String cidade;
 
-	@NotBlank
+	@NotBlank(message = "O campo estado não pode ser nulo.")
 	private String estado;
 
 	@ManyToOne
