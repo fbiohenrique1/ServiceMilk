@@ -1,6 +1,5 @@
 package com.pa2.milk.api.model;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -16,7 +15,6 @@ import javax.validation.constraints.NotNull;
 public class Fazenda extends AbstractModel<Integer> {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id_fazenda")
 	private Integer id;
 
 	@NotBlank
