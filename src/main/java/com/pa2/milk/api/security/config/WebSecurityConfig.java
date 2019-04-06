@@ -61,7 +61,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity httpSecurity) throws Exception {
 		httpSecurity.csrf().disable().exceptionHandling().authenticationEntryPoint(unauthorizedHandle).and()
 				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().authorizeRequests()
-				.antMatchers("/auth/**", "/v2/api-docs", "/swagger-resources/**", "/configuration/security",
+				.antMatchers("/autenticacao/**", "/v2/api-docs", "/swagger-resources/**", "/configuration/security",
 						"/swagger-ui.html", "/webjars/**")
 				.permitAll().anyRequest().authenticated();
 		httpSecurity.addFilterBefore(authenticationTokenFilterBean(), UsernamePasswordAuthenticationFilter.class);

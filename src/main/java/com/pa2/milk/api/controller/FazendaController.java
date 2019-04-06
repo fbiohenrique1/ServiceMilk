@@ -30,53 +30,50 @@ import com.pa2.milk.api.service.ClienteService;
 import com.pa2.milk.api.service.FazendaService;
 
 @RestController
-@RequestMapping (value = "/fazenda")
-@CrossOrigin(origins = "*") 
+@RequestMapping(value = "/fazenda")
+@CrossOrigin(origins = "*")
 public class FazendaController {
-	
+
 	private static final Logger log = LoggerFactory.getLogger(FazendaController.class);
-	
+
 	@Autowired
 	private FazendaService fazendaService;
-	
+
 	@Autowired
 	private ClienteService clienteService;
-	
+
 	@GetMapping
-	public List<Fazenda> listarFazendas(){
-		List<Fazenda> fazendas =  this.fazendaService.listarFazenda();
+	public List<Fazenda> listarFazendas() {
+		List<Fazenda> fazendas = this.fazendaService.listarFazenda();
 		return fazendas;
 	}
-	
-	@PostMapping
-	public ResponseEntity<Response<CadastroFazendaDto>> cadastrarFazenda (@Valid @RequestBody CadastroFazendaDto fazendaDto,
-			BindingResult result) throws NoSuchAlgorithmException {
-		log.info("Cadastrando Fazenda: {}", fazendaDto.toString());
+
+	@PostMapping("/{clienteId}")
+	public ResponseEntity<Response<Fazenda>> cadastrarFazenda(@Valid @RequestBody Fazenda fazenda,
+			@PathVariable("clienteId") Integer clienteId, BindingResult result) throws NoSuchAlgorithmException {
+		log.info("Cadastrando Fazenda: {}", fazenda.toString());
+
+		Response<Fazenda> response = new Response<Fazenda>();
+
+		validarDadosExistentes(fazenda, result);
+
+		Cliente c = this.clienteService.buscarPorId(clienteId);
+
+		Fazenda f = fazenda;
+
+		response.setData2(Optional.ofNullable(f));
 		
-		Response<CadastroFazendaDto> response = new Response<CadastroFazendaDto>();
-		
-		validarDadosExistentes(fazendaDto, result);
-		
-//		Cliente c = this.converterDtoParaCliente(fazendaDto);
-		Cliente c = this.clienteService.buscarPorCpfNormal(fazendaDto.getCpf());
-		
-		Fazenda f = this.converterDtoParaFazenda(fazendaDto, result);
-		
-		if(result.hasErrors()) {
+		if (result.hasErrors()) {
 			log.info("Erro validando dados de cadastro da Fazenda: {}", result.getAllErrors());
 			result.getAllErrors().forEach(error -> response.getErros().add(error.getDefaultMessage()));
 			return ResponseEntity.badRequest().body(response);
 		}
-		
-//		this.clienteService.salvar(c);
+
 		f.setCliente(c);
 		this.fazendaService.salvar(f);
 		
-		response.setData2(this.converterCadastroFazendaDto(f));
-		
 		return ResponseEntity.ok(response);
 	}
-
 
 	@GetMapping(value = "{id}")
 	public ResponseEntity<Response<Fazenda>> buscarFazendaPorId(@PathVariable("id") Integer id) {
@@ -93,10 +90,10 @@ public class FazendaController {
 
 		return ResponseEntity.ok(response);
 	}
-	
+
 	@PutMapping(value = "{id}")
 	public ResponseEntity<Response<Fazenda>> atualizarFazenda(@PathVariable("id") Integer id,
-			@Valid @RequestBody Fazenda fazenda, BindingResult result){
+			@Valid @RequestBody Fazenda fazenda, BindingResult result) {
 
 		log.info("Atualizando o Fazenda:{}", fazenda.toString());
 
@@ -141,9 +138,9 @@ public class FazendaController {
 
 		return ResponseEntity.ok(response);
 	}
-	
-	private void atualizarDadosFazenda(Fazenda farm, Fazenda fazenda, BindingResult result){
-		
+
+	private void atualizarDadosFazenda(Fazenda farm, Fazenda fazenda, BindingResult result) {
+
 		if (!farm.getCnpj().equals(fazenda.getCnpj())) {
 
 			this.fazendaService.buscarPorCnpj(fazenda.getCnpj())
@@ -152,7 +149,7 @@ public class FazendaController {
 		}
 
 	}
-	
+
 	private void verificarResposta(Response<Fazenda> response) {
 		if (!response.getData().isPresent()) {
 			log.info("Fazenda não encontrada");
@@ -162,20 +159,18 @@ public class FazendaController {
 			ResponseEntity.badRequest().body(response);
 		}
 	}
-	
-	private void validarDadosExistentes(CadastroFazendaDto FazendaDto, BindingResult result) {
-		this.fazendaService.buscarPorCnpj(FazendaDto.getCnpj())
-		                   .ifPresent(emp -> result.addError(new ObjectError("fazenda", "Fazenda já existente.")));
-	
+
+	private void validarDadosExistentes(Fazenda Fazenda, BindingResult result) {
+		this.fazendaService.buscarPorCnpj(Fazenda.getCnpj())
+				.ifPresent(farm -> result.addError(new ObjectError("fazenda", "Fazenda já existente.")));
+
 	}
 
-
-	
 	private Fazenda converterDtoParaFazenda(CadastroFazendaDto fazendaDto, BindingResult result)
 			throws NoSuchAlgorithmException {
-	
+
 		Fazenda f = new Fazenda();
-		
+
 		f.setNome(fazendaDto.getNomeFazenda());
 		f.setImagem(fazendaDto.getImagem());
 		f.setEstado(fazendaDto.getEstado());
@@ -183,16 +178,15 @@ public class FazendaController {
 		f.setCep(fazendaDto.getCep());
 		f.setCidade(fazendaDto.getCidade());
 		f.setEndereco(fazendaDto.getEndereco());
-	    f.setCnpj(fazendaDto.getCnpj());
-	    f.setNumero(fazendaDto.getNumero());
-		
+		f.setCnpj(fazendaDto.getCnpj());
+		f.setNumero(fazendaDto.getNumero());
+
 		return f;
 	}
-	
-	
+
 	private CadastroFazendaDto converterCadastroFazendaDto(Fazenda fazenda) {
 		CadastroFazendaDto fazendaDto = new CadastroFazendaDto();
-		
+
 		fazendaDto.setId(fazenda.getId());
 		fazendaDto.setNomeFazenda(fazenda.getNome());
 		fazendaDto.setBairro(fazenda.getBairro());
@@ -203,12 +197,11 @@ public class FazendaController {
 		fazendaDto.setEstado(fazenda.getEstado());
 		fazendaDto.setImagem(fazenda.getImagem());
 		fazendaDto.setNumero(fazenda.getNumero());
-		                                                            
+
 		fazendaDto.setCpf(fazenda.getCliente().getCpf());
 		fazendaDto.setEmail(fazenda.getCliente().getEmail());
-		
+
 		return fazendaDto;
 	}
-
 
 }

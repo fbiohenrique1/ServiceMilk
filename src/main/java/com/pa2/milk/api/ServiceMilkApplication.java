@@ -11,6 +11,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
+import com.pa2.milk.api.helper.PasswordUtils;
 import com.pa2.milk.api.model.Administrador;
 import com.pa2.milk.api.model.Analise;
 import com.pa2.milk.api.model.Bolsista;
@@ -86,7 +87,7 @@ public class ServiceMilkApplication {
 			Credencial c = new Credencial();
 			c.setId(usuario.getId());
 			c.setUsername("pedrohnf688");
-			c.setSenha("pedrohnf");
+			c.setSenha(PasswordUtils.gerarBCrypt("pedrohnf"));
 			c.setUsuario(usuario);
 			this.credencialRepository.save(c);
 
@@ -98,7 +99,7 @@ public class ServiceMilkApplication {
 			b.setCpf("13286865745");
 			Credencial cB = new Credencial();
 			cB.setUsername("fabio");
-			cB.setSenha("fabio");
+			cB.setSenha(PasswordUtils.gerarBCrypt("fabio"));
 			cB.setUsuario(b);
 			this.credencialRepository.save(cB);
 
@@ -110,7 +111,7 @@ public class ServiceMilkApplication {
 			a.setCpf("11242520023");
 			Credencial cA = new Credencial();
 			cA.setUsername("teste");
-			cA.setSenha("teste");
+			cA.setSenha(PasswordUtils.gerarBCrypt("teste"));
 			cA.setUsuario(a);
 			this.credencialRepository.save(cA);
 
