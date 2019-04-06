@@ -1,23 +1,22 @@
 package com.pa2.milk.api.model;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-
-import org.hibernate.validator.constraints.br.CNPJ;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table
 public class Fazenda extends AbstractModel<Integer> {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id_fazenda")
 	private Integer id;
 
 	@NotBlank
@@ -26,7 +25,7 @@ public class Fazenda extends AbstractModel<Integer> {
 	@NotBlank
 	private String imagem;
 
-	@CNPJ
+	// @CNPJ
 	@NotBlank
 	private String cnpj;
 
@@ -48,8 +47,8 @@ public class Fazenda extends AbstractModel<Integer> {
 	@NotBlank
 	private String estado;
 
-	@ManyToOne(optional = false)
-	@JsonIgnore
+	@ManyToOne
+	@JoinColumn(name = "cliente_id")
 	private Cliente cliente;
 
 	@Override
@@ -130,16 +129,16 @@ public class Fazenda extends AbstractModel<Integer> {
 		this.estado = estado;
 	}
 
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
+
 	public Cliente getCliente() {
 		return cliente;
 	}
 
 	public void setCliente(Cliente cliente) {
 		this.cliente = cliente;
-	}
-
-	public void setNome(String nome) {
-		this.nome = nome;
 	}
 
 }

@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.pa2.milk.api.model.Usuario;
-import com.pa2.milk.api.repository.UsuarioRepositorio;
+import com.pa2.milk.api.repository.UsuarioRepository;
 
 @Service
 public class UsuarioService {
@@ -16,7 +16,7 @@ public class UsuarioService {
 	private static final Logger log = LoggerFactory.getLogger(UsuarioService.class);
 
 	@Autowired
-	private UsuarioRepositorio usuarioRepositorio;
+	private UsuarioRepository usuarioRepositorio;
 
 	public Optional<Usuario> buscarPorEmail(String email) {
 		log.info("Buscando usuario pelo email: {}", email);

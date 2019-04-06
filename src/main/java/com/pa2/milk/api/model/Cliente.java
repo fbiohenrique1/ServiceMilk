@@ -1,5 +1,6 @@
 package com.pa2.milk.api.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -9,6 +10,7 @@ import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 
+import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
@@ -22,13 +24,15 @@ public class Cliente extends Usuario {
 	@ElementCollection(fetch = FetchType.EAGER)
 	private List<String> telefones;
 
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "cliente")
+	@OneToMany(mappedBy = "cliente", fetch = FetchType.EAGER, orphanRemoval = true)
+	@Fetch(FetchMode.SUBSELECT)
+	@Cascade({ org.hibernate.annotations.CascadeType.ALL })
 	@JsonIgnore
-	private List<Fazenda> fazenda;
+	private List<Fazenda> listaFazenda = new ArrayList<>();
 
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "cliente")
 	@JsonIgnore
-	private List<Solicitacao> solicitacao;
+	private List<Solicitacao> listaSolicitacao;
 
 	public List<String> getTelefones() {
 		return telefones;
@@ -38,20 +42,30 @@ public class Cliente extends Usuario {
 		this.telefones = telefones;
 	}
 
-	public List<Fazenda> getFazenda() {
-		return fazenda;
+	public List<Fazenda> getListaFazenda() {
+		return listaFazenda;
 	}
 
-	public void setFazenda(List<Fazenda> fazenda) {
-		this.fazenda = fazenda;
+	public void setListaFazenda(List<Fazenda> listaFazenda) {
+		this.listaFazenda = listaFazenda;
 	}
 
-	public List<Solicitacao> getSolicitacao() {
-		return solicitacao;
+	public List<Solicitacao> getListaSolicitacao() {
+		return listaSolicitacao;
 	}
 
-	public void setSolicitacao(List<Solicitacao> solicitacao) {
-		this.solicitacao = solicitacao;
+	public void setListaSolicitacao(List<Solicitacao> listaSolicitacao) {
+		this.listaSolicitacao = listaSolicitacao;
+	}
+
+	public void addFazenda(Fazenda novaFazenda) {
+		listaFazenda.add(novaFazenda);
+		novaFazenda.setCliente(this);
+	}
+
+	public void removeFazenda(Fazenda removeFazenda) {
+		listaFazenda.remove(removeFazenda);
+		removeFazenda.setCliente(null);
 	}
 
 }

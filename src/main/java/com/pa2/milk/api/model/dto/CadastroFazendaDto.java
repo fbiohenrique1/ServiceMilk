@@ -1,4 +1,4 @@
-package com.pa2.milk.api.helper;
+package com.pa2.milk.api.model.dto;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;

@@ -2,12 +2,12 @@ package com.pa2.milk.api.model;
 
 import java.util.Date;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
@@ -25,10 +25,12 @@ public class OrdemServico extends AbstractModel<Integer> {
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date dataHora;
 
-	@OneToOne(cascade = CascadeType.ALL)
+	@OneToOne
+	@JoinColumn(name = "bolsista_id")
 	private Bolsista bolsista;
 
-	@OneToOne(cascade = CascadeType.ALL)
+	@OneToOne
+	@JoinColumn(name = "solicitacao_id")
 	private Solicitacao solicitacao;
 
 	@NotNull
@@ -52,11 +54,13 @@ public class OrdemServico extends AbstractModel<Integer> {
 		this.dataHora = dataHora;
 	}
 
-	/*
-	 * public Bolsista getBolsista() { return bolsista; }
-	 * 
-	 * public void setBolsista(Bolsista bolsista) { this.bolsista = bolsista; }
-	 */
+	public Bolsista getBolsista() {
+		return bolsista;
+	}
+
+	public void setBolsista(Bolsista bolsista) {
+		this.bolsista = bolsista;
+	}
 
 	public Solicitacao getSolicitacao() {
 		return solicitacao;

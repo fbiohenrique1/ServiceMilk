@@ -1,18 +1,14 @@
 package com.pa2.milk.api.model;
 
-import java.util.List;
-
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 
@@ -30,14 +26,17 @@ public class Analise extends AbstractModel<Integer> {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 
+	// TODO: Lista de Enum
 	@Enumerated(EnumType.STRING)
 	@Column(name = "leite", nullable = false)
 	private EnumLeite leite;
 
+	// TODO: Lista de Enum
 	@Enumerated(EnumType.STRING)
 	@Column(name = "origemLeite", nullable = false)
 	private EnumOrigemLeite origemLeite;
 
+	// TODO: Lista de Enum
 	@Enumerated(EnumType.STRING)
 	@Column(name = "produtos", nullable = false)
 	private EnumProdutos produtos;
@@ -45,14 +44,16 @@ public class Analise extends AbstractModel<Integer> {
 	@NotBlank
 	private String especie;
 
+	// TODO: Lista de Enum
 	@Enumerated(EnumType.STRING)
 	@Column(name = "analisesSolicitadas", nullable = false)
 	private EnumAnalisesSolicitadas analisesSolicitadas;
 
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	private List<Amostra> amostra;
+//	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+//	private List<Amostra> amostra;
 
-	@ManyToOne(optional = false)
+	@ManyToOne
+	@JoinColumn(name = "solicitacao_id")
 	@JsonIgnore
 	private Solicitacao solicitacao;
 
@@ -106,13 +107,13 @@ public class Analise extends AbstractModel<Integer> {
 		this.analisesSolicitadas = analisesSolicitadas;
 	}
 
-	public List<Amostra> getAmostra() {
-		return amostra;
-	}
-
-	public void setAmostra(List<Amostra> amostra) {
-		this.amostra = amostra;
-	}
+//	public List<Amostra> getAmostra() {
+//		return amostra;
+//	}
+//
+//	public void setAmostra(List<Amostra> amostra) {
+//		this.amostra = amostra;
+//	}
 
 	public Solicitacao getSolicitacao() {
 		return solicitacao;

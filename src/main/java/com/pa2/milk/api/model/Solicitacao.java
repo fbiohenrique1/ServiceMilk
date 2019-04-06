@@ -1,8 +1,8 @@
 package com.pa2.milk.api.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -11,11 +11,17 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.pa2.milk.api.model.enums.EnumStatusSolicitacao;
 
 @Entity
@@ -26,17 +32,18 @@ public class Solicitacao extends AbstractModel<Integer> {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 
-	@ManyToOne(optional = false)
+	@ManyToOne
 	private Cliente cliente;
 
-	@OneToOne(cascade = CascadeType.ALL)
+	@OneToOne
+	@JoinColumn(name = "fazenda_id", nullable = false)
 	private Fazenda fazenda;
 
-	@OneToOne(cascade = CascadeType.ALL)
-	private OrdemServico ordemServico;
-
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "solicitacao")
-	private List<Analise> analise;
+	@OneToMany(mappedBy = "solicitacao", fetch = FetchType.EAGER, orphanRemoval = true)
+	@Fetch(FetchMode.SUBSELECT)
+	@Cascade({ org.hibernate.annotations.CascadeType.ALL })
+	@JsonIgnore
+	private List<Analise> listaAnalise = new ArrayList<>();
 
 	@Enumerated(EnumType.STRING)
 	@Column(name = "produtos", nullable = false)
@@ -71,20 +78,12 @@ public class Solicitacao extends AbstractModel<Integer> {
 		this.fazenda = fazenda;
 	}
 
-	public OrdemServico getOrdemServico() {
-		return ordemServico;
+	public List<Analise> getListaAnalise() {
+		return listaAnalise;
 	}
 
-	public void setOrdemServico(OrdemServico ordemServico) {
-		this.ordemServico = ordemServico;
-	}
-
-	public List<Analise> getAnalise() {
-		return analise;
-	}
-
-	public void setAnalise(List<Analise> analise) {
-		this.analise = analise;
+	public void setListaAnalise(List<Analise> listaAnalise) {
+		this.listaAnalise = listaAnalise;
 	}
 
 	public EnumStatusSolicitacao getStatus() {
@@ -101,6 +100,16 @@ public class Solicitacao extends AbstractModel<Integer> {
 
 	public void setObservacao(String observacao) {
 		this.observacao = observacao;
+	}
+
+	public void addAnalise(Analise novaAnalise) {
+		listaAnalise.add(novaAnalise);
+		novaAnalise.setSolicitacao(this);
+	}
+
+	public void removeAnalise(Analise removeAnalise) {
+		listaAnalise.remove(removeAnalise);
+		removeAnalise.setSolicitacao(null);
 	}
 
 }
