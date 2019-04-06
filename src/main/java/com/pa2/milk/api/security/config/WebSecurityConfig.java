@@ -1,4 +1,4 @@
-/*package com.pa2.milk.api.security.config;
+package com.pa2.milk.api.security.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -76,4 +76,3 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	}
 	
 }
-*/

@@ -1,4 +1,4 @@
-/*package com.pa2.milk.api.security.servico;
+package com.pa2.milk.api.security.servico;
 
 import java.util.Optional;
 
@@ -8,27 +8,28 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import com.pa2.milk.api.model.Credencial;
 import com.pa2.milk.api.model.Usuario;
 import com.pa2.milk.api.security.JwtUserFactory;
+import com.pa2.milk.api.service.CredencialService;
 import com.pa2.milk.api.service.UsuarioService;
 
 @Service("userDetailsService")
 public class JwtUserDetailsServiceImpl implements UserDetailsService {
 
 	@Autowired
-	private UsuarioService usuarioService;
+	private CredencialService credencialService;
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		// TODO Auto-generated method stub
-		Optional<Usuario> usuario = usuarioService.buscarPorEmail(username);
+		Optional<Credencial> credencial = this.credencialService.buscarPorUsername(username);
 
-		if (usuario.isPresent()) {
-			return JwtUserFactory.create(usuario.get());
+		if (credencial.isPresent()) {
+			return JwtUserFactory.create(credencial.get());
 		}
 
 		throw new UsernameNotFoundException("Username não Encontrado.");
 	}
 
 }
-*/

@@ -1,4 +1,4 @@
-/*package com.pa2.milk.api.helper;
+package com.pa2.milk.api.helper;
 
 
 import org.slf4j.Logger;
@@ -24,4 +24,3 @@ public class PasswordUtils {
 
 	
 }
-*/

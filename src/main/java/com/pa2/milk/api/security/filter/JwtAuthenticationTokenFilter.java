@@ -1,4 +1,4 @@
-/*package com.pa2.milk.api.security.filter;
+package com.pa2.milk.api.security.filter;
 
 import java.io.IOException;
 
@@ -64,4 +64,3 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter{
 	}
 
 }
-*/

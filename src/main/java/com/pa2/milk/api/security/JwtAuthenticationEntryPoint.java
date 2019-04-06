@@ -1,4 +1,4 @@
-/*package com.pa2.milk.api.security;
+package com.pa2.milk.api.security;
 
 import java.io.IOException;
 
@@ -23,4 +23,3 @@ public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint{
 	}
 
 }
-*/

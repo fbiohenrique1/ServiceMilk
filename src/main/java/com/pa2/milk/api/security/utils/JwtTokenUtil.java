@@ -1,4 +1,4 @@
-/*package com.pa2.milk.api.security.utils;
+package com.pa2.milk.api.security.utils;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -113,4 +113,3 @@ public class JwtTokenUtil {
 	}
 	
 }
-*/

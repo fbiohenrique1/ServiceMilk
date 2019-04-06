@@ -1,4 +1,4 @@
-/*package com.pa2.milk.api.security.dto;
+package com.pa2.milk.api.security.dto;
 
 public class TokenDto {
 	
@@ -24,4 +24,3 @@ public class TokenDto {
 	
 
 }
-*/

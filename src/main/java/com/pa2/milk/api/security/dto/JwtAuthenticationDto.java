@@ -1,4 +1,4 @@
-/*package com.pa2.milk.api.security.dto;
+package com.pa2.milk.api.security.dto;
 
 import javax.validation.constraints.NotEmpty;
 
@@ -30,4 +30,3 @@ public class JwtAuthenticationDto {
 	}
 
 }
-*/

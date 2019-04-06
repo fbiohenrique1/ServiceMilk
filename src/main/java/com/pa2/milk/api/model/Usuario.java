@@ -43,9 +43,6 @@ public abstract class Usuario extends AbstractModel<Integer> {
 	@Column(name = "perfil", nullable = false)
 	private TipoPerfilUsuario tipoPerfilUsuario;
 
-	@OneToOne(cascade = CascadeType.ALL)
-	private Credencial credencial;
-
 	@Override
 	public Integer getId() {
 		return id;
@@ -86,14 +83,6 @@ public abstract class Usuario extends AbstractModel<Integer> {
 
 	public void setTipoPerfilUsuario(TipoPerfilUsuario tipoPerfilUsuario) {
 		this.tipoPerfilUsuario = tipoPerfilUsuario;
-	}
-
-	public Credencial getCredencial() {
-		return credencial;
-	}
-
-	public void setCredencial(Credencial credencial) {
-		this.credencial = credencial;
 	}
 
 }

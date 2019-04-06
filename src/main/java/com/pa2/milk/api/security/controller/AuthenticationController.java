@@ -1,4 +1,4 @@
-/*package com.pa2.milk.api.security.controller;
+package com.pa2.milk.api.security.controller;
 
 import java.util.Optional;
 
@@ -62,7 +62,7 @@ public class AuthenticationController {
 			
 		}
 		
-		log.info("Gerando token para o email {}.", authenticationDto.getUsername());
+		log.info("Gerando token para o Username {}.", authenticationDto.getUsername());
 		Authentication authentication = authenticationManager.authenticate(
 				new UsernamePasswordAuthenticationToken(authenticationDto.getUsername(),authenticationDto.getSenha()));
 		
@@ -109,4 +109,3 @@ public class AuthenticationController {
 	
 
 }
-*/	
