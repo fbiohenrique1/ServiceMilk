@@ -23,4 +23,8 @@ public class CredencialService {
 		return Optional.ofNullable(this.credencialRepository.findByUsername(username));
 	}
 
+	public void salvar(Credencial credencial) {
+		log.info("Salvando Credencial ");
+		credencialRepository.save(credencial);
+	}
 }

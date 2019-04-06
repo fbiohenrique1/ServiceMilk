@@ -22,10 +22,16 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.pa2.milk.api.helper.PasswordUtils;
 import com.pa2.milk.api.helper.Response;
 import com.pa2.milk.api.model.Cliente;
+import com.pa2.milk.api.model.Credencial;
 import com.pa2.milk.api.model.Usuario;
+import com.pa2.milk.api.model.dto.CadastroClienteDto;
+import com.pa2.milk.api.model.enums.TipoPerfilUsuario;
+import com.pa2.milk.api.repository.UsuarioRepository;
 import com.pa2.milk.api.service.ClienteService;
+import com.pa2.milk.api.service.CredencialService;
 
 @RestController
 @RequestMapping(value = "/usuarios/clientes")
@@ -33,27 +39,35 @@ import com.pa2.milk.api.service.ClienteService;
 public class ClienteController {
 
 	private static final Logger log = LoggerFactory.getLogger(ClienteController.class);
-	
+
 	@Autowired
 	private ClienteService clienteService;
 
+	@Autowired
+	private CredencialService credencialService;
+
+	@Autowired
+	private UsuarioRepository usuarioRepositorio;
+	
 	@GetMapping
-	public List<Cliente> listarClientes() {
+	public List<Cliente> listarClientes() {		
 		List<Cliente> clientes = this.clienteService.listarClientes();
 		return clientes;
 	}
 
 	@PostMapping
-	public ResponseEntity<Response<Cliente>> cadastrarCliente(@Valid @RequestBody Cliente cliente, BindingResult result)
-			throws NoSuchAlgorithmException {
+	public ResponseEntity<Response<CadastroClienteDto>> cadastrarCliente(
+			@Valid @RequestBody CadastroClienteDto clienteDto, BindingResult result) throws NoSuchAlgorithmException {
 
-		log.info("Cadastrando Cliente:{}", cliente.toString());
+		log.info("Cadastrando Cliente:{}", clienteDto.toString());
 
-		Response<Cliente> response = new Response<Cliente>();
+		Response<CadastroClienteDto> response = new Response<CadastroClienteDto>();
 
-		response.setData(Optional.ofNullable(cliente));
+		validarDadosExistentes(clienteDto, result); 
 
-		Usuario user = cliente;
+		Cliente cliente = this.converterDtoParaCliente(clienteDto); 
+
+		Credencial credencial = this.converterDtoParaCredencial(clienteDto, result);
 
 		if (result.hasErrors()) {
 
@@ -63,7 +77,11 @@ public class ClienteController {
 			return ResponseEntity.badRequest().body(response);
 		}
 
-		this.clienteService.salvar((Cliente) user);
+		this.clienteService.salvar(cliente);
+		credencial.setUsuario(cliente);
+		this.credencialService.salvar(credencial);
+
+		response.setData2(this.converterCadastroClienteDto(credencial));
 
 		return ResponseEntity.ok(response);
 	}
@@ -162,6 +180,49 @@ public class ClienteController {
 
 			ResponseEntity.badRequest().body(response);
 		}
+	}
+
+	private void validarDadosExistentes(CadastroClienteDto clienteDto, BindingResult result) {
+
+		this.clienteService.buscarPorCpf(clienteDto.getCpf())
+				.ifPresent(cli -> result.addError(new ObjectError("cliente", "Cliente já existente")));
+
+		this.credencialService.buscarPorUsername(clienteDto.getUsername())
+				.ifPresent(cre -> result.addError(new ObjectError("credencial", "Credencial já existente")));
+
+	}
+
+	private Cliente converterDtoParaCliente(CadastroClienteDto clienteDto) {
+
+		Usuario cli = new Cliente();
+		cli.setCpf(clienteDto.getCpf());
+		cli.setEmail(clienteDto.getEmail());
+		cli.setNome(clienteDto.getNome());
+		cli.setTipoPerfilUsuario(TipoPerfilUsuario.ROLE_CLIENTE);
+		((Cliente) cli).setTelefones(clienteDto.getTelefones());
+
+		return (Cliente) cli;
+	}
+
+	private Credencial converterDtoParaCredencial(CadastroClienteDto clienteDto, BindingResult result)
+			throws NoSuchAlgorithmException {
+
+		Credencial cre = new Credencial();
+		cre.setUsername(clienteDto.getUsername());
+		cre.setSenha(PasswordUtils.gerarBCrypt(clienteDto.getSenha()));
+		return cre;
+	}
+
+	private CadastroClienteDto converterCadastroClienteDto(Credencial credencial) {
+		CadastroClienteDto clienteDto = new CadastroClienteDto();
+
+		clienteDto.setId(credencial.getId());
+		clienteDto.setUsername(credencial.getUsername());
+		clienteDto.setEmail(credencial.getUsuario().getEmail());
+		clienteDto.setCpf(credencial.getUsuario().getCpf());
+		clienteDto.setNome(credencial.getUsuario().getNome());
+        clienteDto.setTelefones(((Cliente) credencial.getUsuario()).getTelefones());   
+		return clienteDto;
 	}
 
 }

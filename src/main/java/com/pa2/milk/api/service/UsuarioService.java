@@ -22,5 +22,11 @@ public class UsuarioService {
 		log.info("Buscando usuario pelo email: {}", email);
 		return Optional.ofNullable(this.usuarioRepositorio.findByEmail(email));
 	}
+	
+	public Optional<Usuario> buscarPorTipoPerfilUsuario(String tipoPerfilUsuario) {
+		log.info("Buscando usuario pelo tipoPerfilUsuario: {}", tipoPerfilUsuario);
+		return Optional.ofNullable(this.usuarioRepositorio.findByTipoPerfilUsuario(tipoPerfilUsuario.toString()));
+	}
+
 
 }
