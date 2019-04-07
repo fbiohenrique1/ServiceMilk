@@ -36,9 +36,8 @@ public abstract class Usuario extends AbstractModel<Integer> {
 	@Column(unique = true, length = 16)
 	private String cpf;
 
-	@Enumerated(EnumType.STRING)
 	@Column(name = "perfil", nullable = false)
-	private EnumTipoPerfilUsuario tipoPerfilUsuario;
+	private Integer codigoTipoPerfilUsuario;
 
 	@Override
 	public Integer getId() {
@@ -74,11 +73,11 @@ public abstract class Usuario extends AbstractModel<Integer> {
 		this.cpf = cpf;
 	}
 
-	public EnumTipoPerfilUsuario getTipoPerfilUsuario() {
-		return tipoPerfilUsuario;
+	public EnumTipoPerfilUsuario getCodigoTipoPerfilUsuario() {
+		return EnumTipoPerfilUsuario.porCodigo(codigoTipoPerfilUsuario);
 	}
 
-	public void setTipoPerfilUsuario(EnumTipoPerfilUsuario tipoPerfilUsuario) {
-		this.tipoPerfilUsuario = tipoPerfilUsuario;
+	public void setCodigoTipoPerfilUsuario(EnumTipoPerfilUsuario tipoPerfilUsuario) {
+		this.codigoTipoPerfilUsuario = tipoPerfilUsuario.getCodigo();
 	}
 }

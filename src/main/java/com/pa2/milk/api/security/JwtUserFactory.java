@@ -17,7 +17,7 @@ public class JwtUserFactory {
 
 	public static JwtUser create(Credencial credencial) {
 		return new JwtUser(credencial.getId(), credencial.getUsername(), credencial.getSenha(),
-				mapToGrantedAuthorities(credencial.getUsuario().getTipoPerfilUsuario()));
+				mapToGrantedAuthorities(credencial.getUsuario().getCodigoTipoPerfilUsuario()));
 
 	}
 

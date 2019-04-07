@@ -9,6 +9,6 @@ import com.pa2.milk.api.model.enums.EnumTipoPerfilUsuario;
 public interface UsuarioRepository extends GenericRepository<Usuario, Integer> {
 
 	Usuario findByEmail(String email);
-	Usuario findByTipoPerfilUsuario(EnumTipoPerfilUsuario perfil);
-	Usuario findByTipoPerfilUsuarioAndId(EnumTipoPerfilUsuario perfil, Integer id);
+	Usuario findByCodigoTipoPerfilUsuario(EnumTipoPerfilUsuario perfil); 
+	Usuario findByCodigoTipoPerfilUsuarioAndId(EnumTipoPerfilUsuario perfil, Integer id);
 }

@@ -14,7 +14,7 @@ public interface ClienteRepository extends GenericRepository<Cliente, Integer> {
 
 	Cliente findByCpfOrEmail(String cpf, String email);
 
-	Cliente findByTipoPerfilUsuario(EnumTipoPerfilUsuario perfil);
+	Cliente findByCodigoTipoPerfilUsuario(EnumTipoPerfilUsuario perfil);
 
-	Cliente findByTipoPerfilUsuarioAndId(EnumTipoPerfilUsuario perfil, Integer id);
+	Cliente findByCodigoTipoPerfilUsuarioAndId(EnumTipoPerfilUsuario perfil, Integer id);
 }

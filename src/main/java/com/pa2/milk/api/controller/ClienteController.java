@@ -53,7 +53,7 @@ public class ClienteController {
 	@GetMapping
 	public List<Cliente> listarClientes() {
 		List<Cliente> clientes = new ArrayList<Cliente>();
-		clientes.add((Cliente) this.usuarioRepository.findByTipoPerfilUsuario(EnumTipoPerfilUsuario.ROLE_CLIENTE));
+		clientes.add((Cliente) this.usuarioRepository.findByCodigoTipoPerfilUsuario(EnumTipoPerfilUsuario.ROLE_CLIENTE));
 		return clientes;
 	}
 
@@ -65,9 +65,9 @@ public class ClienteController {
 
 		Response<CadastroClienteDto> response = new Response<CadastroClienteDto>();
 
-		validarDadosExistentes(clienteDto, result);
+		validarDadosExistentes(clienteDto, result); 
 
-		Cliente cliente = this.converterDtoParaCliente(clienteDto);
+		Cliente cliente = this.converterDtoParaCliente(clienteDto); 
 
 		Credencial credencial = this.converterDtoParaCredencial(clienteDto, result);
 
@@ -199,7 +199,7 @@ public class ClienteController {
 		cli.setCpf(clienteDto.getCpf());
 		cli.setEmail(clienteDto.getEmail());
 		cli.setNome(clienteDto.getNome());
-		cli.setTipoPerfilUsuario(EnumTipoPerfilUsuario.ROLE_CLIENTE);
+		cli.setCodigoTipoPerfilUsuario(EnumTipoPerfilUsuario.ROLE_CLIENTE);
 		((Cliente) cli).setTelefones(clienteDto.getTelefones());
 
 		return (Cliente) cli;
