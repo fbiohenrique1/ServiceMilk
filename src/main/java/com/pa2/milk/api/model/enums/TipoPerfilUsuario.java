@@ -32,14 +32,14 @@ public enum TipoPerfilUsuario {
 		this.descricao = descricao;
 	}
 	
-	public static EnumStatusSolicitacao porCodigo(Integer codigo) {
+	public static TipoPerfilUsuario porCodigo(Integer codigo) {
 		if (codigo.equals(null)) {
 			return null;
 		}
 
-		for (EnumStatusSolicitacao status : EnumStatusSolicitacao.values()) {
-			if (codigo.equals(status.getCodigo())) {
-				return status;
+		for (TipoPerfilUsuario tipo : TipoPerfilUsuario.values()) {
+			if (codigo.equals(tipo.getCodigo())) {
+				return tipo;
 			}
 		}
 		throw new IllegalArgumentException("Código Inválido: " + codigo);
