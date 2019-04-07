@@ -7,7 +7,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.pa2.milk.api.model.Cliente;
 import com.pa2.milk.api.model.Usuario;
+import com.pa2.milk.api.model.enums.TipoPerfilUsuario;
 import com.pa2.milk.api.repository.UsuarioRepository;
 
 @Service
@@ -23,10 +25,21 @@ public class UsuarioService {
 		return Optional.ofNullable(this.usuarioRepositorio.findByEmail(email));
 	}
 	
-	public Optional<Usuario> buscarPorTipoPerfilUsuario(String tipoPerfilUsuario) {
+	public Optional<Usuario> buscarPorTipoPerfilUsuario(TipoPerfilUsuario tipoPerfilUsuario) {
 		log.info("Buscando usuario pelo tipoPerfilUsuario: {}", tipoPerfilUsuario);
-		return Optional.ofNullable(this.usuarioRepositorio.findByTipoPerfilUsuario(tipoPerfilUsuario.toString()));
+		return Optional.ofNullable(this.usuarioRepositorio.findByTipoPerfilUsuario(tipoPerfilUsuario));
 	}
 
 
+	public Optional<Usuario> buscarPorTipoPerfilUsuarioandID(TipoPerfilUsuario tipoPerfilUsuario, Integer id) {
+		log.info("Buscando usuario pelo tipoPerfilUsuario: {}", tipoPerfilUsuario);
+		return Optional.ofNullable(this.usuarioRepositorio.findByTipoPerfilUsuarioAndId(tipoPerfilUsuario, id));
+	}
+
+	public Usuario buscarPorId(Integer id) {
+		log.info("Buscando Cliente por ID ");
+		Optional<Usuario> objCliente = this.usuarioRepositorio.findById(id);
+		return objCliente.orElse(null);
+	}
+	
 }

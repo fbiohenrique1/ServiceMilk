@@ -2,8 +2,6 @@ package com.pa2.milk.api.model.enums;
 
 public enum TipoPerfilUsuario {
 
-
-
 	ROLE_CLIENTE(1, "ROLE_CLIENTE"),
 	ROLE_BOLSISTA(2, "ROLE_BOLSISTA"),
 	ROLE_ADMINISTRADOR(3, "ROLE_ADMINISTRADOR");
@@ -31,7 +29,7 @@ public enum TipoPerfilUsuario {
 	public void setDescricao(String descricao) {
 		this.descricao = descricao;
 	}
-	
+
 	public static TipoPerfilUsuario porCodigo(Integer codigo) {
 		if (codigo.equals(null)) {
 			return null;
@@ -44,7 +42,5 @@ public enum TipoPerfilUsuario {
 		}
 		throw new IllegalArgumentException("Código Inválido: " + codigo);
 	}
-	
-
 
 }
