@@ -1,6 +1,7 @@
 package com.pa2.milk.api.controller;
 
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -32,6 +33,7 @@ import com.pa2.milk.api.model.enums.TipoPerfilUsuario;
 import com.pa2.milk.api.repository.UsuarioRepository;
 import com.pa2.milk.api.service.ClienteService;
 import com.pa2.milk.api.service.CredencialService;
+import com.pa2.milk.api.service.UsuarioService;
 
 @RestController
 @RequestMapping(value = "/usuarios/clientes")
@@ -49,9 +51,13 @@ public class ClienteController {
 	@Autowired
 	private UsuarioRepository usuarioRepositorio;
 	
+	@Autowired
+	private UsuarioService usuarioService;
+	
 	@GetMapping
 	public List<Cliente> listarClientes() {		
-		List<Cliente> clientes = this.clienteService.listarClientes();
+		List<Cliente> clientes = new ArrayList<Cliente>();
+		clientes.add((Cliente) this.usuarioRepositorio.findByTipoPerfilUsuario(TipoPerfilUsuario.ROLE_CLIENTE));
 		return clientes;
 	}
 
@@ -93,10 +99,9 @@ public class ClienteController {
 
 		Response<Cliente> response = new Response<Cliente>();
 
-		Usuario cliente = new Cliente();
-		cliente = this.clienteService.buscarPorId(id);
+		Cliente cliente = this.clienteService.buscarPorTipoPerfilUsuarioandID(TipoPerfilUsuario.ROLE_CLIENTE, id);
 
-		response.setData2(Optional.ofNullable(cliente));
+		response.setData(Optional.ofNullable(cliente));
 
 		verificarResposta(response);
 
@@ -111,7 +116,7 @@ public class ClienteController {
 
 		Response<Cliente> response = new Response<Cliente>();
 
-		Cliente cliente1 = this.clienteService.buscarPorId(id);
+		Cliente cliente1 = this.clienteService.buscarPorTipoPerfilUsuarioandID(TipoPerfilUsuario.ROLE_CLIENTE, id);
 
 		response.setData(Optional.ofNullable(cliente1));
 
@@ -140,7 +145,7 @@ public class ClienteController {
 
 		Response<Cliente> response = new Response<Cliente>();
 
-		Cliente cliente = this.clienteService.buscarPorId(id);
+		Cliente cliente = this.clienteService.buscarPorTipoPerfilUsuarioandID(TipoPerfilUsuario.ROLE_CLIENTE, id);
 
 		response.setData(Optional.ofNullable(cliente));
 

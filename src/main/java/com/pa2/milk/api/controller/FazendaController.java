@@ -26,6 +26,7 @@ import com.pa2.milk.api.helper.Response;
 import com.pa2.milk.api.model.Cliente;
 import com.pa2.milk.api.model.Fazenda;
 import com.pa2.milk.api.model.dto.CadastroFazendaDto;
+import com.pa2.milk.api.model.enums.TipoPerfilUsuario;
 import com.pa2.milk.api.service.ClienteService;
 import com.pa2.milk.api.service.FazendaService;
 
@@ -57,12 +58,10 @@ public class FazendaController {
 
 		validarDadosExistentes(fazenda, result);
 
-		Cliente c = this.clienteService.buscarPorId(clienteId);
+		Cliente c = this.clienteService.buscarPorTipoPerfilUsuarioandID(TipoPerfilUsuario.ROLE_CLIENTE, clienteId);
 
 		Fazenda f = fazenda;
 
-		response.setData2(Optional.ofNullable(f));
-		
 		if (result.hasErrors()) {
 			log.info("Erro validando dados de cadastro da Fazenda: {}", result.getAllErrors());
 			result.getAllErrors().forEach(error -> response.getErros().add(error.getDefaultMessage()));
@@ -71,7 +70,8 @@ public class FazendaController {
 
 		f.setCliente(c);
 		this.fazendaService.salvar(f);
-		
+
+		response.setData2(f);
 		return ResponseEntity.ok(response);
 	}
 
@@ -164,44 +164,6 @@ public class FazendaController {
 		this.fazendaService.buscarPorCnpj(Fazenda.getCnpj())
 				.ifPresent(farm -> result.addError(new ObjectError("fazenda", "Fazenda já existente.")));
 
-	}
-
-	private Fazenda converterDtoParaFazenda(CadastroFazendaDto fazendaDto, BindingResult result)
-			throws NoSuchAlgorithmException {
-
-		Fazenda f = new Fazenda();
-
-		f.setNome(fazendaDto.getNomeFazenda());
-		f.setImagem(fazendaDto.getImagem());
-		f.setEstado(fazendaDto.getEstado());
-		f.setBairro(fazendaDto.getBairro());
-		f.setCep(fazendaDto.getCep());
-		f.setCidade(fazendaDto.getCidade());
-		f.setEndereco(fazendaDto.getEndereco());
-		f.setCnpj(fazendaDto.getCnpj());
-		f.setNumero(fazendaDto.getNumero());
-
-		return f;
-	}
-
-	private CadastroFazendaDto converterCadastroFazendaDto(Fazenda fazenda) {
-		CadastroFazendaDto fazendaDto = new CadastroFazendaDto();
-
-		fazendaDto.setId(fazenda.getId());
-		fazendaDto.setNomeFazenda(fazenda.getNome());
-		fazendaDto.setBairro(fazenda.getBairro());
-		fazendaDto.setCep(fazenda.getCep());
-		fazendaDto.setCidade(fazenda.getCidade());
-		fazendaDto.setCnpj(fazenda.getCnpj());
-		fazendaDto.setEndereco(fazenda.getEndereco());
-		fazendaDto.setEstado(fazenda.getEstado());
-		fazendaDto.setImagem(fazenda.getImagem());
-		fazendaDto.setNumero(fazenda.getNumero());
-
-		fazendaDto.setCpf(fazenda.getCliente().getCpf());
-		fazendaDto.setEmail(fazenda.getCliente().getEmail());
-
-		return fazendaDto;
 	}
 
 }

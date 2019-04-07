@@ -16,3 +16,34 @@
 > **IMPORTANTE**: caso você não tenha o XAMPP instalado, basta comentar os códigos de configurações do banco MYSQL que estão no arquivo 
 > **application.properties** e descomentar as configurações do banco do **H2**. Feito isso, repita os passos **9** e **10**
 
+>**Verbos Http:**
+
+**#Controller do Cliente:**
+
+1. GET
+1.1 - Listar todos os clientes : /usuarios/clientes
+1.2 - Listar clientes pelo id: /usuarios/clientes/id
+
+2. POST
+2.1 - Cadastrar cliente com credenciais: /usuarios/clientes
+
+3.PUT
+3.1 - Atualizar o cliente pelo id: /usuarios/clientes/id
+
+4. DELETE
+4.1 - Deletar cliente pelo id: /usuarios/clientes/id
+
+**#Controller da Fazenda:**
+
+1. GET
+1.1 - Listar todos as fazendas: /fazenda
+1.2 - Listar fazendas pelo id: /fazenda/id
+
+2. POST
+2.1 - Cadastrar Fazenda passando o id do cliente: /fazenda/id
+Obs:.
+3. PUT
+3.1 - Atualizar a fazenda pelo id: /fazenda/id
+
+4. DELETE
+4.1 - Deletar fazenda pelo id: /fazenda/id
