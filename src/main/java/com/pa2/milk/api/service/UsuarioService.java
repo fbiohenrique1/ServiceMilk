@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.pa2.milk.api.model.Cliente;
 import com.pa2.milk.api.model.Usuario;
-import com.pa2.milk.api.model.enums.TipoPerfilUsuario;
+import com.pa2.milk.api.model.enums.EnumTipoPerfilUsuario;
 import com.pa2.milk.api.repository.UsuarioRepository;
 
 @Service
@@ -25,13 +25,13 @@ public class UsuarioService {
 		return Optional.ofNullable(this.usuarioRepositorio.findByEmail(email));
 	}
 	
-	public Optional<Usuario> buscarPorTipoPerfilUsuario(TipoPerfilUsuario tipoPerfilUsuario) {
+	public Optional<Usuario> buscarPorTipoPerfilUsuario(EnumTipoPerfilUsuario tipoPerfilUsuario) {
 		log.info("Buscando usuario pelo tipoPerfilUsuario: {}", tipoPerfilUsuario);
 		return Optional.ofNullable(this.usuarioRepositorio.findByTipoPerfilUsuario(tipoPerfilUsuario));
 	}
 
 
-	public Optional<Usuario> buscarPorTipoPerfilUsuarioandID(TipoPerfilUsuario tipoPerfilUsuario, Integer id) {
+	public Optional<Usuario> buscarPorTipoPerfilUsuarioandID(EnumTipoPerfilUsuario tipoPerfilUsuario, Integer id) {
 		log.info("Buscando usuario pelo tipoPerfilUsuario: {}", tipoPerfilUsuario);
 		return Optional.ofNullable(this.usuarioRepositorio.findByTipoPerfilUsuarioAndId(tipoPerfilUsuario, id));
 	}

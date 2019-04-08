@@ -1,9 +1,7 @@
 package com.pa2.milk.api.model.enums;
 
 public enum EnumStatusSolicitacao {
-	APROVADA(1, "Aprovada"), 
-	PENDENTE(2, "Pendente"), 
-	PAGAMENTO_PENDENTE(3, "Pagamento Pendente"),
+	APROVADA(1, "Aprovada"), PENDENTE(2, "Pendente"), PAGAMENTO_PENDENTE(3, "Pagamento Pendente"),
 	RECUSADA(4, "Recusada");
 
 	private Integer codigo;

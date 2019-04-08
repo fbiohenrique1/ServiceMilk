@@ -29,14 +29,13 @@ import com.pa2.milk.api.model.Cliente;
 import com.pa2.milk.api.model.Credencial;
 import com.pa2.milk.api.model.Usuario;
 import com.pa2.milk.api.model.dto.CadastroClienteDto;
-import com.pa2.milk.api.model.enums.TipoPerfilUsuario;
+import com.pa2.milk.api.model.enums.EnumTipoPerfilUsuario;
 import com.pa2.milk.api.repository.UsuarioRepository;
 import com.pa2.milk.api.service.ClienteService;
 import com.pa2.milk.api.service.CredencialService;
-import com.pa2.milk.api.service.UsuarioService;
 
 @RestController
-@RequestMapping(value = "/usuarios/clientes")
+@RequestMapping(value = "/cliente")
 @CrossOrigin(origins = "*")
 public class ClienteController {
 
@@ -49,15 +48,12 @@ public class ClienteController {
 	private CredencialService credencialService;
 
 	@Autowired
-	private UsuarioRepository usuarioRepositorio;
-	
-	@Autowired
-	private UsuarioService usuarioService;
-	
+	private UsuarioRepository usuarioRepository;
+
 	@GetMapping
-	public List<Cliente> listarClientes() {		
+	public List<Cliente> listarClientes() {
 		List<Cliente> clientes = new ArrayList<Cliente>();
-		clientes.add((Cliente) this.usuarioRepositorio.findByTipoPerfilUsuario(TipoPerfilUsuario.ROLE_CLIENTE));
+		clientes.add((Cliente) this.usuarioRepository.findByTipoPerfilUsuario(EnumTipoPerfilUsuario.ROLE_CLIENTE));
 		return clientes;
 	}
 
@@ -69,9 +65,9 @@ public class ClienteController {
 
 		Response<CadastroClienteDto> response = new Response<CadastroClienteDto>();
 
-		validarDadosExistentes(clienteDto, result); 
+		validarDadosExistentes(clienteDto, result);
 
-		Cliente cliente = this.converterDtoParaCliente(clienteDto); 
+		Cliente cliente = this.converterDtoParaCliente(clienteDto);
 
 		Credencial credencial = this.converterDtoParaCredencial(clienteDto, result);
 
@@ -99,7 +95,7 @@ public class ClienteController {
 
 		Response<Cliente> response = new Response<Cliente>();
 
-		Cliente cliente = this.clienteService.buscarPorTipoPerfilUsuarioandID(TipoPerfilUsuario.ROLE_CLIENTE, id);
+		Cliente cliente = this.clienteService.buscarPorTipoPerfilUsuarioandID(EnumTipoPerfilUsuario.ROLE_CLIENTE, id);
 
 		response.setData(Optional.ofNullable(cliente));
 
@@ -116,7 +112,7 @@ public class ClienteController {
 
 		Response<Cliente> response = new Response<Cliente>();
 
-		Cliente cliente1 = this.clienteService.buscarPorTipoPerfilUsuarioandID(TipoPerfilUsuario.ROLE_CLIENTE, id);
+		Cliente cliente1 = this.clienteService.buscarPorTipoPerfilUsuarioandID(EnumTipoPerfilUsuario.ROLE_CLIENTE, id);
 
 		response.setData(Optional.ofNullable(cliente1));
 
@@ -145,7 +141,7 @@ public class ClienteController {
 
 		Response<Cliente> response = new Response<Cliente>();
 
-		Cliente cliente = this.clienteService.buscarPorTipoPerfilUsuarioandID(TipoPerfilUsuario.ROLE_CLIENTE, id);
+		Cliente cliente = this.clienteService.buscarPorTipoPerfilUsuarioandID(EnumTipoPerfilUsuario.ROLE_CLIENTE, id);
 
 		response.setData(Optional.ofNullable(cliente));
 
@@ -203,7 +199,7 @@ public class ClienteController {
 		cli.setCpf(clienteDto.getCpf());
 		cli.setEmail(clienteDto.getEmail());
 		cli.setNome(clienteDto.getNome());
-		cli.setTipoPerfilUsuario(TipoPerfilUsuario.ROLE_CLIENTE);
+		cli.setTipoPerfilUsuario(EnumTipoPerfilUsuario.ROLE_CLIENTE);
 		((Cliente) cli).setTelefones(clienteDto.getTelefones());
 
 		return (Cliente) cli;
@@ -226,7 +222,7 @@ public class ClienteController {
 		clienteDto.setEmail(credencial.getUsuario().getEmail());
 		clienteDto.setCpf(credencial.getUsuario().getCpf());
 		clienteDto.setNome(credencial.getUsuario().getNome());
-        clienteDto.setTelefones(((Cliente) credencial.getUsuario()).getTelefones());   
+		clienteDto.setTelefones(((Cliente) credencial.getUsuario()).getTelefones());
 		return clienteDto;
 	}
 

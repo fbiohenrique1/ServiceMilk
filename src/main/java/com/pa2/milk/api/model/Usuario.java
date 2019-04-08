@@ -14,11 +14,10 @@ import javax.validation.constraints.NotBlank;
 
 import org.hibernate.validator.constraints.br.CPF;
 
-import com.pa2.milk.api.model.enums.TipoPerfilUsuario;
+import com.pa2.milk.api.model.enums.EnumTipoPerfilUsuario;
 
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-//@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public abstract class Usuario extends AbstractModel<Integer> {
 
 	@Id
@@ -39,7 +38,7 @@ public abstract class Usuario extends AbstractModel<Integer> {
 
 	@Enumerated(EnumType.STRING)
 	@Column(name = "perfil", nullable = false)
-	private TipoPerfilUsuario tipoPerfilUsuario;
+	private EnumTipoPerfilUsuario tipoPerfilUsuario;
 
 	@Override
 	public Integer getId() {
@@ -75,11 +74,11 @@ public abstract class Usuario extends AbstractModel<Integer> {
 		this.cpf = cpf;
 	}
 
-	public TipoPerfilUsuario getTipoPerfilUsuario() {
+	public EnumTipoPerfilUsuario getTipoPerfilUsuario() {
 		return tipoPerfilUsuario;
 	}
 
-	public void setTipoPerfilUsuario(TipoPerfilUsuario tipoPerfilUsuario) {
+	public void setTipoPerfilUsuario(EnumTipoPerfilUsuario tipoPerfilUsuario) {
 		this.tipoPerfilUsuario = tipoPerfilUsuario;
 	}
 }

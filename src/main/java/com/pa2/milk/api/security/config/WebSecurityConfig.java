@@ -60,15 +60,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity httpSecurity) throws Exception {
-		httpSecurity.cors().configurationSource(request -> new CorsConfiguration().applyPermitDefaultValues())
-				.and().csrf().disable().exceptionHandling().authenticationEntryPoint(unauthorizedHandle).and()
+		httpSecurity.cors().configurationSource(request -> new CorsConfiguration().applyPermitDefaultValues()).and()
+				.csrf().disable().exceptionHandling().authenticationEntryPoint(unauthorizedHandle).and()
 				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().authorizeRequests()
 				.antMatchers("/autenticacao/**", "/v2/api-docs", "/swagger-resources/**", "/configuration/security",
 						"/swagger-ui.html", "/webjars/**")
 				.permitAll().anyRequest().authenticated();
 		httpSecurity.addFilterBefore(authenticationTokenFilterBean(), UsernamePasswordAuthenticationFilter.class);
 		httpSecurity.headers().cacheControl();
-		
+
 	}
 
 	@Bean(name = BeanIds.AUTHENTICATION_MANAGER)

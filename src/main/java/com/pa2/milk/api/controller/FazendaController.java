@@ -25,8 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.pa2.milk.api.helper.Response;
 import com.pa2.milk.api.model.Cliente;
 import com.pa2.milk.api.model.Fazenda;
-import com.pa2.milk.api.model.dto.CadastroFazendaDto;
-import com.pa2.milk.api.model.enums.TipoPerfilUsuario;
+import com.pa2.milk.api.model.enums.EnumTipoPerfilUsuario;
 import com.pa2.milk.api.service.ClienteService;
 import com.pa2.milk.api.service.FazendaService;
 
@@ -58,7 +57,7 @@ public class FazendaController {
 
 		validarDadosExistentes(fazenda, result);
 
-		Cliente c = this.clienteService.buscarPorTipoPerfilUsuarioandID(TipoPerfilUsuario.ROLE_CLIENTE, clienteId);
+		Cliente c = this.clienteService.buscarPorTipoPerfilUsuarioandID(EnumTipoPerfilUsuario.ROLE_CLIENTE, clienteId);
 
 		Fazenda f = fazenda;
 
