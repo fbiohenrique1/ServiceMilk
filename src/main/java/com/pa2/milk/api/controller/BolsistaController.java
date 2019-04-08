@@ -1,12 +1,224 @@
 package com.pa2.milk.api.controller;
 
+import java.security.NoSuchAlgorithmException;
+import java.util.List;
+import java.util.Optional;
+
+import javax.validation.Valid;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.pa2.milk.api.helper.PasswordUtils;
+import com.pa2.milk.api.helper.Response;
+import com.pa2.milk.api.model.Bolsista;
+import com.pa2.milk.api.model.Credencial;
+import com.pa2.milk.api.model.Usuario;
+import com.pa2.milk.api.model.dto.CadastroClienteDto;
+import com.pa2.milk.api.model.enums.EnumTipoPerfilUsuario;
+import com.pa2.milk.api.repository.BolsistaRepository;
+import com.pa2.milk.api.service.BolsistaService;
+import com.pa2.milk.api.service.CredencialService;
 
 @RestController
 @RequestMapping(value = "/bolsista")
 @CrossOrigin(origins = "*")
 public class BolsistaController {
+	private static final Logger log = LoggerFactory.getLogger(BolsistaController.class);
+	
+	@Autowired
+	private BolsistaService bolsistaService;
+	
+	@Autowired
+	private CredencialService credencialService;
+	
+	@Autowired
+	private BolsistaRepository bolsistaRepository;
+	
+	@PostMapping
+	public ResponseEntity<Response<CadastroClienteDto>> cadastrarBolsista(
+			@Valid @RequestBody CadastroClienteDto clienteDto, BindingResult result) throws NoSuchAlgorithmException {
 
+		log.info("Cadastrando Bolsista:{}", clienteDto.toString());
+
+		Response<CadastroClienteDto> response = new Response<CadastroClienteDto>();
+
+		validarDadosExistentes(clienteDto, result);
+
+		Bolsista bolsista = this.converterDtoParaBolsista(clienteDto);
+
+		Credencial credencial = this.converterDtoParaCredencial(clienteDto, result);
+
+		if (result.hasErrors()) {
+
+			log.error("Erro validando dados do cadastro Bolsista: {}", result.getAllErrors());
+
+			result.getAllErrors().forEach(error -> response.getErros().add(error.getDefaultMessage()));
+			return ResponseEntity.badRequest().body(response);
+		}
+
+		this.bolsistaService.salvar(bolsista);
+		credencial.setUsuario(bolsista);
+		this.credencialService.salvar(credencial);
+
+		response.setData2(this.converterCadastroClienteDto(credencial));
+
+		return ResponseEntity.ok(response);
+	}
+	
+	@GetMapping(value = "{id}")
+	public ResponseEntity<Response<Bolsista>> buscarBolsistaPorId(@PathVariable("id") Integer id) {
+
+		log.info("Buscar Bolsista por Id");
+
+		Response<Bolsista> response = new Response<Bolsista>();
+
+		Bolsista bolsista = this.bolsistaService.buscarPorTipoPerfilUsuarioandID(EnumTipoPerfilUsuario.ROLE_BOLSISTA, id);
+
+		response.setData(Optional.ofNullable(bolsista));
+
+		verificarResposta(response);
+
+		return ResponseEntity.ok(response);
+	}
+
+	@PutMapping(value = "{id}")
+	public ResponseEntity<Response<Bolsista>> atualizarBolsista(@PathVariable("id") Integer id,
+			@Valid @RequestBody Bolsista bolsista, BindingResult result) throws NoSuchAlgorithmException {
+
+		log.info("Atualizando o Bolsista:{}", bolsista.toString());
+
+		Response<Bolsista> response = new Response<Bolsista>();
+
+		Bolsista bolsista1 = this.bolsistaService.buscarPorTipoPerfilUsuarioandID(EnumTipoPerfilUsuario.ROLE_BOLSISTA, id);
+
+		response.setData(Optional.ofNullable(bolsista1));
+
+		verificarResposta(response);
+
+		this.atualizarDadosBolsista(bolsista1, bolsista, result);
+
+		if (result.hasErrors()) {
+			log.error("Erro validando lancamento:{}", result.getAllErrors());
+
+			result.getAllErrors().forEach(error -> response.getErros().add(error.getDefaultMessage()));
+
+			return ResponseEntity.badRequest().body(response);
+		}
+
+		this.bolsistaService.salvar(bolsista1);
+
+		return ResponseEntity.ok(response);
+
+	}
+	
+	private Bolsista converterDtoParaBolsista(CadastroClienteDto clienteDto) {
+
+		Usuario bol = new Bolsista();
+		bol.setCpf(clienteDto.getCpf());
+		bol.setEmail(clienteDto.getEmail());
+		bol.setNome(clienteDto.getNome());
+		bol.setCodigoTipoPerfilUsuario(EnumTipoPerfilUsuario.ROLE_BOLSISTA);
+		return (Bolsista) bol;
+	}
+	
+	private void validarDadosExistentes(CadastroClienteDto clienteDto, BindingResult result) {
+
+		this.bolsistaService.buscarPorCpf(clienteDto.getCpf())
+				.ifPresent(cli -> result.addError(new ObjectError("bolsista", "Bolsista já existente")));
+
+		this.credencialService.buscarPorUsername(clienteDto.getUsername())
+				.ifPresent(cre -> result.addError(new ObjectError("credencial", "Credencial já existente")));
+
+	}
+	
+	private Credencial converterDtoParaCredencial(CadastroClienteDto clienteDto, BindingResult result)
+			throws NoSuchAlgorithmException {
+
+		Credencial cre = new Credencial();
+		cre.setUsername(clienteDto.getUsername());
+		cre.setSenha(PasswordUtils.gerarBCrypt(clienteDto.getSenha()));
+		return cre;
+	}
+	
+	private CadastroClienteDto converterCadastroClienteDto(Credencial credencial) {
+		CadastroClienteDto clienteDto = new CadastroClienteDto();
+
+		clienteDto.setId(credencial.getId());
+		clienteDto.setUsername(credencial.getUsername());
+		clienteDto.setEmail(credencial.getUsuario().getEmail());
+		clienteDto.setCpf(credencial.getUsuario().getCpf());
+		clienteDto.setNome(credencial.getUsuario().getNome());
+		return clienteDto;
+	}
+	
+	@GetMapping
+	public List<Bolsista> listarBolsistas(){
+		List<Bolsista> bolsista = this.bolsistaRepository.findByCodigoTipoPerfilUsuario(EnumTipoPerfilUsuario.ROLE_BOLSISTA.getCodigo());
+		return bolsista;
+	}
+	
+	private void atualizarDadosBolsista(Bolsista bolsista, Bolsista bolsista2, BindingResult result)
+			throws NoSuchAlgorithmException {
+
+		bolsista.setNome(bolsista2.getNome());
+
+		if (!bolsista.getEmail().equals(bolsista2.getEmail())) {
+
+			this.bolsistaService.buscarPorEmail(bolsista2.getEmail())
+					.ifPresent(clien -> result.addError(new ObjectError("email", "Email já exitente.")));
+			bolsista.setEmail(bolsista2.getEmail());
+		}
+
+		if (!bolsista.getCpf().equals(bolsista2.getCpf())) {
+
+			this.bolsistaService.buscarPorCpf(bolsista2.getCpf())
+					.ifPresent(clien -> result.addError(new ObjectError("cpf", "CPF já existente.")));
+			bolsista.setCpf(bolsista2.getCpf());
+		}
+
+	}
+		
+	@DeleteMapping(value = "{id}")
+	public ResponseEntity<Response<Bolsista>> deletarBolsista(@PathVariable("id") Integer id) {
+
+		log.info("Removendo Bolsista: {}", id);
+
+		Response<Bolsista> response = new Response<Bolsista>();
+
+		Bolsista bolsista = this.bolsistaService.buscarPorTipoPerfilUsuarioandID(EnumTipoPerfilUsuario.ROLE_BOLSISTA, id);
+
+		response.setData(Optional.ofNullable(bolsista));
+
+		verificarResposta(response);
+
+		this.bolsistaService.remover(id);
+
+		return ResponseEntity.ok(response);
+	}
+		
+	private void verificarResposta(Response<Bolsista> response) {
+		if (!response.getData().isPresent()) {
+			log.info("Bolsista não encontrado");
+
+			response.getErros().add("Bolsista não encontrado");
+
+			ResponseEntity.badRequest().body(response);
+		}
+	}
+	
+	
 }

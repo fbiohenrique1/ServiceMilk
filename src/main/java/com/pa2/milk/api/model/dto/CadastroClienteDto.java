@@ -25,7 +25,7 @@ public class CadastroClienteDto {
 	@CPF(message = "CPF inválido.")
 	private String cpf;
 
-	@NotEmpty(message = "Telefones não pode ser vazio.")
+	//@NotEmpty(message = "Telefones não pode ser vazio.")
 	private List<String> telefones;
 
 	@NotEmpty(message = "Username não pode ser vazio.")
