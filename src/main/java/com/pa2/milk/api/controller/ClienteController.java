@@ -49,13 +49,11 @@ public class ClienteController {
 	private CredencialService credencialService;
 
 	@Autowired
-	private ClienteRepository usuarioRepository;
-	
-	
+	private ClienteRepository clienteRepository;
 
 	@GetMapping
 	public List<Cliente> listarClientes() {
-		List<Cliente> clientes = this.usuarioRepository.findByCodigoTipoPerfilUsuario(EnumTipoPerfilUsuario.ROLE_CLIENTE.getCodigo());
+		List<Cliente> clientes = this.clienteRepository.findByCodigoTipoPerfilUsuario(EnumTipoPerfilUsuario.ROLE_CLIENTE.getCodigo());
 		return clientes;
 	}
 
@@ -67,9 +65,9 @@ public class ClienteController {
 
 		Response<CadastroClienteDto> response = new Response<CadastroClienteDto>();
 
-		validarDadosExistentes(clienteDto, result); 
+		validarDadosExistentes(clienteDto, result);
 
-		Cliente cliente = this.converterDtoParaCliente(clienteDto); 
+		Cliente cliente = this.converterDtoParaCliente(clienteDto);
 
 		Credencial credencial = this.converterDtoParaCredencial(clienteDto, result);
 

@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.pa2.milk.api.helper.Response;
 import com.pa2.milk.api.model.Cliente;
 import com.pa2.milk.api.model.Fazenda;
+import com.pa2.milk.api.model.dto.FazendaDto;
 import com.pa2.milk.api.model.enums.EnumTipoPerfilUsuario;
 import com.pa2.milk.api.service.ClienteService;
 import com.pa2.milk.api.service.FazendaService;
@@ -89,6 +90,22 @@ public class FazendaController {
 
 		return ResponseEntity.ok(response);
 	}
+	
+//	@GetMapping(value = "{id}/cliente")
+//	public ResponseEntity<Response<Fazenda>> buscarFazendaClientePorId(@PathVariable("clienteId") Integer clienteId) {
+//
+//		log.info("Buscar Fazenda por Id do Cliente");
+//
+//		Response<FazendaDto> response = new Response<FazendaDto>();
+//
+//		List<Fazenda> farm = this.fazendaService.buscarFazendaClienteId(clienteId);
+//
+//		response.setData2(farm);
+//
+////		verificarResposta(response);
+//
+//		return ResponseEntity.ok(response);
+//	}
 
 	@PutMapping(value = "{id}")
 	public ResponseEntity<Response<Fazenda>> atualizarFazenda(@PathVariable("id") Integer id,
