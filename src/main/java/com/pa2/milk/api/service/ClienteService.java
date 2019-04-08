@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.pa2.milk.api.model.Cliente;
-import com.pa2.milk.api.model.Usuario;
 import com.pa2.milk.api.model.enums.EnumTipoPerfilUsuario;
 import com.pa2.milk.api.repository.ClienteRepository;
 
@@ -57,9 +56,9 @@ public class ClienteService {
 		return this.clienteRepository.findAll();
 	}
 	
-	public Optional<Cliente> buscarPorTipoPerfilUsuario(EnumTipoPerfilUsuario tipoPerfilUsuario) {
+	public List<Cliente> buscarPorTipoPerfilUsuario(EnumTipoPerfilUsuario tipoPerfilUsuario) {
 		log.info("Buscando usuario pelo tipoPerfilUsuario: {}", tipoPerfilUsuario);
-		return Optional.ofNullable(this.clienteRepository.findByCodigoTipoPerfilUsuario(tipoPerfilUsuario));
+		return this.clienteRepository.findByCodigoTipoPerfilUsuario(tipoPerfilUsuario.getCodigo());
 	}
 
 

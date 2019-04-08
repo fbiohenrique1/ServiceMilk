@@ -1,5 +1,7 @@
 package com.pa2.milk.api.repository;
 
+import java.util.List;
+
 import org.springframework.stereotype.Repository;
 
 import com.pa2.milk.api.model.Cliente;
@@ -14,7 +16,7 @@ public interface ClienteRepository extends GenericRepository<Cliente, Integer> {
 
 	Cliente findByCpfOrEmail(String cpf, String email);
 
-	Cliente findByCodigoTipoPerfilUsuario(EnumTipoPerfilUsuario perfil);
+	List<Cliente> findByCodigoTipoPerfilUsuario(Integer perfil);
 
 	Cliente findByCodigoTipoPerfilUsuarioAndId(EnumTipoPerfilUsuario perfil, Integer id);
 }

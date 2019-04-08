@@ -30,6 +30,7 @@ import com.pa2.milk.api.model.Credencial;
 import com.pa2.milk.api.model.Usuario;
 import com.pa2.milk.api.model.dto.CadastroClienteDto;
 import com.pa2.milk.api.model.enums.EnumTipoPerfilUsuario;
+import com.pa2.milk.api.repository.ClienteRepository;
 import com.pa2.milk.api.repository.UsuarioRepository;
 import com.pa2.milk.api.service.ClienteService;
 import com.pa2.milk.api.service.CredencialService;
@@ -48,12 +49,13 @@ public class ClienteController {
 	private CredencialService credencialService;
 
 	@Autowired
-	private UsuarioRepository usuarioRepository;
+	private ClienteRepository usuarioRepository;
+	
+	
 
 	@GetMapping
 	public List<Cliente> listarClientes() {
-		List<Cliente> clientes = new ArrayList<Cliente>();
-		clientes.add((Cliente) this.usuarioRepository.findByCodigoTipoPerfilUsuario(EnumTipoPerfilUsuario.ROLE_CLIENTE));
+		List<Cliente> clientes = this.usuarioRepository.findByCodigoTipoPerfilUsuario(EnumTipoPerfilUsuario.ROLE_CLIENTE.getCodigo());
 		return clientes;
 	}
 

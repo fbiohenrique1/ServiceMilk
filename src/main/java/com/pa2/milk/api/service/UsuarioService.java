@@ -27,7 +27,7 @@ public class UsuarioService {
 	
 	public Optional<Usuario> buscarPorTipoPerfilUsuario(EnumTipoPerfilUsuario tipoPerfilUsuario) {
 		log.info("Buscando usuario pelo tipoPerfilUsuario: {}", tipoPerfilUsuario);
-		return Optional.ofNullable(this.usuarioRepositorio.findByCodigoTipoPerfilUsuario(tipoPerfilUsuario));
+		return Optional.ofNullable(this.usuarioRepositorio.findByCodigoTipoPerfilUsuario(tipoPerfilUsuario.getCodigo()));
 	}
 
 
