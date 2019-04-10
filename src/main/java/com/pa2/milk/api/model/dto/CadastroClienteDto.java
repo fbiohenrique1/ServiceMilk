@@ -22,7 +22,7 @@ public class CadastroClienteDto {
 	private String nome;
 
 	@NotEmpty(message = "CPF não pode ser vazio.")
-	@CPF(message = "CPF inválido.")
+	//@CPF(message = "CPF inválido.")
 	private String cpf;
 
 	//@NotEmpty(message = "Telefones não pode ser vazio.")
