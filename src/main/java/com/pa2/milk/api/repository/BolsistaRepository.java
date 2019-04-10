@@ -15,6 +15,6 @@ public interface BolsistaRepository extends GenericRepository<Bolsista, Integer>
 	
 	List<Bolsista> findByCodigoTipoPerfilUsuario(Integer perfil);
 
-	Bolsista findByCodigoTipoPerfilUsuarioAndId(EnumTipoPerfilUsuario perfil, Integer id);
+	Bolsista findByCodigoTipoPerfilUsuarioAndId(Integer perfil, Integer id);
 
 }

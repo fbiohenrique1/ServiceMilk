@@ -64,7 +64,7 @@ public class ClienteService {
 
 	public Cliente buscarPorTipoPerfilUsuarioandID(EnumTipoPerfilUsuario tipoPerfilUsuario, Integer id) {
 		log.info("Buscando usuario pelo tipoPerfilUsuario: {}", tipoPerfilUsuario);
-		return this.clienteRepository.findByCodigoTipoPerfilUsuarioAndId(tipoPerfilUsuario, id);
+		return this.clienteRepository.findByCodigoTipoPerfilUsuarioAndId(tipoPerfilUsuario.getCodigo(), id);
 	}
 
 	

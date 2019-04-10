@@ -18,5 +18,5 @@ public interface ClienteRepository extends GenericRepository<Cliente, Integer> {
 
 	List<Cliente> findByCodigoTipoPerfilUsuario(Integer perfil);
 
-	Cliente findByCodigoTipoPerfilUsuarioAndId(EnumTipoPerfilUsuario perfil, Integer id);
+	Cliente findByCodigoTipoPerfilUsuarioAndId(Integer perfil, Integer id);
 }
