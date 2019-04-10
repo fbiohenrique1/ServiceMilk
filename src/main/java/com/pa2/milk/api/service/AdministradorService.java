@@ -1,8 +1,16 @@
 package com.pa2.milk.api.service;
 
+import java.util.Optional;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.pa2.milk.api.model.Administrador;
+import com.pa2.milk.api.model.enums.EnumTipoPerfilUsuario;
+import com.pa2.milk.api.repository.AdministradorRepository;
+
 
 @Service
 public class AdministradorService {
