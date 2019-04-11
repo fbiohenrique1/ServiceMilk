@@ -1,7 +1,6 @@
 package com.pa2.milk.api.controller;
 
 import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -31,7 +30,6 @@ import com.pa2.milk.api.model.Usuario;
 import com.pa2.milk.api.model.dto.CadastroClienteDto;
 import com.pa2.milk.api.model.enums.EnumTipoPerfilUsuario;
 import com.pa2.milk.api.repository.ClienteRepository;
-import com.pa2.milk.api.repository.UsuarioRepository;
 import com.pa2.milk.api.service.ClienteService;
 import com.pa2.milk.api.service.CredencialService;
 
@@ -53,7 +51,8 @@ public class ClienteController {
 
 	@GetMapping
 	public List<Cliente> listarClientes() {
-		List<Cliente> clientes = this.clienteRepository.findByCodigoTipoPerfilUsuario(EnumTipoPerfilUsuario.ROLE_CLIENTE.getCodigo());
+		List<Cliente> clientes = this.clienteRepository
+				.findByCodigoTipoPerfilUsuario(EnumTipoPerfilUsuario.ROLE_CLIENTE.getCodigo());
 		return clientes;
 	}
 

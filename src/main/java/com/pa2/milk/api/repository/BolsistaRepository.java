@@ -3,7 +3,6 @@ package com.pa2.milk.api.repository;
 import java.util.List;
 
 import com.pa2.milk.api.model.Bolsista;
-import com.pa2.milk.api.model.enums.EnumTipoPerfilUsuario;
 
 public interface BolsistaRepository extends GenericRepository<Bolsista, Integer> {
 

@@ -5,7 +5,6 @@ import java.util.List;
 import org.springframework.stereotype.Repository;
 
 import com.pa2.milk.api.model.Cliente;
-import com.pa2.milk.api.model.enums.EnumTipoPerfilUsuario;
 
 @Repository
 public interface ClienteRepository extends GenericRepository<Cliente, Integer> {

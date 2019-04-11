@@ -2,8 +2,6 @@ package com.pa2.milk.api.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -11,8 +9,6 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
-
-import org.hibernate.validator.constraints.br.CPF;
 
 import com.pa2.milk.api.model.enums.EnumTipoPerfilUsuario;
 
@@ -31,7 +27,7 @@ public abstract class Usuario extends AbstractModel<Integer> {
 	@NotBlank(message = "O campo nome não pode ser nulo.")
 	private String nome;
 
-	@CPF(message = "O campo CPF é inválido.")
+	//@CPF(message = "O campo CPF é inválido.")
 	@NotBlank(message = "O campo CPF não pode ser nulo.")
 	@Column(unique = true, length = 16)
 	private String cpf;

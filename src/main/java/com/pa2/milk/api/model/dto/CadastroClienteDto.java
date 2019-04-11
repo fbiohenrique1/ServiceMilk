@@ -5,33 +5,28 @@ import java.util.List;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 
-import org.hibernate.validator.constraints.Length;
-import org.hibernate.validator.constraints.br.CPF;
-
 public class CadastroClienteDto {
 
 	private Integer id;
 
-	@NotEmpty(message = "Email não pode ser vazio.")
-	@Length(min = 5, max = 200, message = "Email deve conter entre 5 e 200 caracteres.")
-	@Email(message = "Email inválido.")
+	@NotEmpty(message = "O campo email não pode ser nulo.")
+	@Email(message = "O campo email é inválido.")
 	private String email;
 
-	@NotEmpty(message = "Nome não pode ser vazio.")
-	@Length(min = 5, max = 30, message = "Nome deve conter entre 5 e 30 caracteres.")
+	@NotEmpty(message = "O campo nome não pode ser nulo.")
 	private String nome;
 
-	@NotEmpty(message = "CPF não pode ser vazio.")
+	@NotEmpty(message = "O campo CPF não pode ser nulo.")
 	//@CPF(message = "CPF inválido.")
 	private String cpf;
 
-	//@NotEmpty(message = "Telefones não pode ser vazio.")
+	//@NotEmpty(message = "O campo telefone não pode ser nulo.")
 	private List<String> telefones;
 
-	@NotEmpty(message = "Username não pode ser vazio.")
+	@NotEmpty(message = "O campo username não pode ser nulo.")
 	private String username;
 
-	@NotEmpty(message = "Senha não pode ser vazio.")
+	@NotEmpty(message = "O campo senha não pode ser nulo.")
 	private String senha;
 
 	public Integer getId() {

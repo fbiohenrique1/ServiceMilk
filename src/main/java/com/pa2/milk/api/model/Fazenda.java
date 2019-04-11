@@ -10,8 +10,6 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
-import org.hibernate.validator.constraints.br.CNPJ;
-
 @Entity
 @Table
 public class Fazenda extends AbstractModel<Integer> {
@@ -25,7 +23,7 @@ public class Fazenda extends AbstractModel<Integer> {
 	@NotBlank (message = "O campo imagem não pode ser nulo.")
 	private String imagem;
 
-	@CNPJ(message = "O campo CNPJ é invalido")
+	//@CNPJ(message = "O campo CNPJ é invalido")
 	@NotBlank(message = "O campo CNPJ não pode ser nulo.")
 	private String cnpj;
 
