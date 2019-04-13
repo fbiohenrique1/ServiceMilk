@@ -67,6 +67,5 @@ public class ClienteService {
 		return this.clienteRepository.findByCodigoTipoPerfilUsuarioAndId(tipoPerfilUsuario.getCodigo(), id);
 	}
 
-	
 
 }
