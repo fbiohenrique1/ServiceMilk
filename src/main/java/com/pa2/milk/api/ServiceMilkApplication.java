@@ -121,7 +121,7 @@ public class ServiceMilkApplication {
 //			fazenda.setBairro("bairro");
 //			fazenda.setCep("cep");
 //			fazenda.setCidade("cidade");
-//			fazenda.setCnpj("84.339.157/0001-36");
+//			fazenda.setCnpj("84339157000136");
 //			fazenda.setEndereco("endereco");
 //			fazenda.setNumero(211);
 //			fazenda.setImagem("iamgem");
@@ -133,7 +133,7 @@ public class ServiceMilkApplication {
 //			fazenda1.setBairro("bairro2");
 //			fazenda1.setCep("cep2");
 //			fazenda1.setCidade("cidade2");
-//			fazenda1.setCnpj("87.996.280/0001-18");
+//			fazenda1.setCnpj("87996280000118");
 //			fazenda1.setEndereco("endereco2");
 //			fazenda1.setNumero(2112);
 //			fazenda1.setImagem("iamgem2");

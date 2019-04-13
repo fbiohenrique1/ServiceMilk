@@ -7,14 +7,13 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.pa2.milk.api.model.Analise;
-import com.pa2.milk.api.model.Cliente;
 import com.pa2.milk.api.model.Fazenda;
 import com.pa2.milk.api.model.Solicitacao;
 import com.pa2.milk.api.model.enums.EnumStatusSolicitacao;
-import com.pa2.milk.api.repository.ClienteRepository;
 import com.pa2.milk.api.repository.FazendaRepository;
 import com.pa2.milk.api.repository.SolicitacaoRepository;
+
+import javassist.NotFoundException;
 
 @Service
 public class SolicitacaoService {
@@ -25,16 +24,16 @@ public class SolicitacaoService {
 	private SolicitacaoRepository solicitacaoRepository;
 
 	@Autowired
-	private ClienteRepository clienteRepository;
-	
 	private FazendaRepository fazendaRepository;
 
-	private Cliente cliente;
+	public void salvarSolicitacao(String cnpj) throws NotFoundException {
+		Fazenda fazenda = fazendaRepository.findByCnpj(cnpj);
 
-	private Solicitacao solicitacao;
-
-	public void salvarSolicitacao(Fazenda fazenda) {
-		// TODO: stub para salvar solicitacao
+		if (fazenda == null) {
+			throw new NotFoundException("Não foi possível salvar a solicitação, dados incorretos!!!");
+		}
+		Solicitacao solicitacao = criarSolicitacao(fazenda);
+		solicitacaoRepository.save(solicitacao);
 	}
 
 	public void adicionarAnalise() {
@@ -45,18 +44,16 @@ public class SolicitacaoService {
 		// TODO: stub para add analise
 	}
 
-	private boolean existeFazenda(Fazenda fazenda) {
-		return cliente.getListaFazenda().contains(fazenda);
+	private Solicitacao criarSolicitacao(Fazenda fazenda) {
+		Solicitacao solicitacao = new Solicitacao();
+		solicitacao.setCliente(fazenda.getCliente());
+		solicitacao.setFazenda(fazenda);
+		solicitacao.setStatus(EnumStatusSolicitacao.PENDENTE);
+		return solicitacao;
 	}
 
-	private Solicitacao criarSolicitacao(Fazenda fazenda) {
-		if (existeFazenda(fazenda)) {
-			Solicitacao solicitacao = new Solicitacao();
-			solicitacao.setCliente(cliente);
-			solicitacao.setFazenda(fazenda);
-			EnumStatusSolicitacao enums = EnumStatusSolicitacao.porCodigo(1);
-		}
-		return solicitacao;
+	public Optional<Solicitacao> buscarSolicitacaoPorId(Integer id) {
+		return solicitacaoRepository.findById(id);
 	}
 
 }
