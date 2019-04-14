@@ -134,19 +134,23 @@ public class ClienteController {
 	}
 
 	@DeleteMapping(value = "{id}")
-	public ResponseEntity<Response<Cliente>> deletarCliente(@PathVariable("id") Integer id) {
+	public ResponseEntity<Response<Credencial>> deletarCliente(@PathVariable("id") Integer id) {
 
 		log.info("Removendo Cliente: {}", id);
 
-		Response<Cliente> response = new Response<Cliente>();
+		Response<Credencial> response = new Response<Credencial>();
 
-		Cliente cliente = this.clienteService.buscarPorTipoPerfilUsuarioandID(EnumTipoPerfilUsuario.ROLE_CLIENTE, id);
+		Credencial credencial = this.credencialService.buscarPorId(id);
+        
+		response.setData(Optional.ofNullable(credencial));
 
-		response.setData(Optional.ofNullable(cliente));
+		if (!response.getData().isPresent()) {
+			log.info("Credencial não encontrada");
+			response.getErros().add("Credencial não encontrada");
+			ResponseEntity.badRequest().body(response);
+		}
 
-		verificarResposta(response);
-
-		this.clienteService.remover(id);
+		this.credencialService.remover(credencial);
 
 		return ResponseEntity.ok(response);
 	}
