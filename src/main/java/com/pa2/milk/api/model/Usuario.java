@@ -27,13 +27,25 @@ public abstract class Usuario extends AbstractModel<Integer> {
 	@NotBlank(message = "O campo nome não pode ser nulo.")
 	private String nome;
 
-	//@CPF(message = "O campo CPF é inválido.")
+	// @CPF(message = "O campo CPF é inválido.")
 	@NotBlank(message = "O campo CPF não pode ser nulo.")
 	@Column(unique = true, length = 16)
 	private String cpf;
 
 	@Column(name = "perfil", nullable = false)
 	private Integer codigoTipoPerfilUsuario;
+
+	public Usuario() {
+		super();
+	}
+
+	public Usuario(String email, String nome, String cpf, Integer codigoTipoPerfilUsuario) {
+		super();
+		this.email = email;
+		this.nome = nome;
+		this.cpf = cpf;
+		this.codigoTipoPerfilUsuario = codigoTipoPerfilUsuario;
+	}
 
 	@Override
 	public Integer getId() {
