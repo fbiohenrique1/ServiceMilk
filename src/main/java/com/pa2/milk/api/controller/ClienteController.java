@@ -30,6 +30,7 @@ import com.pa2.milk.api.model.Usuario;
 import com.pa2.milk.api.model.dto.CadastroClienteDto;
 import com.pa2.milk.api.model.enums.EnumTipoPerfilUsuario;
 import com.pa2.milk.api.repository.ClienteRepository;
+import com.pa2.milk.api.repository.CredencialRepository;
 import com.pa2.milk.api.service.ClienteService;
 import com.pa2.milk.api.service.CredencialService;
 
@@ -49,6 +50,9 @@ public class ClienteController {
 	@Autowired
 	private ClienteRepository clienteRepository;
 
+	@Autowired
+	private CredencialRepository credencialRepository;
+	
 	@GetMapping
 	public List<Cliente> listarClientes() {
 		List<Cliente> clientes = this.clienteRepository
@@ -150,7 +154,8 @@ public class ClienteController {
 			ResponseEntity.badRequest().body(response);
 		}
 
-		this.credencialService.remover(credencial);
+		this.clienteService.remover(EnumTipoPerfilUsuario.ROLE_CLIENTE, credencial.getUsuario().getId());
+		this.credencialRepository.deleteById(credencial.getId());
 
 		return ResponseEntity.ok(response);
 	}

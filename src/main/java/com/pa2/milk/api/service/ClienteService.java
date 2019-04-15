@@ -7,11 +7,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.pa2.milk.api.model.Cliente;
 import com.pa2.milk.api.model.enums.EnumTipoPerfilUsuario;
 import com.pa2.milk.api.repository.ClienteRepository;
 
+@Transactional
 @Service
 public class ClienteService {
 
@@ -46,9 +48,9 @@ public class ClienteService {
 		return Optional.ofNullable(this.clienteRepository.findByEmail(email));
 	}
 
-	public void remover(Integer id) {
+	public void remover(EnumTipoPerfilUsuario tipoPerfilUsuario,Integer id) {
 		log.info("Removendo Cliente pelo Id: {}", id);
-		this.clienteRepository.deleteById(id);
+		this.clienteRepository.deleteByCodigoTipoPerfilUsuarioAndId(tipoPerfilUsuario.getCodigo(), id);;
 	}
 
 	public List<Cliente> listarClientes() {

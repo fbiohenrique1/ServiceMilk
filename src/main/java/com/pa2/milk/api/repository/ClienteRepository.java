@@ -18,4 +18,6 @@ public interface ClienteRepository extends GenericRepository<Cliente, Integer> {
 	List<Cliente> findByCodigoTipoPerfilUsuario(Integer perfil);
 
 	Cliente findByCodigoTipoPerfilUsuarioAndId(Integer perfil, Integer id);
+	
+	void deleteByCodigoTipoPerfilUsuarioAndId(Integer perfil, Integer id);
 }
