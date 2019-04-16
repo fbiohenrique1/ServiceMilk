@@ -52,7 +52,7 @@ public class ClienteController {
 
 	@Autowired
 	private CredencialRepository credencialRepository;
-	
+
 	@GetMapping
 	public List<Cliente> listarClientes() {
 		List<Cliente> clientes = this.clienteRepository
@@ -108,31 +108,32 @@ public class ClienteController {
 	}
 
 	@PutMapping(value = "{id}")
-	public ResponseEntity<Response<Cliente>> atualizarCliente(@PathVariable("id") Integer id,
-			@Valid @RequestBody Cliente cliente, BindingResult result) throws NoSuchAlgorithmException {
+	public ResponseEntity<Response<CadastroClienteDto>> atualizarCliente(@PathVariable("id") Integer id,
+			@Valid @RequestBody CadastroClienteDto clienteDto, BindingResult result) throws NoSuchAlgorithmException {
 
-		log.info("Atualizando o Cliente:{}", cliente.toString());
+		log.info("Atualizando o Cliente:{}", clienteDto.toString());
 
-		Response<Cliente> response = new Response<Cliente>();
+		Response<CadastroClienteDto> response = new Response<CadastroClienteDto>();
 
-		Cliente cliente1 = this.clienteService.buscarPorTipoPerfilUsuarioandID(EnumTipoPerfilUsuario.ROLE_CLIENTE, id);
+		Optional<Credencial> credencial = this.credencialService.buscarPorId(id);
 
-		response.setData(Optional.ofNullable(cliente1));
+		if (!credencial.isPresent()) {
+			result.addError(new ObjectError("credencial", "Credencial não encontrada."));
+		}
 
-		verificarResposta(response);
-
-		this.atualizarDadosCliente(cliente1, cliente, result);
+		this.atualizarDadosCliente(credencial.get(), clienteDto, result);
 
 		if (result.hasErrors()) {
-			log.error("Erro validando lancamento:{}", result.getAllErrors());
+			log.error("Erro validando a Credencial:{}", result.getAllErrors());
 
 			result.getAllErrors().forEach(error -> response.getErros().add(error.getDefaultMessage()));
 
 			return ResponseEntity.badRequest().body(response);
 		}
 
-		this.clienteService.salvar(cliente1);
-
+		this.credencialService.salvar(credencial.get());
+		response.setData2(this.converterCadastroClienteDto(credencial.get()));
+		
 		return ResponseEntity.ok(response);
 
 	}
@@ -144,9 +145,9 @@ public class ClienteController {
 
 		Response<Credencial> response = new Response<Credencial>();
 
-		Credencial credencial = this.credencialService.buscarPorId(id);
-        
-		response.setData(Optional.ofNullable(credencial));
+		Optional<Credencial> credencial = this.credencialService.buscarPorId(id);
+
+		response.setData(credencial);
 
 		if (!response.getData().isPresent()) {
 			log.info("Credencial não encontrada");
@@ -154,30 +155,40 @@ public class ClienteController {
 			ResponseEntity.badRequest().body(response);
 		}
 
-		this.clienteService.remover(EnumTipoPerfilUsuario.ROLE_CLIENTE, credencial.getUsuario().getId());
-		this.credencialRepository.deleteById(credencial.getId());
+		this.clienteService.remover(EnumTipoPerfilUsuario.ROLE_CLIENTE, credencial.get().getUsuario().getId());
+		this.credencialRepository.deleteById(credencial.get().getId());
 
 		return ResponseEntity.ok(response);
 	}
 
-	private void atualizarDadosCliente(Cliente cliente, Cliente cliente2, BindingResult result)
+	private void atualizarDadosCliente(Credencial credencial, CadastroClienteDto clienteDto, BindingResult result)
 			throws NoSuchAlgorithmException {
 
-		cliente.setNome(cliente2.getNome());
+		credencial.getUsuario().setNome(clienteDto.getNome());
+		
+		if (!credencial.getUsuario().getEmail().equals(clienteDto.getEmail())) {
 
-		if (!cliente.getEmail().equals(cliente2.getEmail())) {
-
-			this.clienteService.buscarPorEmail(cliente2.getEmail())
+			this.clienteService.buscarPorEmail(clienteDto.getEmail())
 					.ifPresent(clien -> result.addError(new ObjectError("email", "Email já exitente.")));
-			cliente.setEmail(cliente2.getEmail());
+			credencial.getUsuario().setEmail(clienteDto.getEmail());
 		}
 
-		if (!cliente.getCpf().equals(cliente2.getCpf())) {
+		if (!credencial.getUsuario().getCpf().equals(clienteDto.getCpf())) {
 
-			this.clienteService.buscarPorCpf(cliente2.getCpf())
+			this.clienteService.buscarPorCpf(clienteDto.getCpf())
 					.ifPresent(clien -> result.addError(new ObjectError("cpf", "CPF já existente.")));
-			cliente.setCpf(cliente2.getCpf());
+			credencial.getUsuario().setCpf(clienteDto.getCpf());
 		}
+		
+		if (!credencial.getUsername().equals(clienteDto.getUsername())) {
+
+			this.credencialService.buscarPorUsername(clienteDto.getUsername())
+					.ifPresent(crede -> result.addError(new ObjectError("username", "Username já existente.")));
+			credencial.setUsername(clienteDto.getUsername());
+		}
+		
+		credencial.setSenha(PasswordUtils.gerarBCrypt(clienteDto.getSenha()));
+		
 
 	}
 

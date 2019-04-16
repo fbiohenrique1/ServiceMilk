@@ -31,10 +31,9 @@ public class CredencialService {
 		credencialRepository.save(credencial);
 	}
 
-	public Credencial buscarPorId(Integer id) {
+	public Optional<Credencial> buscarPorId(Integer id) {
 		log.info("Buscando Credencial por ID ");
-		Optional<Credencial> objCredencial = credencialRepository.findById(id);
-		return objCredencial.orElse(null);
+		return this.credencialRepository.findById(id);
 	}
 	
 	public void remover(Credencial credencial) {
