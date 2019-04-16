@@ -30,6 +30,8 @@ import com.pa2.milk.api.model.Usuario;
 import com.pa2.milk.api.model.dto.CadastroClienteDto;
 import com.pa2.milk.api.model.enums.EnumTipoPerfilUsuario;
 import com.pa2.milk.api.repository.BolsistaRepository;
+import com.pa2.milk.api.repository.CredencialRepository;
+import com.pa2.milk.api.repository.UsuarioRepository;
 import com.pa2.milk.api.service.BolsistaService;
 import com.pa2.milk.api.service.CredencialService;
 
@@ -38,16 +40,22 @@ import com.pa2.milk.api.service.CredencialService;
 @CrossOrigin(origins = "*")
 public class BolsistaController {
 	private static final Logger log = LoggerFactory.getLogger(BolsistaController.class);
-	
+
 	@Autowired
 	private BolsistaService bolsistaService;
-	
+
 	@Autowired
 	private CredencialService credencialService;
-	
+
+	@Autowired
+	private CredencialRepository credencialRepository;
+
+	@Autowired
+	private UsuarioRepository usuarioRepository;
+
 	@Autowired
 	private BolsistaRepository bolsistaRepository;
-	
+
 	@PostMapping
 	public ResponseEntity<Response<CadastroClienteDto>> cadastrarBolsista(
 			@Valid @RequestBody CadastroClienteDto clienteDto, BindingResult result) throws NoSuchAlgorithmException {
@@ -78,7 +86,7 @@ public class BolsistaController {
 
 		return ResponseEntity.ok(response);
 	}
-	
+
 	@GetMapping(value = "{id}")
 	public ResponseEntity<Response<Bolsista>> buscarBolsistaPorId(@PathVariable("id") Integer id) {
 
@@ -86,7 +94,8 @@ public class BolsistaController {
 
 		Response<Bolsista> response = new Response<Bolsista>();
 
-		Bolsista bolsista = this.bolsistaService.buscarPorTipoPerfilUsuarioandID(EnumTipoPerfilUsuario.ROLE_BOLSISTA, id);
+		Bolsista bolsista = this.bolsistaService.buscarPorTipoPerfilUsuarioandID(EnumTipoPerfilUsuario.ROLE_BOLSISTA,
+				id);
 
 		response.setData(Optional.ofNullable(bolsista));
 
@@ -96,35 +105,36 @@ public class BolsistaController {
 	}
 
 	@PutMapping(value = "{id}")
-	public ResponseEntity<Response<Bolsista>> atualizarBolsista(@PathVariable("id") Integer id,
-			@Valid @RequestBody Bolsista bolsista, BindingResult result) throws NoSuchAlgorithmException {
+	public ResponseEntity<Response<CadastroClienteDto>> atualizarBolsista(@PathVariable("id") Integer id,
+			@Valid @RequestBody CadastroClienteDto bolsistaDto, BindingResult result) throws NoSuchAlgorithmException {
 
-		log.info("Atualizando o Bolsista:{}", bolsista.toString());
+		log.info("Atualizando o Bolsista:{}", bolsistaDto.toString());
 
-		Response<Bolsista> response = new Response<Bolsista>();
+		Response<CadastroClienteDto> response = new Response<CadastroClienteDto>();
 
-		Bolsista bolsista1 = this.bolsistaService.buscarPorTipoPerfilUsuarioandID(EnumTipoPerfilUsuario.ROLE_BOLSISTA, id);
+		Optional<Credencial> credencial = this.credencialService.buscarPorId(id);
 
-		response.setData(Optional.ofNullable(bolsista1));
+		if (!credencial.isPresent()) {
+			result.addError(new ObjectError("credencial", "Credencial não encontrada."));
+		}
 
-		verificarResposta(response);
-
-		this.atualizarDadosBolsista(bolsista1, bolsista, result);
+		this.atualizarDadosBolsista(credencial.get(), bolsistaDto, result);
 
 		if (result.hasErrors()) {
-			log.error("Erro validando lancamento:{}", result.getAllErrors());
+			log.error("Erro validando a Credencial:{}", result.getAllErrors());
 
 			result.getAllErrors().forEach(error -> response.getErros().add(error.getDefaultMessage()));
 
 			return ResponseEntity.badRequest().body(response);
 		}
 
-		this.bolsistaService.salvar(bolsista1);
+		this.credencialService.salvar(credencial.get());
+		response.setData2(this.converterCadastroClienteDto(credencial.get()));
 
 		return ResponseEntity.ok(response);
 
 	}
-	
+
 	private Bolsista converterDtoParaBolsista(CadastroClienteDto clienteDto) {
 
 		Usuario bol = new Bolsista();
@@ -134,7 +144,7 @@ public class BolsistaController {
 		bol.setCodigoTipoPerfilUsuario(EnumTipoPerfilUsuario.ROLE_BOLSISTA);
 		return (Bolsista) bol;
 	}
-	
+
 	private void validarDadosExistentes(CadastroClienteDto clienteDto, BindingResult result) {
 
 		this.bolsistaService.buscarPorCpf(clienteDto.getCpf())
@@ -144,7 +154,7 @@ public class BolsistaController {
 				.ifPresent(cre -> result.addError(new ObjectError("credencial", "Credencial já existente")));
 
 	}
-	
+
 	private Credencial converterDtoParaCredencial(CadastroClienteDto clienteDto, BindingResult result)
 			throws NoSuchAlgorithmException {
 
@@ -153,7 +163,7 @@ public class BolsistaController {
 		cre.setSenha(PasswordUtils.gerarBCrypt(clienteDto.getSenha()));
 		return cre;
 	}
-	
+
 	private CadastroClienteDto converterCadastroClienteDto(Credencial credencial) {
 		CadastroClienteDto clienteDto = new CadastroClienteDto();
 
@@ -164,52 +174,67 @@ public class BolsistaController {
 		clienteDto.setNome(credencial.getUsuario().getNome());
 		return clienteDto;
 	}
-	
+
 	@GetMapping
-	public List<Bolsista> listarBolsistas(){
-		List<Bolsista> bolsista = this.bolsistaRepository.findByCodigoTipoPerfilUsuario(EnumTipoPerfilUsuario.ROLE_BOLSISTA.getCodigo());
+	public List<Bolsista> listarBolsistas() {
+		List<Bolsista> bolsista = this.bolsistaRepository
+				.findByCodigoTipoPerfilUsuario(EnumTipoPerfilUsuario.ROLE_BOLSISTA.getCodigo());
 		return bolsista;
 	}
-	
-	private void atualizarDadosBolsista(Bolsista bolsista, Bolsista bolsista2, BindingResult result)
+
+	private void atualizarDadosBolsista(Credencial credencial, CadastroClienteDto bolsistaDto, BindingResult result)
 			throws NoSuchAlgorithmException {
 
-		bolsista.setNome(bolsista2.getNome());
+		credencial.getUsuario().setNome(bolsistaDto.getNome());
 
-		if (!bolsista.getEmail().equals(bolsista2.getEmail())) {
+		if (!credencial.getUsuario().getEmail().equals(bolsistaDto.getEmail())) {
 
-			this.bolsistaService.buscarPorEmail(bolsista2.getEmail())
+			this.bolsistaService.buscarPorEmail(bolsistaDto.getEmail())
 					.ifPresent(clien -> result.addError(new ObjectError("email", "Email já exitente.")));
-			bolsista.setEmail(bolsista2.getEmail());
+			credencial.getUsuario().setEmail(bolsistaDto.getEmail());
 		}
 
-		if (!bolsista.getCpf().equals(bolsista2.getCpf())) {
+		if (!credencial.getUsuario().getCpf().equals(bolsistaDto.getCpf())) {
 
-			this.bolsistaService.buscarPorCpf(bolsista2.getCpf())
+			this.bolsistaService.buscarPorCpf(bolsistaDto.getCpf())
 					.ifPresent(clien -> result.addError(new ObjectError("cpf", "CPF já existente.")));
-			bolsista.setCpf(bolsista2.getCpf());
+			credencial.getUsuario().setCpf(bolsistaDto.getCpf());
 		}
+
+		if (!credencial.getUsername().equals(bolsistaDto.getUsername())) {
+
+			this.credencialService.buscarPorUsername(bolsistaDto.getUsername())
+					.ifPresent(crede -> result.addError(new ObjectError("username", "Username já existente.")));
+			credencial.setUsername(bolsistaDto.getUsername());
+		}
+
+		credencial.setSenha(PasswordUtils.gerarBCrypt(bolsistaDto.getSenha()));
 
 	}
-		
+
 	@DeleteMapping(value = "{id}")
-	public ResponseEntity<Response<Bolsista>> deletarBolsista(@PathVariable("id") Integer id) {
+	public ResponseEntity<Response<Credencial>> deletarCliente(@PathVariable("id") Integer id) {
 
-		log.info("Removendo Bolsista: {}", id);
+		log.info("Removendo Cliente: {}", id);
 
-		Response<Bolsista> response = new Response<Bolsista>();
+		Response<Credencial> response = new Response<Credencial>();
 
-		Bolsista bolsista = this.bolsistaService.buscarPorTipoPerfilUsuarioandID(EnumTipoPerfilUsuario.ROLE_BOLSISTA, id);
+		Optional<Credencial> credencial = credencialService.buscarPorId(id);
 
-		response.setData(Optional.ofNullable(bolsista));
+		response.setData(credencial);
 
-		verificarResposta(response);
+		if (!response.getData().isPresent()) {
+			log.info("Credencial não encontrada");
+			response.getErros().add("Credencial não encontrada");
+			ResponseEntity.badRequest().body(response);
+		}
 
-		this.bolsistaService.remover(id);
+		this.usuarioRepository.deleteById(credencial.get().getUsuario().getId());
+		this.credencialRepository.deleteById(credencial.get().getId());
 
 		return ResponseEntity.ok(response);
 	}
-		
+
 	private void verificarResposta(Response<Bolsista> response) {
 		if (!response.getData().isPresent()) {
 			log.info("Bolsista não encontrado");
@@ -219,6 +244,5 @@ public class BolsistaController {
 			ResponseEntity.badRequest().body(response);
 		}
 	}
-	
-	
+
 }

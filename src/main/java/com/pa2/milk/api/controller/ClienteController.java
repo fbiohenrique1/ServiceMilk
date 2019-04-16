@@ -47,7 +47,7 @@ public class ClienteController {
 
 	@Autowired
 	private CredencialService credencialService;
-	
+
 	@Autowired
 	private UsuarioRepository usuarioRepository;
 
@@ -137,7 +137,7 @@ public class ClienteController {
 
 		this.credencialService.salvar(credencial.get());
 		response.setData2(this.converterCadastroClienteDto(credencial.get()));
-		
+
 		return ResponseEntity.ok(response);
 
 	}
@@ -149,7 +149,7 @@ public class ClienteController {
 
 		Response<Credencial> response = new Response<Credencial>();
 
-		Optional<Credencial> credencial = credencialRepository.findById(id);
+		Optional<Credencial> credencial = credencialService.buscarPorId(id);
 
 		response.setData(credencial);
 
@@ -158,10 +158,9 @@ public class ClienteController {
 			response.getErros().add("Credencial não encontrada");
 			ResponseEntity.badRequest().body(response);
 		}
-		
+
 		this.usuarioRepository.deleteById(credencial.get().getUsuario().getId());
 		this.credencialRepository.deleteById(credencial.get().getId());
-		
 
 		return ResponseEntity.ok(response);
 	}
@@ -170,7 +169,7 @@ public class ClienteController {
 			throws NoSuchAlgorithmException {
 
 		credencial.getUsuario().setNome(clienteDto.getNome());
-		
+
 		if (!credencial.getUsuario().getEmail().equals(clienteDto.getEmail())) {
 
 			this.clienteService.buscarPorEmail(clienteDto.getEmail())
@@ -184,16 +183,15 @@ public class ClienteController {
 					.ifPresent(clien -> result.addError(new ObjectError("cpf", "CPF já existente.")));
 			credencial.getUsuario().setCpf(clienteDto.getCpf());
 		}
-		
+
 		if (!credencial.getUsername().equals(clienteDto.getUsername())) {
 
 			this.credencialService.buscarPorUsername(clienteDto.getUsername())
 					.ifPresent(crede -> result.addError(new ObjectError("username", "Username já existente.")));
 			credencial.setUsername(clienteDto.getUsername());
 		}
-		
+
 		credencial.setSenha(PasswordUtils.gerarBCrypt(clienteDto.getSenha()));
-		
 
 	}
 

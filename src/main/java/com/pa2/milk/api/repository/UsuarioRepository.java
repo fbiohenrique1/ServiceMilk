@@ -10,5 +10,5 @@ public interface UsuarioRepository extends GenericRepository<Usuario, Integer> {
 
 	Usuario findByEmail(String email);
 	Usuario findByCodigoTipoPerfilUsuario(Integer perfil); 
-	Usuario findByCodigoTipoPerfilUsuarioAndId(EnumTipoPerfilUsuario perfil, Integer id);
+	Usuario findByCodigoTipoPerfilUsuarioAndId(Integer perfil, Integer id);
 }

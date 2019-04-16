@@ -22,10 +22,9 @@ public class ClienteService {
 	@Autowired
 	private ClienteRepository clienteRepository;
 
-	public Cliente buscarPorId(Integer id) {
+	public Optional<Cliente> buscarPorId(Integer id) {
 		log.info("Buscando Cliente por ID ");
-		Optional<Cliente> objCliente = clienteRepository.findById(id);
-		return objCliente.orElse(null);
+		return clienteRepository.findById(id);
 	}
 
 	public void salvar(Cliente cliente) {
