@@ -31,7 +31,7 @@ public class SwaggerConfig {
 	@Bean
 	public Docket api() {
 		return new Docket(DocumentationType.SWAGGER_2).select()
-				.apis(RequestHandlerSelectors.basePackage("com.pa2.milk.api")).paths(PathSelectors.any()).build()
+				.apis(RequestHandlerSelectors.basePackage("com.pa2.milk.api.controller")).paths(PathSelectors.any()).build()
 				.apiInfo(apiInfo());
 	}
 
@@ -40,7 +40,7 @@ public class SwaggerConfig {
 				.description("Documentação da API de acesso aos endpoints do ServiceMilk.").version("1.0").build();
 	}
 
-	@Bean
+/*	@Bean
 	public SecurityConfiguration security() {
 		String token;
 
@@ -55,5 +55,5 @@ public class SwaggerConfig {
 				"Authorization", ",");
 
 	}
-
+*/
 }
