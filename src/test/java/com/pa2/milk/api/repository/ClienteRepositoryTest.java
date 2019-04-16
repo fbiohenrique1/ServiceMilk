@@ -2,6 +2,7 @@ package com.pa2.milk.api.repository;
 
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,6 +16,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import com.pa2.milk.api.model.Bolsista;
 import com.pa2.milk.api.model.Cliente;
 import com.pa2.milk.api.model.Credencial;
 import com.pa2.milk.api.model.Usuario;
@@ -33,10 +35,11 @@ public class ClienteRepositoryTest {
 
 	private static final String CPF = "35463259070";
 	private static final String EMAIL = "teste@hotmail.com";
-	private List<String> telefone;
+	private List<String> telefone = new ArrayList<>();
 	
+	private  String tel = "99897867";
 	
-	@Test
+	@Before	
 		public void setUp() throws Exception {
 		Credencial credencial = new Credencial();
 	
@@ -47,8 +50,13 @@ public class ClienteRepositoryTest {
 		
 		
 		Usuario cliente = new Cliente();
-		telefone.add("96087332");
 		
+		try {
+			this.telefone.add(tel);
+		} catch(NullPointerException e) {
+			e.printStackTrace();
+		}
+			
 		cliente.setId(1);
 		cliente.setNome("Eric");
 		cliente.setCpf(CPF);
@@ -79,7 +87,7 @@ public class ClienteRepositoryTest {
 	}
 	
 	
-	/*
+	
 	@Test
 	public void procurarClienteComCpf() {
 		Cliente c = this.clienteRepository.findByCpf(CPF);
@@ -93,5 +101,21 @@ public class ClienteRepositoryTest {
 		assertEquals(EMAIL, c.getEmail());
 	}
 	
-*/
+	@Test
+	public void procurarClienteComEmaileCpfvalido() {
+		Cliente c = this.clienteRepository.findByCpfOrEmail(CPF, EMAIL);
+		assertNotNull(c);
+	}
+
+	@Test
+	public void procurarClienteComEmaileCpfInvalido() {
+		Cliente c = this.clienteRepository.findByCpfOrEmail("18464565456456465", EMAIL);
+		assertNotNull(c);
+	}
+
+	@Test
+	public void procurarClienteComEmailInvalidoeCpf() {
+		Cliente c = this.clienteRepository.findByCpfOrEmail(CPF, "lucas");
+		assertNotNull(c);
+	}
 }
