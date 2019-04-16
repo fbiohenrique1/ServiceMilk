@@ -31,6 +31,7 @@ import com.pa2.milk.api.model.dto.CadastroClienteDto;
 import com.pa2.milk.api.model.enums.EnumTipoPerfilUsuario;
 import com.pa2.milk.api.repository.ClienteRepository;
 import com.pa2.milk.api.repository.CredencialRepository;
+import com.pa2.milk.api.repository.UsuarioRepository;
 import com.pa2.milk.api.service.ClienteService;
 import com.pa2.milk.api.service.CredencialService;
 
@@ -46,6 +47,9 @@ public class ClienteController {
 
 	@Autowired
 	private CredencialService credencialService;
+	
+	@Autowired
+	private UsuarioRepository usuarioRepository;
 
 	@Autowired
 	private ClienteRepository clienteRepository;
@@ -145,7 +149,7 @@ public class ClienteController {
 
 		Response<Credencial> response = new Response<Credencial>();
 
-		Optional<Credencial> credencial = this.credencialService.buscarPorId(id);
+		Optional<Credencial> credencial = credencialRepository.findById(id);
 
 		response.setData(credencial);
 
@@ -154,9 +158,10 @@ public class ClienteController {
 			response.getErros().add("Credencial não encontrada");
 			ResponseEntity.badRequest().body(response);
 		}
-
-		this.clienteService.remover(EnumTipoPerfilUsuario.ROLE_CLIENTE, credencial.get().getUsuario().getId());
+		
+		this.usuarioRepository.deleteById(credencial.get().getUsuario().getId());
 		this.credencialRepository.deleteById(credencial.get().getId());
+		
 
 		return ResponseEntity.ok(response);
 	}

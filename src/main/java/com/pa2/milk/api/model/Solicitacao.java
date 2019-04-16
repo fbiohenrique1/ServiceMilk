@@ -43,7 +43,7 @@ public class Solicitacao extends AbstractModel<Integer> {
 	@OneToMany(mappedBy = "solicitacao", fetch = FetchType.EAGER, orphanRemoval = true)
 	@Fetch(FetchMode.SUBSELECT)
 	@Cascade({ org.hibernate.annotations.CascadeType.ALL })
-	@JsonIgnore
+	//@JsonIgnore
 	private List<Analise> listaAnalise = new ArrayList<>();
 
 	@Enumerated(EnumType.STRING)

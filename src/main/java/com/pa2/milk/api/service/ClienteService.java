@@ -48,10 +48,10 @@ public class ClienteService {
 		return Optional.ofNullable(this.clienteRepository.findByEmail(email));
 	}
 
-	public void remover(EnumTipoPerfilUsuario tipoPerfilUsuario,Integer id) {
-		log.info("Removendo Cliente pelo Id: {}", id);
-		this.clienteRepository.deleteByCodigoTipoPerfilUsuarioAndId(tipoPerfilUsuario.getCodigo(), id);;
-	}
+//	public void remover(EnumTipoPerfilUsuario tipoPerfilUsuario,Integer id) {
+//		log.info("Removendo Cliente pelo Id: {}", id);
+//		this.clienteRepository.deleteByCodigoTipoPerfilUsuarioAndId(tipoPerfilUsuario.getCodigo(), id);;
+//	}
 
 	public List<Cliente> listarClientes() {
 		log.info("Listando Clientes");
