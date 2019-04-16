@@ -31,9 +31,9 @@ public class BolsistaRepositoryTest {
 	@Autowired
 	private CredencialRepository credencialReposistory;
 
-	private static final String CPF = "01747003425";
+	private static final String CPF = "78759173017";
 
-	private static final String EMAIL = "lucas-antonio2011@hotmail.com";
+	private static final String EMAIL = "lucasantonio@hotmail.com";
 
 	@Before
 	public void setUp() throws Exception {
