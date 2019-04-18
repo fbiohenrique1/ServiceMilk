@@ -57,7 +57,7 @@ public class FazendaController {
 
 		validarDadosExistentes(fazenda, result);
 
-		Cliente c = this.clienteService.buscarPorTipoPerfilUsuarioandID(EnumTipoPerfilUsuario.ROLE_CLIENTE, clienteId);
+		Optional<Cliente> c = this.clienteService.buscarPorTipoPerfilUsuarioandID(EnumTipoPerfilUsuario.ROLE_CLIENTE, clienteId);
 
 		Fazenda f = fazenda;
 
@@ -67,10 +67,10 @@ public class FazendaController {
 			return ResponseEntity.badRequest().body(response);
 		}
 
-		f.setCliente(c);
+		f.setCliente(c.get());
 		this.fazendaService.salvar(f);
 
-		response.setData2(f);
+		response.setData(f);
 		return ResponseEntity.ok(response);
 	}
 
@@ -81,11 +81,15 @@ public class FazendaController {
 
 		Response<Fazenda> response = new Response<Fazenda>();
 
-		Fazenda farm = this.fazendaService.buscarPorId(id);
+		Optional<Fazenda> farm = this.fazendaService.buscarPorId(id);
 
-		response.setData(Optional.ofNullable(farm));
+		if (!farm.isPresent()) {
+			log.info("Fazenda não encontrada");
+			response.getErros().add("Fazenda não encontrada");
+			ResponseEntity.badRequest().body(response);
+		}
 
-		verificarResposta(response);
+		response.setData(farm.get());
 
 		return ResponseEntity.ok(response);
 	}
@@ -114,22 +118,23 @@ public class FazendaController {
 
 		Response<Fazenda> response = new Response<Fazenda>();
 
-		Fazenda farm = this.fazendaService.buscarPorId(id);
+		Optional<Fazenda> farm = this.fazendaService.buscarPorId(id);
 
-		response.setData(Optional.ofNullable(farm));
+		if (!farm.isPresent()) {
+			log.info("Fazenda não encontrada");
+			response.getErros().add("Fazenda não encontrada");
+			ResponseEntity.badRequest().body(response);
+		}
 
-		verificarResposta(response);
-
-		this.atualizarDadosFazenda(farm, fazenda, result);
+		this.atualizarDadosFazenda(farm.get(), fazenda, result);
 
 		if (result.hasErrors()) {
 			log.error("Erro validando lancamento:{}", result.getAllErrors());
-
 			result.getAllErrors().forEach(error -> response.getErros().add(error.getDefaultMessage()));
-
 			return ResponseEntity.badRequest().body(response);
 		}
 
+		response.setData(farm.get());
 		this.fazendaService.salvar(fazenda);
 
 		return ResponseEntity.ok(response);
@@ -142,13 +147,16 @@ public class FazendaController {
 		log.info("Removendo Fazenda: {}", id);
 
 		Response<Fazenda> response = new Response<Fazenda>();
+		
+		Optional<Fazenda> fazenda = this.fazendaService.buscarPorId(id);
 
-		Fazenda fazenda = this.fazendaService.buscarPorId(id);
+		if (!fazenda.isPresent()) {
+			log.info("Fazenda não encontrada");
+			response.getErros().add("Fazenda não encontrada");
+			ResponseEntity.badRequest().body(response);
+		}
 
-		response.setData(Optional.ofNullable(fazenda));
-
-		verificarResposta(response);
-
+		response.setData(fazenda.get());
 		this.fazendaService.remover(id);
 
 		return ResponseEntity.ok(response);
@@ -163,16 +171,6 @@ public class FazendaController {
 			farm.setCnpj(fazenda.getCnpj());
 		}
 
-	}
-
-	private void verificarResposta(Response<Fazenda> response) {
-		if (!response.getData().isPresent()) {
-			log.info("Fazenda não encontrada");
-
-			response.getErros().add("Fazenda não encontrada");
-
-			ResponseEntity.badRequest().body(response);
-		}
 	}
 
 	private void validarDadosExistentes(Fazenda Fazenda, BindingResult result) {

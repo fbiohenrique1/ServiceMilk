@@ -71,9 +71,7 @@ public class BolsistaController {
 		Credencial credencial = this.converterDtoParaCredencial(clienteDto, result);
 
 		if (result.hasErrors()) {
-
 			log.error("Erro validando dados do cadastro Bolsista: {}", result.getAllErrors());
-
 			result.getAllErrors().forEach(error -> response.getErros().add(error.getDefaultMessage()));
 			return ResponseEntity.badRequest().body(response);
 		}
@@ -82,7 +80,7 @@ public class BolsistaController {
 		credencial.setUsuario(bolsista);
 		this.credencialService.salvar(credencial);
 
-		response.setData2(this.converterCadastroClienteDto(credencial));
+		response.setData(this.converterCadastroClienteDto(credencial));
 
 		return ResponseEntity.ok(response);
 	}
@@ -94,12 +92,15 @@ public class BolsistaController {
 
 		Response<Bolsista> response = new Response<Bolsista>();
 
-		Bolsista bolsista = this.bolsistaService.buscarPorTipoPerfilUsuarioandID(EnumTipoPerfilUsuario.ROLE_BOLSISTA,
-				id);
+		Optional<Bolsista> bolsista = this.bolsistaService.buscarPorTipoPerfilUsuarioandID(EnumTipoPerfilUsuario.ROLE_BOLSISTA, id);
 
-		response.setData(Optional.ofNullable(bolsista));
+		if (!bolsista.isPresent()) {
+			log.info("Bolsista não encontrado");
+			response.getErros().add("Bolsista não encontrado");
+			ResponseEntity.badRequest().body(response);
+		}
 
-		verificarResposta(response);
+		response.setData(bolsista.get());
 
 		return ResponseEntity.ok(response);
 	}
@@ -122,14 +123,12 @@ public class BolsistaController {
 
 		if (result.hasErrors()) {
 			log.error("Erro validando a Credencial:{}", result.getAllErrors());
-
 			result.getAllErrors().forEach(error -> response.getErros().add(error.getDefaultMessage()));
-
 			return ResponseEntity.badRequest().body(response);
 		}
 
 		this.credencialService.salvar(credencial.get());
-		response.setData2(this.converterCadastroClienteDto(credencial.get()));
+		response.setData(this.converterCadastroClienteDto(credencial.get()));
 
 		return ResponseEntity.ok(response);
 
@@ -177,8 +176,7 @@ public class BolsistaController {
 
 	@GetMapping
 	public List<Bolsista> listarBolsistas() {
-		List<Bolsista> bolsista = this.bolsistaRepository
-				.findByCodigoTipoPerfilUsuario(EnumTipoPerfilUsuario.ROLE_BOLSISTA.getCodigo());
+		List<Bolsista> bolsista = this.bolsistaRepository.findByCodigoTipoPerfilUsuario(EnumTipoPerfilUsuario.ROLE_BOLSISTA.getCodigo());
 		return bolsista;
 	}
 
@@ -221,28 +219,17 @@ public class BolsistaController {
 
 		Optional<Credencial> credencial = credencialService.buscarPorId(id);
 
-		response.setData(credencial);
-
-		if (!response.getData().isPresent()) {
+		if (!credencial.isPresent()) {
 			log.info("Credencial não encontrada");
 			response.getErros().add("Credencial não encontrada");
 			ResponseEntity.badRequest().body(response);
 		}
 
+		response.setData(credencial.get());
 		this.usuarioRepository.deleteById(credencial.get().getUsuario().getId());
 		this.credencialRepository.deleteById(credencial.get().getId());
 
 		return ResponseEntity.ok(response);
-	}
-
-	private void verificarResposta(Response<Bolsista> response) {
-		if (!response.getData().isPresent()) {
-			log.info("Bolsista não encontrado");
-
-			response.getErros().add("Bolsista não encontrado");
-
-			ResponseEntity.badRequest().body(response);
-		}
 	}
 
 }

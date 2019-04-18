@@ -61,9 +61,9 @@ public class AdministradorService {
 //	}
 //
 //
-	public Administrador buscarPorTipoPerfilUsuarioandID(EnumTipoPerfilUsuario tipoPerfilUsuario, Integer id) {
+	public Optional<Administrador> buscarPorTipoPerfilUsuarioandID(EnumTipoPerfilUsuario tipoPerfilUsuario, Integer id) {
 		log.info("Buscando usuario pelo tipoPerfilUsuario: {}", tipoPerfilUsuario);
-		return this.administradorRepository.findByCodigoTipoPerfilUsuarioAndId(tipoPerfilUsuario.getCodigo(), id);
+		return Optional.ofNullable(this.administradorRepository.findByCodigoTipoPerfilUsuarioAndId(tipoPerfilUsuario.getCodigo(), id));
 	}
 
 }

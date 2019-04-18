@@ -62,10 +62,11 @@ public class ClienteService {
 		return this.clienteRepository.findByCodigoTipoPerfilUsuario(tipoPerfilUsuario.getCodigo());
 	}
 
+	
 
-	public Cliente buscarPorTipoPerfilUsuarioandID(EnumTipoPerfilUsuario tipoPerfilUsuario, Integer id) {
+	public Optional<Cliente> buscarPorTipoPerfilUsuarioandID(EnumTipoPerfilUsuario tipoPerfilUsuario, Integer id) {
 		log.info("Buscando usuario pelo tipoPerfilUsuario: {}", tipoPerfilUsuario);
-		return this.clienteRepository.findByCodigoTipoPerfilUsuarioAndId(tipoPerfilUsuario.getCodigo(), id);
+		return Optional.ofNullable(this.clienteRepository.findByCodigoTipoPerfilUsuarioAndId(tipoPerfilUsuario.getCodigo(), id));
 	}
 
 

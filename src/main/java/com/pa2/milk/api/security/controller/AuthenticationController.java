@@ -69,7 +69,7 @@ public class AuthenticationController {
 		UserDetails userDetails = userDetailsService.loadUserByUsername(authenticationDto.getUsername());
 
 		String token = jwtTokenUtil.obterToken(userDetails);
-		response.setData2(new TokenDto(token));
+		response.setData(new TokenDto(token));
 
 		return ResponseEntity.ok(response);
 
@@ -97,7 +97,7 @@ public class AuthenticationController {
 		}
 
 		String refreshedToken = jwtTokenUtil.refreshToken(token.get());
-		response.setData2(new TokenDto(refreshedToken));
+		response.setData(new TokenDto(refreshedToken));
 
 		return ResponseEntity.ok(response);
 

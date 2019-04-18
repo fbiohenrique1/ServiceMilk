@@ -60,7 +60,7 @@ public class SolicitacaoController {
 
 		Optional<Solicitacao> solicitacao = solicitacaoService.buscarSolicitacaoPorId(id);
 
-		response.setData2(solicitacao);
+		response.setData(solicitacao.get());
 
 		return ResponseEntity.ok(response);
 	}

@@ -61,9 +61,9 @@ public class BolsistaService {
 		return this.bolsistaRepository.findByCodigoTipoPerfilUsuario(tipoPerfilUsuario.getCodigo());
 	}
 
-	public Bolsista buscarPorTipoPerfilUsuarioandID(EnumTipoPerfilUsuario tipoPerfilUsuario, Integer id) {
+	public Optional<Bolsista> buscarPorTipoPerfilUsuarioandID(EnumTipoPerfilUsuario tipoPerfilUsuario, Integer id) {
 		log.info("Buscando Bolsista pelo tipoPerfilUsuario: {}", tipoPerfilUsuario);
-		return this.bolsistaRepository.findByCodigoTipoPerfilUsuarioAndId(tipoPerfilUsuario.getCodigo(), id);
+		return Optional.ofNullable(this.bolsistaRepository.findByCodigoTipoPerfilUsuarioAndId(tipoPerfilUsuario.getCodigo(), id));
 	}
 
 }

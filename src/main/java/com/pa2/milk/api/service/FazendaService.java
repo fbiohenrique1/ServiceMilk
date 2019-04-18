@@ -19,9 +19,9 @@ public class FazendaService {
 	@Autowired
 	private FazendaRepository fazendaRepository;
 
-	public Fazenda buscarPorId(Integer id) {
-		Optional<Fazenda> objFazenda = fazendaRepository.findById(id);
-		return objFazenda.orElse(null);
+	public Optional<Fazenda> buscarPorId(Integer id) {
+		log.info("Buscando Fazenda por Id");
+		return this.fazendaRepository.findById(id);
 	}
 
 	public void salvar(Fazenda fazenda) {

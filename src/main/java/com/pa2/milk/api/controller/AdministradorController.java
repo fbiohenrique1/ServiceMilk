@@ -76,7 +76,7 @@ public ResponseEntity<Response<CadastroClienteDto>> cadastrarAdministrador(
 	credencial.setUsuario(administrador);
 	this.credencialService.salvar(credencial);
 
-	response.setData2(this.converterCadastroClienteDto(credencial));
+	response.setData(this.converterCadastroClienteDto(credencial));
 
 	return ResponseEntity.ok(response);
 }
@@ -88,12 +88,16 @@ public ResponseEntity<Response<Administrador>> buscarAdministradorPorId(@PathVar
 
 	Response<Administrador> response = new Response<Administrador>();
 
-	Administrador administrador = this.administradorService.buscarPorTipoPerfilUsuarioandID(EnumTipoPerfilUsuario.ROLE_ADMINISTRADOR, id);
+	Optional<Administrador> administrador = this.administradorService.buscarPorTipoPerfilUsuarioandID(EnumTipoPerfilUsuario.ROLE_ADMINISTRADOR, id);
 
-	response.setData(Optional.ofNullable(administrador));
+	if (!administrador.isPresent()) {
+		log.info("Administrador não encontrado");
+		response.getErros().add("Administrador	 não encontrado");
+		ResponseEntity.badRequest().body(response);
+	}
 
-	verificarResposta(response);
-
+	response.setData(administrador.get());
+	
 	return ResponseEntity.ok(response);
 }
 
@@ -211,17 +215,6 @@ private void atualizarDadosAdministrador(Administrador administrador, Administra
 //
 //	return ResponseEntity.ok(response);
 //}																			
-	
-private void verificarResposta(Response<Administrador> response) {
-	if (!response.getData().isPresent()) {
-		log.info("Administrador não encontrado");
-
-		response.getErros().add("Administrador	 não encontrado");
-
-		ResponseEntity.badRequest().body(response);
-	}
-}
-
 
 }
 

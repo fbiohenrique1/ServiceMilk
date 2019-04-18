@@ -59,8 +59,8 @@ public class ClienteController {
 
 	@GetMapping
 	public List<Cliente> listarClientes() {
-		List<Cliente> clientes = this.clienteRepository
-				.findByCodigoTipoPerfilUsuario(EnumTipoPerfilUsuario.ROLE_CLIENTE.getCodigo());
+		List<Cliente> clientes = this.clienteService.buscarPorTipoPerfilUsuario(EnumTipoPerfilUsuario.ROLE_CLIENTE);
+
 		return clientes;
 	}
 
@@ -90,7 +90,7 @@ public class ClienteController {
 		credencial.setUsuario(cliente);
 		this.credencialService.salvar(credencial);
 
-		response.setData2(this.converterCadastroClienteDto(credencial));
+		response.setData(this.converterCadastroClienteDto(credencial));
 
 		return ResponseEntity.ok(response);
 	}
@@ -102,11 +102,16 @@ public class ClienteController {
 
 		Response<Cliente> response = new Response<Cliente>();
 
-		Cliente cliente = this.clienteService.buscarPorTipoPerfilUsuarioandID(EnumTipoPerfilUsuario.ROLE_CLIENTE, id);
+		Optional<Cliente> cliente = this.clienteService
+				.buscarPorTipoPerfilUsuarioandID(EnumTipoPerfilUsuario.ROLE_CLIENTE, id);
 
-		response.setData(Optional.ofNullable(cliente));
+		if (!cliente.isPresent()) {
+			log.info("Cliente não encontrado");
+			response.getErros().add("Cliente não encontrado");
+			ResponseEntity.badRequest().body(response);
+		}
 
-		verificarResposta(response);
+		response.setData(cliente.get());
 
 		return ResponseEntity.ok(response);
 	}
@@ -129,14 +134,12 @@ public class ClienteController {
 
 		if (result.hasErrors()) {
 			log.error("Erro validando a Credencial:{}", result.getAllErrors());
-
 			result.getAllErrors().forEach(error -> response.getErros().add(error.getDefaultMessage()));
-
 			return ResponseEntity.badRequest().body(response);
 		}
 
 		this.credencialService.salvar(credencial.get());
-		response.setData2(this.converterCadastroClienteDto(credencial.get()));
+		response.setData(this.converterCadastroClienteDto(credencial.get()));
 
 		return ResponseEntity.ok(response);
 
@@ -151,13 +154,13 @@ public class ClienteController {
 
 		Optional<Credencial> credencial = credencialService.buscarPorId(id);
 
-		response.setData(credencial);
-
-		if (!response.getData().isPresent()) {
+		if (!credencial.isPresent()) {
 			log.info("Credencial não encontrada");
 			response.getErros().add("Credencial não encontrada");
 			ResponseEntity.badRequest().body(response);
 		}
+
+		response.setData(credencial.get());
 
 		this.usuarioRepository.deleteById(credencial.get().getUsuario().getId());
 		this.credencialRepository.deleteById(credencial.get().getId());
@@ -193,16 +196,6 @@ public class ClienteController {
 
 		credencial.setSenha(PasswordUtils.gerarBCrypt(clienteDto.getSenha()));
 
-	}
-
-	private void verificarResposta(Response<Cliente> response) {
-		if (!response.getData().isPresent()) {
-			log.info("Cliente não encontrado");
-
-			response.getErros().add("Cliente não encontrado");
-
-			ResponseEntity.badRequest().body(response);
-		}
 	}
 
 	private void validarDadosExistentes(CadastroClienteDto clienteDto, BindingResult result) {
