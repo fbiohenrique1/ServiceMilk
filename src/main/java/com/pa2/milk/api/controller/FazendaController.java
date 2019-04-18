@@ -57,7 +57,8 @@ public class FazendaController {
 
 		validarDadosExistentes(fazenda, result);
 
-		Optional<Cliente> c = this.clienteService.buscarPorTipoPerfilUsuarioandID(EnumTipoPerfilUsuario.ROLE_CLIENTE, clienteId);
+		Optional<Cliente> c = this.clienteService.buscarPorTipoPerfilUsuarioandID(EnumTipoPerfilUsuario.ROLE_CLIENTE,
+				clienteId);
 
 		Fazenda f = fazenda;
 
@@ -94,21 +95,14 @@ public class FazendaController {
 		return ResponseEntity.ok(response);
 	}
 
-//	@GetMapping(value = "{id}/cliente")
-//	public ResponseEntity<Response<Fazenda>> buscarFazendaClientePorId(@PathVariable("clienteId") Integer clienteId) {
-//
-//		log.info("Buscar Fazenda por Id do Cliente");
-//
-//		Response<FazendaDto> response = new Response<FazendaDto>();
-//
-//		List<Fazenda> farm = this.fazendaService.buscarFazendaClienteId(clienteId);
-//
-//		response.setData2(farm);
-//
-////		verificarResposta(response);
-//
-//		return ResponseEntity.ok(response);
-//	}
+	@GetMapping(value = "cliente/{id}")
+	public List<Fazenda> buscarFazendaClientePorId(@PathVariable("id") Integer id) {
+
+		log.info("Buscar Fazenda por Id do Cliente");
+
+		List<Fazenda> farm = this.fazendaService.buscarFazendaClienteId(id);
+		return farm;
+	}
 
 	@PutMapping(value = "{id}")
 	public ResponseEntity<Response<Fazenda>> atualizarFazenda(@PathVariable("id") Integer id,
@@ -147,7 +141,7 @@ public class FazendaController {
 		log.info("Removendo Fazenda: {}", id);
 
 		Response<Fazenda> response = new Response<Fazenda>();
-		
+
 		Optional<Fazenda> fazenda = this.fazendaService.buscarPorId(id);
 
 		if (!fazenda.isPresent()) {
