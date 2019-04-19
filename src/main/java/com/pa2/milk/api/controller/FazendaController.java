@@ -95,15 +95,6 @@ public class FazendaController {
 		return ResponseEntity.ok(response);
 	}
 
-	@GetMapping(value = "cliente/{id}")
-	public List<Fazenda> buscarFazendaClientePorId(@PathVariable("id") Integer id) {
-
-		log.info("Buscar Fazenda por Id do Cliente");
-
-		List<Fazenda> farm = this.fazendaService.buscarFazendaClienteId(id);
-		return farm;
-	}
-
 	@PutMapping(value = "{id}")
 	public ResponseEntity<Response<Fazenda>> atualizarFazenda(@PathVariable("id") Integer id,
 			@Valid @RequestBody Fazenda fazenda, BindingResult result) {

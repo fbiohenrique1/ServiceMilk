@@ -26,6 +26,7 @@ import com.pa2.milk.api.helper.PasswordUtils;
 import com.pa2.milk.api.helper.Response;
 import com.pa2.milk.api.model.Cliente;
 import com.pa2.milk.api.model.Credencial;
+import com.pa2.milk.api.model.Fazenda;
 import com.pa2.milk.api.model.Usuario;
 import com.pa2.milk.api.model.dto.CadastroClienteDto;
 import com.pa2.milk.api.model.enums.EnumTipoPerfilUsuario;
@@ -34,6 +35,7 @@ import com.pa2.milk.api.repository.CredencialRepository;
 import com.pa2.milk.api.repository.UsuarioRepository;
 import com.pa2.milk.api.service.ClienteService;
 import com.pa2.milk.api.service.CredencialService;
+import com.pa2.milk.api.service.FazendaService;
 
 @RestController
 @RequestMapping(value = "/cliente")
@@ -57,6 +59,9 @@ public class ClienteController {
 	@Autowired
 	private CredencialRepository credencialRepository;
 
+	@Autowired
+	private FazendaService fazendaService;
+	
 	@GetMapping
 	public List<Cliente> listarClientes() {
 		List<Cliente> clientes = this.clienteService.buscarPorTipoPerfilUsuario(EnumTipoPerfilUsuario.ROLE_CLIENTE);
@@ -166,6 +171,14 @@ public class ClienteController {
 		this.credencialRepository.deleteById(credencial.get().getId());
 
 		return ResponseEntity.ok(response);
+	}
+
+	@GetMapping(value = "{id}/fazenda")
+	public List<Fazenda> buscarFazendaClientePorId(@PathVariable("id") Integer id) {
+		log.info("Buscar Fazenda por Id do Cliente");
+
+		List<Fazenda> farm = this.fazendaService.buscarFazendaClienteId(id);
+		return farm;
 	}
 
 	private void atualizarDadosCliente(Credencial credencial, CadastroClienteDto clienteDto, BindingResult result)
