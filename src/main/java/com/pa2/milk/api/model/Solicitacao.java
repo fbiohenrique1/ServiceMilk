@@ -21,7 +21,6 @@ import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.pa2.milk.api.model.enums.EnumStatusSolicitacao;
 
 @Entity
@@ -43,7 +42,7 @@ public class Solicitacao extends AbstractModel<Integer> {
 	@OneToMany(mappedBy = "solicitacao", fetch = FetchType.EAGER, orphanRemoval = true)
 	@Fetch(FetchMode.SUBSELECT)
 	@Cascade({ org.hibernate.annotations.CascadeType.ALL })
-	//@JsonIgnore
+	// @JsonIgnore
 	private List<Analise> listaAnalise = new ArrayList<>();
 
 	@Enumerated(EnumType.STRING)

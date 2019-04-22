@@ -1,16 +1,27 @@
 package com.pa2.milk.api.model;
 
+import java.util.Collection;
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
+
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.pa2.milk.api.model.enums.EnumAnalisesSolicitadas;
@@ -26,28 +37,36 @@ public class Analise extends AbstractModel<Integer> {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 
-	// TODO: Lista de Enum
+	@ElementCollection(targetClass = EnumLeite.class, fetch = FetchType.EAGER)
+	@Fetch(FetchMode.SUBSELECT)
+	@JoinTable(name = "enumLeite", joinColumns = @JoinColumn(name = "id"))
+	@Column(name = "enumLeite", nullable = false)
 	@Enumerated(EnumType.STRING)
-	@Column(name = "leite", nullable = false)
-	private EnumLeite leite;
+	private Collection<EnumLeite> leite;
 
-	// TODO: Lista de Enum
+	@ElementCollection(targetClass = EnumOrigemLeite.class, fetch = FetchType.EAGER)
+	@Fetch(FetchMode.SUBSELECT)
+	@JoinTable(name = "enumOrigemLeite", joinColumns = @JoinColumn(name = "id"))
+	@Column(name = "enumOrigemLeite", nullable = false)
 	@Enumerated(EnumType.STRING)
-	@Column(name = "origemLeite", nullable = false)
-	private EnumOrigemLeite origemLeite;
+	private Collection<EnumOrigemLeite> origemLeite;
 
-	// TODO: Lista de Enum
+	@ElementCollection(targetClass = EnumProdutos.class, fetch = FetchType.EAGER)
+	@Fetch(FetchMode.SUBSELECT)
+	@JoinTable(name = "enumProdutos", joinColumns = @JoinColumn(name = "id"))
+	@Column(name = "enumProdutos", nullable = false)
 	@Enumerated(EnumType.STRING)
-	@Column(name = "produtos", nullable = false)
-	private EnumProdutos produtos;
+	private Collection<EnumProdutos> produtos;
 
-	@NotBlank
+	@ElementCollection(targetClass = EnumAnalisesSolicitadas.class, fetch = FetchType.EAGER)
+	@Fetch(FetchMode.SUBSELECT)
+	@JoinTable(name = "enumAnalisesSolicitadas", joinColumns = @JoinColumn(name = "id"))
+	@Column(name = "enumAnalisesSolicitadas", nullable = false)
+	@Enumerated(EnumType.STRING)
+	private Collection<EnumAnalisesSolicitadas> analisesSolicitadas;
+
+	@NotBlank(message = "O campo especie não pode ser nulo.")
 	private String especie;
-
-	// TODO: Lista de Enum
-	@Enumerated(EnumType.STRING)
-	@Column(name = "analisesSolicitadas", nullable = false)
-	private EnumAnalisesSolicitadas analisesSolicitadas;
 
 //	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 //	private List<Amostra> amostra;
@@ -67,28 +86,36 @@ public class Analise extends AbstractModel<Integer> {
 		this.id = id;
 	}
 
-	public EnumLeite getLeite() {
+	public Collection<EnumLeite> getLeite() {
 		return leite;
 	}
 
-	public void setLeite(EnumLeite leite) {
+	public void setLeite(Collection<EnumLeite> leite) {
 		this.leite = leite;
 	}
 
-	public EnumOrigemLeite getOrigemLeite() {
+	public Collection<EnumOrigemLeite> getOrigemLeite() {
 		return origemLeite;
 	}
 
-	public void setOrigemLeite(EnumOrigemLeite origemLeite) {
+	public void setOrigemLeite(Collection<EnumOrigemLeite> origemLeite) {
 		this.origemLeite = origemLeite;
 	}
 
-	public EnumProdutos getProdutos() {
+	public Collection<EnumProdutos> getProdutos() {
 		return produtos;
 	}
 
-	public void setProdutos(EnumProdutos produtos) {
+	public void setProdutos(Collection<EnumProdutos> produtos) {
 		this.produtos = produtos;
+	}
+
+	public Collection<EnumAnalisesSolicitadas> getAnalisesSolicitadas() {
+		return analisesSolicitadas;
+	}
+
+	public void setAnalisesSolicitadas(Collection<EnumAnalisesSolicitadas> analisesSolicitadas) {
+		this.analisesSolicitadas = analisesSolicitadas;
 	}
 
 	public String getEspecie() {
@@ -97,14 +124,6 @@ public class Analise extends AbstractModel<Integer> {
 
 	public void setEspecie(String especie) {
 		this.especie = especie;
-	}
-
-	public EnumAnalisesSolicitadas getAnalisesSolicitadas() {
-		return analisesSolicitadas;
-	}
-
-	public void setAnalisesSolicitadas(EnumAnalisesSolicitadas analisesSolicitadas) {
-		this.analisesSolicitadas = analisesSolicitadas;
 	}
 
 //	public List<Amostra> getAmostra() {
@@ -122,5 +141,15 @@ public class Analise extends AbstractModel<Integer> {
 	public void setSolicitacao(Solicitacao solicitacao) {
 		this.solicitacao = solicitacao;
 	}
+	
+//	public void addAmostra(Amostra novaAmostra) {
+//		amostra.add(novaAmostra);
+//		novaAmostra.setAnalise(this);
+//	}
+//
+//	public void removerAmostra(Amostra removeAmostra) {
+//		amostra.remove(removeAmostra);
+//		removeAmostra.setAnalise(null);
+//	}
 
 }

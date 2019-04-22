@@ -1,6 +1,7 @@
 package com.pa2.milk.api;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -13,6 +14,7 @@ import org.springframework.context.annotation.Bean;
 
 import com.pa2.milk.api.helper.PasswordUtils;
 import com.pa2.milk.api.model.Administrador;
+import com.pa2.milk.api.model.Amostra;
 import com.pa2.milk.api.model.Analise;
 import com.pa2.milk.api.model.Bolsista;
 import com.pa2.milk.api.model.Cliente;
@@ -28,6 +30,7 @@ import com.pa2.milk.api.model.enums.EnumProdutos;
 import com.pa2.milk.api.model.enums.EnumStatusSolicitacao;
 import com.pa2.milk.api.model.enums.EnumTipoPerfilUsuario;
 import com.pa2.milk.api.repository.AdministradorRepository;
+import com.pa2.milk.api.repository.AmostraRepository;
 import com.pa2.milk.api.repository.AnaliseRepository;
 import com.pa2.milk.api.repository.BolsistaRepository;
 import com.pa2.milk.api.repository.ClienteRepository;
@@ -67,6 +70,9 @@ public class ServiceMilkApplication {
 	@Autowired
 	private AnaliseRepository analiseRepository;
 
+	@Autowired
+	private AmostraRepository amostraRepository;
+
 	public static void main(String[] args) {
 		SpringApplication.run(ServiceMilkApplication.class, args);
 	}
@@ -74,6 +80,8 @@ public class ServiceMilkApplication {
 	@Bean
 	public CommandLineRunner commandLineRunner() {
 		return args -> {
+
+			// enumFactory.initializeEnums();
 
 			// Cliente
 			Usuario usuario = new Cliente();
@@ -162,28 +170,55 @@ public class ServiceMilkApplication {
 			this.ordemServicoRepository.save(os);
 
 			// Analise 1
+			Collection<EnumLeite> teste = new ArrayList<>();
+			teste.add(EnumLeite.CRU);
+			teste.add(EnumLeite.PASTEURIZADO);
+
+			Collection<EnumProdutos> teste2 = new ArrayList<>();
+			teste2.add(EnumProdutos.SORO);
+			teste2.add(EnumProdutos.CREME_30_GORDURA);
+
+			Collection<EnumOrigemLeite> teste3 = new ArrayList<>();
+			teste3.add(EnumOrigemLeite.TANQUE);
+			teste3.add(EnumOrigemLeite.BALDE);
+
+			Collection<EnumAnalisesSolicitadas> teste4 = new ArrayList<>();
+			teste4.add(EnumAnalisesSolicitadas.ANALISES_FRAUDE);
+			teste4.add(EnumAnalisesSolicitadas.CELULAS_SOMATICAS);
+
 			Analise analise = new Analise();
 			analise.setEspecie("especie");
-			analise.setLeite(EnumLeite.PASTEURIZADO);
-			analise.setProdutos(EnumProdutos.SORO);
-			analise.setOrigemLeite(EnumOrigemLeite.TANQUE);
-			analise.setAnalisesSolicitadas(EnumAnalisesSolicitadas.CASEINA);
+			analise.setLeite(teste);
+			analise.setProdutos(teste2);
+			analise.setOrigemLeite(teste3);
+			analise.setAnalisesSolicitadas(teste4);
 			this.analiseRepository.save(analise);
-			
-			// Analise 2
-			Analise analise2 = new Analise();
-			analise2.setEspecie("especie2");
-			analise2.setLeite(EnumLeite.CRU);
-			analise2.setProdutos(EnumProdutos.CREME_30_GORDURA);
-			analise2.setOrigemLeite(EnumOrigemLeite.TETO);
-			analise2.setAnalisesSolicitadas(EnumAnalisesSolicitadas.ANALISES_FRAUDE);
-			this.analiseRepository.save(analise2);
 
 			// Adicionar id de solicitação em uma analise
 			Optional<Solicitacao> solicitacao = this.solicitacaoRepository.findById(1);
 			solicitacao.get().addAnalise(analise);
-			solicitacao.get().addAnalise(analise2);
+			// solicitacao.get().addAnalise(analise2);
 			this.solicitacaoRepository.save(solicitacao.get());
+
+			// Amostra
+			Amostra amostra = new Amostra();
+			amostra.setDataColeta(new Date());
+			amostra.setNumeroAmostra(30);
+			amostra.setObservacao("obs");
+			amostra.setQrCode("qrCode");
+			this.amostraRepository.save(amostra);
+
+			// TODO: Adicionar Amostra em Analise
+//			Optional<Solicitacao> testeSoli = this.solicitacaoRepository.findById(1);
+//			List<Analise> testeAnalise = testeSoli.get().getListaAnalise();
+//			for (int i = 0; i < testeAnalise.size(); i++) {
+//				if (testeAnalise.get(i).getId().equals(1)) {
+//					Optional<Analise> analiseEncontrada = this.analiseRepository.findById(1);
+//					analiseEncontrada.get().addAmostra(amostra);
+//					this.analiseRepository.save(analiseEncontrada.get());
+//					break;
+//				}
+//			}
 
 		};
 	}
