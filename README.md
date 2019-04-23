@@ -21,29 +21,29 @@
 **#Controller do Cliente:**
 
 1. GET
-1.1 - Listar todos os clientes : /usuarios/clientes
-1.2 - Listar clientes pelo id: /usuarios/clientes/id
+- 1.1 - Listar todos os clientes : /usuarios/clientes
+- 1.2 - Listar clientes pelo id: /usuarios/clientes/id
 
 2. POST
-2.1 - Cadastrar cliente com credenciais: /usuarios/clientes
+- 2.1 - Cadastrar cliente com credenciais: /usuarios/clientes
 
 3.PUT
-3.1 - Atualizar o cliente pelo id: /usuarios/clientes/id
+- 3.1 - Atualizar o cliente pelo id: /usuarios/clientes/id
 
 4. DELETE
-4.1 - Deletar cliente pelo id: /usuarios/clientes/id
+- 4.1 - Deletar cliente pelo id: /usuarios/clientes/id
 
 **#Controller da Fazenda:**
 
 1. GET
-1.1 - Listar todos as fazendas: /fazenda
-1.2 - Listar fazendas pelo id: /fazenda/id
+- 1.1 - Listar todos as fazendas: /fazenda
+-  1.2 - Listar fazendas pelo id: /fazenda/id
 
 2. POST
-2.1 - Cadastrar Fazenda passando o id do cliente: /fazenda/id
-Obs:.
+- 2.1 - Cadastrar Fazenda passando o id do cliente: /fazenda/id
+
 3. PUT
-3.1 - Atualizar a fazenda pelo id: /fazenda/id
+- 3.1 - Atualizar a fazenda pelo id: /fazenda/id
 
 4. DELETE
-4.1 - Deletar fazenda pelo id: /fazenda/id
+- 4.1 - Deletar fazenda pelo id: /fazenda/id
