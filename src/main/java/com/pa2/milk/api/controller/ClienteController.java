@@ -30,7 +30,6 @@ import com.pa2.milk.api.model.Fazenda;
 import com.pa2.milk.api.model.Usuario;
 import com.pa2.milk.api.model.dto.CadastroClienteDto;
 import com.pa2.milk.api.model.enums.EnumTipoPerfilUsuario;
-import com.pa2.milk.api.repository.ClienteRepository;
 import com.pa2.milk.api.repository.CredencialRepository;
 import com.pa2.milk.api.repository.UsuarioRepository;
 import com.pa2.milk.api.service.ClienteService;
@@ -54,14 +53,11 @@ public class ClienteController {
 	private UsuarioRepository usuarioRepository;
 
 	@Autowired
-	private ClienteRepository clienteRepository;
-
-	@Autowired
 	private CredencialRepository credencialRepository;
 
 	@Autowired
 	private FazendaService fazendaService;
-	
+
 	@GetMapping
 	public List<Cliente> listarClientes() {
 		List<Cliente> clientes = this.clienteService.buscarPorTipoPerfilUsuario(EnumTipoPerfilUsuario.ROLE_CLIENTE);

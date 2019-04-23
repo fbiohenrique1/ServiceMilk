@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
@@ -37,8 +38,9 @@ public class Amostra extends AbstractModel<Integer> {
 
 	@Column(length = 2047)
 	private String Observacao;
-
-	@ManyToOne(optional = false)
+		
+	@ManyToOne
+	@JoinColumn(name = "analise_id")
 	@JsonIgnore
 	private Analise analise;
 

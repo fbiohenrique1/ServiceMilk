@@ -1,9 +1,9 @@
 package com.pa2.milk.api.model;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
@@ -20,6 +20,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 
+import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
@@ -68,8 +69,11 @@ public class Analise extends AbstractModel<Integer> {
 	@NotBlank(message = "O campo especie não pode ser nulo.")
 	private String especie;
 
-//	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-//	private List<Amostra> amostra;
+	@OneToMany(mappedBy = "analise", fetch = FetchType.EAGER, orphanRemoval = true)
+	@Fetch(FetchMode.SUBSELECT)
+	@Cascade({ org.hibernate.annotations.CascadeType.ALL })
+	// @JsonIgnore
+	private List<Amostra> amostra = new ArrayList<>();
 
 	@ManyToOne
 	@JoinColumn(name = "solicitacao_id")
@@ -126,13 +130,13 @@ public class Analise extends AbstractModel<Integer> {
 		this.especie = especie;
 	}
 
-//	public List<Amostra> getAmostra() {
-//		return amostra;
-//	}
-//
-//	public void setAmostra(List<Amostra> amostra) {
-//		this.amostra = amostra;
-//	}
+	public List<Amostra> getAmostra() {
+		return amostra;
+	}
+
+	public void setAmostra(List<Amostra> amostra) {
+		this.amostra = amostra;
+	}
 
 	public Solicitacao getSolicitacao() {
 		return solicitacao;
@@ -141,15 +145,15 @@ public class Analise extends AbstractModel<Integer> {
 	public void setSolicitacao(Solicitacao solicitacao) {
 		this.solicitacao = solicitacao;
 	}
-	
-//	public void addAmostra(Amostra novaAmostra) {
-//		amostra.add(novaAmostra);
-//		novaAmostra.setAnalise(this);
-//	}
-//
-//	public void removerAmostra(Amostra removeAmostra) {
-//		amostra.remove(removeAmostra);
-//		removeAmostra.setAnalise(null);
-//	}
+
+	public void addAmostra(Amostra novaAmostra) {
+		amostra.add(novaAmostra);
+		novaAmostra.setAnalise(this);
+	}
+
+	public void removerAmostra(Amostra removeAmostra) {
+		amostra.remove(removeAmostra);
+		removeAmostra.setAnalise(null);
+	}
 
 }
