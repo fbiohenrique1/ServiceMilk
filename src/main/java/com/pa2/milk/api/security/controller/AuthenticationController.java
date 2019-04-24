@@ -3,6 +3,7 @@ package com.pa2.milk.api.security.controller;
 import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.slf4j.Logger;
@@ -48,7 +49,7 @@ public class AuthenticationController {
 
 	@PostMapping
 	public ResponseEntity<Response<TokenDto>> gerarTokenJwt(@Valid @RequestBody JwtAuthenticationDto authenticationDto,
-			BindingResult result) throws AuthenticationException {
+			HttpServletResponse r, BindingResult result) throws AuthenticationException {
 
 		Response<TokenDto> response = new Response<TokenDto>();
 
@@ -70,6 +71,8 @@ public class AuthenticationController {
 
 		String token = jwtTokenUtil.obterToken(userDetails);
 		response.setData(new TokenDto(token));
+
+		r.addHeader(TOKEN_HEADER, BEARER_PREFIX + " " + token);
 
 		return ResponseEntity.ok(response);
 

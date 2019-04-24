@@ -113,7 +113,7 @@ public class ServiceMilkApplication {
 //
 //			// Administrador
 //			Usuario a = new Administrador();
-//			a.setEmail("teste@email.com");
+//			a.setEmail("teste@email.com");  
 //			a.setCodigoTipoPerfilUsuario(EnumTipoPerfilUsuario.ROLE_ADMINISTRADOR);
 //			a.setNome("Teste de sistema");
 //			a.setCpf("11242520023");
@@ -230,6 +230,6 @@ public class ServiceMilkApplication {
 //				this.analiseRepository.save(testeAnalise.get(i));
 //			}
 //		};
-//	}
+	
 
 }
