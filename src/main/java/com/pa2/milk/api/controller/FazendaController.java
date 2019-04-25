@@ -28,6 +28,7 @@ import com.pa2.milk.api.model.Fazenda;
 import com.pa2.milk.api.model.enums.EnumTipoPerfilUsuario;
 import com.pa2.milk.api.service.ClienteService;
 import com.pa2.milk.api.service.FazendaService;
+import com.pa2.milk.api.service.SolicitacaoService;
 
 @RestController
 @RequestMapping(value = "/fazenda")
@@ -41,6 +42,9 @@ public class FazendaController {
 
 	@Autowired
 	private ClienteService clienteService;
+	
+	@Autowired
+	private SolicitacaoService solicitacaoService;
 
 	@GetMapping
 	public List<Fazenda> listarFazendas() {
@@ -146,6 +150,14 @@ public class FazendaController {
 
 		return ResponseEntity.ok(response);
 	}
+	
+	//@GetMapping(value = "fazenda/{id}/solicitacao")
+	/*public List<Fazenda> buscarSolicitacoesFazendaPorId(@PathVariable("id") Integer id){
+		log.info("Buscar Solicitações de uma fazenda por id");
+		List<Fazenda> farm = this.solicitacaoService.buscarSolicitacaoFazendaId(id);
+		return farm;
+	}*/
+	
 
 	private void atualizarDadosFazenda(Fazenda farm, Fazenda fazenda, BindingResult result) {
 

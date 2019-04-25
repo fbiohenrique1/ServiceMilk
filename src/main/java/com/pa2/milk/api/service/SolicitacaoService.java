@@ -1,5 +1,6 @@
 package com.pa2.milk.api.service;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.slf4j.Logger;
@@ -47,5 +48,9 @@ public class SolicitacaoService {
 	public Optional<Solicitacao> buscarSolicitacaoPorId(Integer id) {
 		return solicitacaoRepository.findById(id);
 	}
+	
+/*	public List<Fazenda> buscarSolicitacaoFazendaId(Integer fazendaId){
+		return this.solicitacaoRepository.findBySolicitacaoId(fazendaId);
+	}*/
 
 }
