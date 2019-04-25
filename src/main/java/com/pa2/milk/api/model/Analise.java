@@ -30,7 +30,7 @@ import com.pa2.milk.api.model.enums.EnumLeite;
 import com.pa2.milk.api.model.enums.EnumOrigemLeite;
 import com.pa2.milk.api.model.enums.EnumProdutos;
 
-@Entity
+@Entity(name = "analise")
 @Table
 public class Analise extends AbstractModel<Integer> {
 
@@ -73,12 +73,23 @@ public class Analise extends AbstractModel<Integer> {
 	@Fetch(FetchMode.SUBSELECT)
 	@Cascade({ org.hibernate.annotations.CascadeType.ALL })
 	// @JsonIgnore
-	private List<Amostra> amostra = new ArrayList<>();
+	private List<Amostra> amostras = new ArrayList<>();
 
 	@ManyToOne
 	@JoinColumn(name = "solicitacao_id")
 	@JsonIgnore
 	private Solicitacao solicitacao;
+
+	public Analise(Builder builder) {
+		this.leite = builder.leite;
+		this.origemLeite = builder.origemLeite;
+		this.produtos = builder.produtos;
+		this.analisesSolicitadas = builder.analisesSolicitadas;
+		this.especie = builder.especie;
+	}
+
+	public Analise() {
+	}
 
 	@Override
 	public Integer getId() {
@@ -130,12 +141,12 @@ public class Analise extends AbstractModel<Integer> {
 		this.especie = especie;
 	}
 
-	public List<Amostra> getAmostra() {
-		return amostra;
+	public List<Amostra> getAmostras() {
+		return amostras;
 	}
 
-	public void setAmostra(List<Amostra> amostra) {
-		this.amostra = amostra;
+	public void setAmostras(List<Amostra> amostra) {
+		this.amostras = amostra;
 	}
 
 	public Solicitacao getSolicitacao() {
@@ -147,13 +158,49 @@ public class Analise extends AbstractModel<Integer> {
 	}
 
 	public void addAmostra(Amostra novaAmostra) {
-		amostra.add(novaAmostra);
+		amostras.add(novaAmostra);
 		novaAmostra.setAnalise(this);
 	}
 
 	public void removerAmostra(Amostra removeAmostra) {
-		amostra.remove(removeAmostra);
+		amostras.remove(removeAmostra);
 		removeAmostra.setAnalise(null);
+	}
+
+	public static class Builder {
+		private final String especie;
+		private Collection<EnumLeite> leite;
+		private Collection<EnumOrigemLeite> origemLeite;
+		private Collection<EnumProdutos> produtos;
+		private Collection<EnumAnalisesSolicitadas> analisesSolicitadas;
+
+		public Builder(String especie) {
+			this.especie = especie;
+		}
+
+		public Builder leite(Collection<EnumLeite> leite) {
+			this.leite = leite;
+			return this;
+		}
+
+		public Builder origemLeite(Collection<EnumOrigemLeite> origemLeite) {
+			this.origemLeite = origemLeite;
+			return this;
+		}
+
+		public Builder produtos(Collection<EnumProdutos> produtos) {
+			this.produtos = produtos;
+			return this;
+		}
+
+		public Builder analisesSolicitadas(Collection<EnumAnalisesSolicitadas> analisesSolicitadas) {
+			this.analisesSolicitadas = analisesSolicitadas;
+			return this;
+		}
+		
+		public Analise build() {
+			return new Analise(this);
+		}
 	}
 
 }
