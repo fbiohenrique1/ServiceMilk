@@ -12,7 +12,7 @@ import javax.validation.constraints.NotBlank;
 
 import com.pa2.milk.api.model.enums.EnumTipoPerfilUsuario;
 
-@Entity
+@Entity(name = "usuario")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public abstract class Usuario extends AbstractModel<Integer> {
 

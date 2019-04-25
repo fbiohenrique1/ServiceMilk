@@ -9,8 +9,10 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 
 import com.pa2.milk.api.helper.PasswordUtils;
 import com.pa2.milk.api.model.Administrador;
@@ -41,6 +43,8 @@ import com.pa2.milk.api.repository.SolicitacaoRepository;
 import com.pa2.milk.api.repository.UsuarioRepository;
 
 @SpringBootApplication
+@EnableAutoConfiguration
+@ComponentScan
 public class ServiceMilkApplication {
 
 	@Autowired
@@ -113,7 +117,7 @@ public class ServiceMilkApplication {
 //
 //			// Administrador
 //			Usuario a = new Administrador();
-//			a.setEmail("teste@email.com");  
+//			a.setEmail("teste@email.com");
 //			a.setCodigoTipoPerfilUsuario(EnumTipoPerfilUsuario.ROLE_ADMINISTRADOR);
 //			a.setNome("Teste de sistema");
 //			a.setCpf("11242520023");
@@ -192,13 +196,21 @@ public class ServiceMilkApplication {
 //			analise.setProdutos(teste2);
 //			analise.setOrigemLeite(teste3);
 //			analise.setAnalisesSolicitadas(teste4);
-//			this.analiseRepository.save(analise);
 //
-//			// Adicionar id de solicitação em uma analise
-//			Optional<Solicitacao> solicitacao = this.solicitacaoRepository.findById(1);
-//			solicitacao.get().addAnalise(analise);
-//			// solicitacao.get().addAnalise(analise2);
-//			this.solicitacaoRepository.save(solicitacao.get());
+//			Analise analise2 = new Analise();
+//			analise2.setEspecie("especie");
+//			analise2.setLeite(teste);
+//			analise2.setProdutos(teste2);
+//			analise2.setOrigemLeite(teste3);
+//			analise2.setAnalisesSolicitadas(teste4);
+//
+//			Analise analise3 = new Analise();
+//			analise3.setEspecie("especie");
+//			analise3.setLeite(teste);
+//			analise3.setProdutos(teste2);
+//			analise3.setOrigemLeite(teste3);
+//			analise3.setAnalisesSolicitadas(teste4);
+//			// this.analiseRepository.save(analise);
 //
 //			// Amostra 1
 //			Amostra amostra = new Amostra();
@@ -206,17 +218,30 @@ public class ServiceMilkApplication {
 //			amostra.setNumeroAmostra(30);
 //			amostra.setObservacao("obs");
 //			amostra.setQrCode("qrCode");
-//			this.amostraRepository.save(amostra);
-//			
-//			//Amostra 2
+////			this.amostraRepository.save(amostra);
+//
+//			// Amostra 2
 //			Amostra amostra2 = new Amostra();
 //			amostra2.setDataColeta(new Date());
 //			amostra2.setNumeroAmostra(323);
 //			amostra2.setObservacao("obs2");
 //			amostra2.setQrCode("qrCode2");
-//			this.amostraRepository.save(amostra2);
+////			this.amostraRepository.save(amostra2);
 //
-//			// Cadastro de uma amostra em um analise de uma solicitação
+//
+//			// Adicionar id de solicitação em uma analise
+//			Optional<Solicitacao> solicitacao = this.solicitacaoRepository.findById(1);
+//			List<Analise> listaAnalises = new ArrayList<>();
+//			listaAnalises.add(analise);
+//			listaAnalises.add(analise2);
+//			listaAnalises.add(analise3);
+//			listaAnalises.stream().forEach(objAnalise -> solicitacao.get().addAnalise(objAnalise));
+//			//solicitacao.get().addAnalise(analise);
+//			// solicitacao.get().addAnalise(analise2);
+//			this.solicitacaoRepository.save(solicitacao.get());
+
+	//-------------------------------------------------------------(NAO FUNCIONA)---------------------------------------------
+			// Cadastro de uma amostra em um analise de uma solicitação 
 //			Optional<Solicitacao> testeSoli = this.solicitacaoRepository.findById(1);
 //			List<Analise> testeAnalise = testeSoli.get().getListaAnalise();
 //			for (int i = 0; i < testeAnalise.size(); i++) {
@@ -229,7 +254,10 @@ public class ServiceMilkApplication {
 //				testeAnalise.get(i).addAmostra(amostra2);
 //				this.analiseRepository.save(testeAnalise.get(i));
 //			}
+			
+			//-------------------------------------------------------------(NAO FUNCIONA)---------------------------------------------
+
 //		};
-	
+//	}
 
 }

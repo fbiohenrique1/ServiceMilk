@@ -1,6 +1,7 @@
 package com.pa2.milk.api.controller;
 
 import java.security.NoSuchAlgorithmException;
+import java.util.List;
 import java.util.Optional;
 
 import org.slf4j.Logger;
@@ -17,8 +18,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.pa2.milk.api.helper.Response;
+import com.pa2.milk.api.model.Analise;
+import com.pa2.milk.api.model.Fazenda;
 import com.pa2.milk.api.model.Solicitacao;
 import com.pa2.milk.api.model.dto.SolicitacaoDto;
+import com.pa2.milk.api.model.enums.EnumStatusSolicitacao;
+import com.pa2.milk.api.service.FazendaService;
 import com.pa2.milk.api.service.SolicitacaoService;
 
 import javassist.NotFoundException;
@@ -33,10 +38,13 @@ public class SolicitacaoController {
 	@Autowired
 	private SolicitacaoService solicitacaoService;
 
+	@Autowired
+	private FazendaService fazendaSerice;
+
 	@PostMapping
-	public ResponseEntity<Response<Solicitacao>> cadastrarSolicitacao(@RequestBody SolicitacaoDto solicitacao,
+	public ResponseEntity<Response<Solicitacao>> cadastrarSolicitacao(@RequestBody SolicitacaoDto solicitacaoDTO,
 			BindingResult result) throws NoSuchAlgorithmException, NotFoundException {
-		log.info("Cadastrando solicitacao: {}", solicitacao.toString());
+		log.info("Cadastrando solicitacao: {}", solicitacaoDTO.toString());
 
 		Response<Solicitacao> response = new Response<Solicitacao>();
 
@@ -46,9 +54,22 @@ public class SolicitacaoController {
 			return ResponseEntity.badRequest().body(response);
 		}
 
-		solicitacaoService.salvarSolicitacao(solicitacao.getCnpj());
+		Optional<Fazenda> fazenda = fazendaSerice.buscarPorCnpj(solicitacaoDTO.getCnpj());
+		Solicitacao solicitacao = gerarSolicitacao(solicitacaoDTO, fazenda.get());
+
+		solicitacaoService.salvarSolicitacao(solicitacao);
 
 		return ResponseEntity.ok(response);
+	}
+
+	private Solicitacao gerarSolicitacao(SolicitacaoDto solicitacaoDTO, Fazenda fazenda) {
+		List<Analise> analises = solicitacaoDTO.transformarParaListaAnalise();
+		Solicitacao solicitacao = solicitacaoDTO.transformarParaSolicitacao();
+		solicitacao.setFazenda(fazenda);
+		solicitacao.setCliente(fazenda.getCliente());
+		analises.stream().forEach(objAnalise -> solicitacao.addAnalise(objAnalise));
+		solicitacao.setStatus(EnumStatusSolicitacao.PENDENTE);
+		return solicitacao;
 	}
 
 	@GetMapping(value = "{id}")

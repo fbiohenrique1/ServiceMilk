@@ -10,7 +10,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
-@Entity
+@Entity(name="fazenda")
 @Table
 public class Fazenda extends AbstractModel<Integer> {
 	@Id

@@ -1,27 +1,45 @@
 package com.pa2.milk.api.model.dto;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
+
+import com.pa2.milk.api.model.Analise;
+import com.pa2.milk.api.model.Solicitacao;
+
 public class SolicitacaoDto {
 
-	private String cpf;
-	private String cnpj;
+    private String cnpj;
 
-	public SolicitacaoDto() {
-	}
+    private List<AnaliseDto> listaAnalise;
 
-	public String getCpf() {
-		return cpf;
-	}
+    public SolicitacaoDto() {
+    }
 
-	public void setCpf(String cpf) {
-		this.cpf = cpf;
-	}
+    public String getCnpj() {
+	return cnpj;
+    }
 
-	public String getCnpj() {
-		return cnpj;
-	}
+    public void setCnpj(String cnpj) {
+	this.cnpj = cnpj;
+    }
 
-	public void setCnpj(String cnpj) {
-		this.cnpj = cnpj;
-	}
+    public List<AnaliseDto> getListaAnalise() {
+	return listaAnalise;
+    }
+
+    public void setListaAnalise(List<AnaliseDto> listaAnalise) {
+	this.listaAnalise = listaAnalise;
+    }
+    
+    public Solicitacao transformarParaSolicitacao(){
+	return new Solicitacao();
+    }
+    
+    public List<Analise> transformarParaListaAnalise(){
+	List<Analise> listaAnalise = this.listaAnalise.stream().map(obj -> obj.transformarParaAnalise()).collect(Collectors.toList());
+	return listaAnalise;
+    }
 
 }

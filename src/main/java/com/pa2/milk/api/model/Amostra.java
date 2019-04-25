@@ -17,7 +17,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-@Entity
+@Entity(name="amostra")
 @Table
 public class Amostra extends AbstractModel<Integer> {
 
@@ -37,7 +37,7 @@ public class Amostra extends AbstractModel<Integer> {
 	private String qrCode;
 
 	@Column(length = 2047)
-	private String Observacao;
+	private String observacao;
 		
 	@ManyToOne
 	@JoinColumn(name = "analise_id")
@@ -79,11 +79,11 @@ public class Amostra extends AbstractModel<Integer> {
 	}
 
 	public String getObservacao() {
-		return Observacao;
+		return observacao;
 	}
 
 	public void setObservacao(String observacao) {
-		Observacao = observacao;
+		this.observacao = observacao;
 	}
 
 	public Analise getAnalise() {

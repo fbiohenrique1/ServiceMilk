@@ -23,16 +23,8 @@ public class SolicitacaoService {
 	@Autowired
 	private SolicitacaoRepository solicitacaoRepository;
 
-	@Autowired
-	private FazendaRepository fazendaRepository;
 
-	public void salvarSolicitacao(String cnpj) throws NotFoundException {
-		Fazenda fazenda = fazendaRepository.findByCnpj(cnpj);
-
-		if (fazenda == null) {
-			throw new NotFoundException("Não foi possível salvar a solicitação, dados incorretos!!!");
-		}
-		Solicitacao solicitacao = criarSolicitacao(fazenda);
+	public void salvarSolicitacao(Solicitacao solicitacao) throws NotFoundException {
 		solicitacaoRepository.save(solicitacao);
 	}
 

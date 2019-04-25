@@ -23,7 +23,7 @@ import org.hibernate.annotations.FetchMode;
 
 import com.pa2.milk.api.model.enums.EnumStatusSolicitacao;
 
-@Entity
+@Entity(name = "solicitacao")
 @Table
 public class Solicitacao extends AbstractModel<Integer> {
 
@@ -43,7 +43,7 @@ public class Solicitacao extends AbstractModel<Integer> {
 	@Fetch(FetchMode.SUBSELECT)
 	@Cascade({ org.hibernate.annotations.CascadeType.ALL })
 	// @JsonIgnore
-	private List<Analise> listaAnalise = new ArrayList<>();
+	private List<Analise> listaAnalise;
 
 	@Enumerated(EnumType.STRING)
 	@Column(name = "produtos", nullable = false)
@@ -51,6 +51,14 @@ public class Solicitacao extends AbstractModel<Integer> {
 
 	@Column(length = 2047)
 	private String observacao;
+
+//    public Solicitacao(Fazenda fazenda) {
+//	this.fazenda = fazenda;
+//    }
+
+	public Solicitacao() {
+		listaAnalise = new ArrayList<>();
+	}
 
 	@Override
 	public Integer getId() {

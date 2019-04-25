@@ -14,7 +14,7 @@ import javax.validation.constraints.NotNull;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
-@Entity
+@Entity(name = "ordem_servico")
 @Table
 public class OrdemServico extends AbstractModel<Integer> {
 	@Id

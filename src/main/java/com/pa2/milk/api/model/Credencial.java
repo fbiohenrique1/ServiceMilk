@@ -10,7 +10,7 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.Cascade;
 
-@Entity
+@Entity(name="credencial")
 @Table
 public class Credencial extends AbstractModel<Integer> {
 
