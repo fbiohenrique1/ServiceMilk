@@ -25,9 +25,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.pa2.milk.api.helper.Response;
+import com.pa2.milk.api.model.Credencial;
 import com.pa2.milk.api.security.dto.JwtAuthenticationDto;
 import com.pa2.milk.api.security.dto.TokenDto;
 import com.pa2.milk.api.security.utils.JwtTokenUtil;
+import com.pa2.milk.api.service.CredencialService;
 
 @RestController
 @RequestMapping("/autenticacao")
@@ -47,6 +49,9 @@ public class AuthenticationController {
 	@Autowired
 	private UserDetailsService userDetailsService;
 
+	@Autowired
+	private CredencialService credencialService;
+	
 	@PostMapping
 	public ResponseEntity<Response<TokenDto>> gerarTokenJwt(@Valid @RequestBody JwtAuthenticationDto authenticationDto,
 			HttpServletResponse r, BindingResult result) throws AuthenticationException {
@@ -72,8 +77,11 @@ public class AuthenticationController {
 		String token = jwtTokenUtil.obterToken(userDetails);
 		response.setData(new TokenDto(token));
 
+		Optional<Credencial> credencial = this.credencialService.buscarPorUsername(authenticationDto.getUsername());
+		
 		r.addHeader(TOKEN_HEADER, BEARER_PREFIX + " " + token);
-
+		r.addHeader("Usuario","ID:"+credencial.get().getUsuario().getId());
+		
 		return ResponseEntity.ok(response);
 
 	}
