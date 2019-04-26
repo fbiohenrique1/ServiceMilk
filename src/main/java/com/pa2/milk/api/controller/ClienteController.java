@@ -63,7 +63,6 @@ public class ClienteController {
 	@GetMapping
 	public List<Cliente> listarClientes() {
 		List<Cliente> clientes = this.clienteService.buscarPorTipoPerfilUsuario(EnumTipoPerfilUsuario.ROLE_CLIENTE);
-
 		return clientes;
 	}
 

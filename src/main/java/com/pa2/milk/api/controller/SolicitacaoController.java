@@ -41,6 +41,12 @@ public class SolicitacaoController {
 	@Autowired
 	private FazendaService fazendaSerice;
 
+	@GetMapping
+	public List<Solicitacao> listarSolicitacoes(){
+		log.info("Listando Solicitações");
+		return this.solicitacaoService.listarTodasSolicitacoes();
+	}
+	
 	@PostMapping
 	public ResponseEntity<Response<Solicitacao>> cadastrarSolicitacao(@RequestBody SolicitacaoDto solicitacaoDTO,
 			BindingResult result) throws NoSuchAlgorithmException, NotFoundException {

@@ -26,6 +26,7 @@ public class SolicitacaoService {
 
 
 	public void salvarSolicitacao(Solicitacao solicitacao) throws NotFoundException {
+		log.info("Salvando Solicitação");
 		solicitacaoRepository.save(solicitacao);
 	}
 
@@ -46,7 +47,13 @@ public class SolicitacaoService {
 	}
 
 	public Optional<Solicitacao> buscarSolicitacaoPorId(Integer id) {
+		log.info("Listando Solicitações por Id");
 		return solicitacaoRepository.findById(id);
+	}
+
+	public List<Solicitacao> listarTodasSolicitacoes(){
+		log.info("Listando Solicitações");
+		return this.solicitacaoRepository.findAll();
 	}
 	
 /*	public List<Fazenda> buscarSolicitacaoFazendaId(Integer fazendaId){
