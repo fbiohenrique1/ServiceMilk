@@ -23,10 +23,8 @@ public class CadastroClienteDto {
 	//@NotEmpty(message = "O campo telefone não pode ser nulo.")
 	private List<String> telefones;
 
-	@NotEmpty(message = "O campo username não pode ser nulo.")
 	private String username;
 
-	@NotEmpty(message = "O campo senha não pode ser nulo.")
 	private String senha;
 
 	public Integer getId() {
