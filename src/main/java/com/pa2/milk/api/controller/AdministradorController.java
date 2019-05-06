@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,11 +24,14 @@ import org.springframework.web.bind.annotation.RestController;
 import com.pa2.milk.api.helper.PasswordUtils;
 import com.pa2.milk.api.helper.Response;
 import com.pa2.milk.api.model.Administrador;
+import com.pa2.milk.api.model.Bolsista;
 import com.pa2.milk.api.model.Credencial;
 import com.pa2.milk.api.model.Usuario;
 import com.pa2.milk.api.model.dto.CadastroClienteDto;
 import com.pa2.milk.api.model.enums.EnumTipoPerfilUsuario;
 import com.pa2.milk.api.repository.AdministradorRepository;
+import com.pa2.milk.api.repository.CredencialRepository;
+import com.pa2.milk.api.repository.UsuarioRepository;
 import com.pa2.milk.api.service.AdministradorService;
 import com.pa2.milk.api.service.CredencialService;
 
@@ -46,6 +50,13 @@ public class AdministradorController {
 
 	@Autowired
 	private AdministradorRepository administradorRepository;
+
+	@Autowired
+	private CredencialRepository credencialRepository;
+
+	@Autowired
+	private UsuarioRepository usuarioRepository;
+
 
 	@PostMapping
 	public ResponseEntity<Response<CadastroClienteDto>> cadastrarAdministrador(
@@ -176,25 +187,65 @@ public class AdministradorController {
 		return administrador;
 	}
 
-	private void atualizarDadosAdministrador(Administrador administrador, Administrador administrador2,
-			BindingResult result) throws NoSuchAlgorithmException {
+	
+	
+	
+	private void atualizarDadosAdministrador(Credencial credencial, CadastroClienteDto administrador,BindingResult result)
+			throws NoSuchAlgorithmException {
 
-		administrador.setNome(administrador2.getNome());
+		credencial.getUsuario().setNome(administrador.getNome());
 
-		if (!administrador.getEmail().equals(administrador2.getEmail())) {
+		if (!credencial.getUsuario().getEmail().equals(administrador.getEmail())) {
 
-			this.administradorService.buscarPorEmail(administrador2.getEmail())
+			this.administradorService.buscarPorEmail(administrador.getEmail())
 					.ifPresent(clien -> result.addError(new ObjectError("email", "Email já exitente.")));
-			administrador.setEmail(administrador2.getEmail());
+			credencial.getUsuario().setEmail(administrador.getEmail());
 		}
 
-		if (!administrador.getCpf().equals(administrador2.getCpf())) {
+		if (!credencial.getUsuario().getCpf().equals(administrador.getCpf())) {
 
-			this.administradorService.buscarPorCpf(administrador2.getCpf())
+			this.administradorService.buscarPorCpf(administrador.getCpf())
 					.ifPresent(clien -> result.addError(new ObjectError("cpf", "CPF já existente.")));
-			administrador.setCpf(administrador2.getCpf());
+			credencial.getUsuario().setCpf(administrador.getCpf());
 		}
 
+		if (!credencial.getUsername().equals(administrador.getUsername())) {
+
+			this.credencialService.buscarPorUsername(administrador.getUsername())
+					.ifPresent(crede -> result.addError(new ObjectError("username", "Username já existente.")));
+			credencial.setUsername(administrador.getUsername());
+		}
+
+		credencial.setSenha(PasswordUtils.gerarBCrypt(administrador.getSenha()));
+
+	}
+
+	@GetMapping
+	public List<Administrador> listarBolsistas() {
+		List<Administrador> administrador = this.administradorRepository.findByCodigoTipoPerfilUsuario(EnumTipoPerfilUsuario.ROLE_ADMINISTRADOR.getCodigo());
+		return administrador;
+	}
+	
+	@DeleteMapping(value = "{id}")
+	public ResponseEntity<Response<Credencial>> deletarAdministrador(@PathVariable("id") Integer id) {
+
+		log.info("Removendo Administrador: {}", id);
+
+		Response<Credencial> response = new Response<Credencial>();
+
+		Optional<Credencial> credencial = credencialService.buscarPorId(id);
+
+		if (!credencial.isPresent()) {
+			log.info("Credencial não encontrada");
+			response.getErros().add("Credencial não encontrada");
+			ResponseEntity.badRequest().body(response);
+		}
+
+		response.setData(credencial.get());
+		this.usuarioRepository.deleteById(credencial.get().getUsuario().getId());
+		this.credencialRepository.deleteById(credencial.get().getId());
+
+		return ResponseEntity.ok(response);
 	}
 
 //@DeleteMapping(value = "{id}")
