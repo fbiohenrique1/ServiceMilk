@@ -17,7 +17,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-@Entity(name="amostra")
+@Entity(name = "amostra")
 @Table
 public class Amostra extends AbstractModel<Integer> {
 
@@ -38,7 +38,7 @@ public class Amostra extends AbstractModel<Integer> {
 
 	@Column(length = 2047)
 	private String observacao;
-		
+
 	@ManyToOne
 	@JoinColumn(name = "analise_id")
 	@JsonIgnore

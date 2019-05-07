@@ -22,14 +22,14 @@ public class ClienteService {
 	@Autowired
 	private ClienteRepository clienteRepository;
 
-	public Optional<Cliente> buscarPorId(Integer id) {
-		log.info("Buscando Cliente por ID ");
-		return clienteRepository.findById(id);
-	}
-
 	public void salvar(Cliente cliente) {
 		log.info("Salvando Cliente ");
 		clienteRepository.save(cliente);
+	}
+
+	public Optional<Cliente> buscarPorId(Integer id) {
+		log.info("Buscando Cliente por ID ");
+		return clienteRepository.findById(id);
 	}
 
 	public Optional<Cliente> buscarPorCpf(String cpf) {
@@ -47,27 +47,20 @@ public class ClienteService {
 		return Optional.ofNullable(this.clienteRepository.findByEmail(email));
 	}
 
-//	public void remover(EnumTipoPerfilUsuario tipoPerfilUsuario,Integer id) {
-//		log.info("Removendo Cliente pelo Id: {}", id);
-//		this.clienteRepository.deleteByCodigoTipoPerfilUsuarioAndId(tipoPerfilUsuario.getCodigo(), id);;
-//	}
-
 	public List<Cliente> listarClientes() {
 		log.info("Listando Clientes");
 		return this.clienteRepository.findAll();
 	}
-	
+
 	public List<Cliente> buscarPorTipoPerfilUsuario(EnumTipoPerfilUsuario tipoPerfilUsuario) {
 		log.info("Buscando usuario pelo tipoPerfilUsuario: {}", tipoPerfilUsuario);
-		return this.clienteRepository.findByCodigoTipoPerfilUsuario(tipoPerfilUsuario.getCodigo());
+		return this.clienteRepository.findByCodigoTipoPerfilUsuarioAndAtivoTrue(tipoPerfilUsuario.getCodigo());
 	}
-
-	
 
 	public Optional<Cliente> buscarPorTipoPerfilUsuarioandID(EnumTipoPerfilUsuario tipoPerfilUsuario, Integer id) {
 		log.info("Buscando usuario pelo tipoPerfilUsuario: {}", tipoPerfilUsuario);
-		return Optional.ofNullable(this.clienteRepository.findByCodigoTipoPerfilUsuarioAndId(tipoPerfilUsuario.getCodigo(), id));
+		return Optional.ofNullable(this.clienteRepository
+				.findByCodigoTipoPerfilUsuarioAndIdAndAtivoTrue(tipoPerfilUsuario.getCodigo(), id));
 	}
-
 
 }

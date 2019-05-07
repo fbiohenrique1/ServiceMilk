@@ -17,7 +17,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.web.cors.CorsConfiguration;
 
 import com.pa2.milk.api.security.JwtAuthenticationEntryPoint;
 import com.pa2.milk.api.security.filter.JwtAuthenticationTokenFilter;
@@ -45,7 +44,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		return new BCryptPasswordEncoder();
 	}
 
-	@Bean // faltava
+	@Bean
 	public JwtAuthenticationTokenFilter authenticationTokenFilterBean() throws Exception {
 		return new JwtAuthenticationTokenFilter();
 	}
@@ -61,12 +60,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity httpSecurity) throws Exception {
-		httpSecurity.cors().configurationSource(request -> new CorsConfiguration().applyPermitDefaultValues()).and()
-				.csrf().disable().exceptionHandling().authenticationEntryPoint(unauthorizedHandle).and()
-				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().authorizeRequests()
+		httpSecurity.cors().and().csrf().disable().exceptionHandling().authenticationEntryPoint(unauthorizedHandle)
+				.and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
+				.authorizeRequests()
 				.antMatchers("/autenticacao/**", "/v2/api-docs", "/swagger-resources/**", "/configuration/security",
-						"/swagger-ui.html", "/webjars/**").permitAll().antMatchers(HttpMethod.POST, "/cliente/**")
-				.permitAll().anyRequest().authenticated();
+						"/swagger-ui.html", "/webjars/**")
+				.permitAll().antMatchers(HttpMethod.POST, "/cliente/**").permitAll().anyRequest().authenticated();
 		httpSecurity.addFilterBefore(authenticationTokenFilterBean(), UsernamePasswordAuthenticationFilter.class);
 		httpSecurity.headers().cacheControl();
 

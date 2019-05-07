@@ -15,10 +15,10 @@ import org.hibernate.annotations.FetchMode;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-@Entity(name="cliente")
+@Entity(name = "cliente")
 public class Cliente extends Usuario {
 
-	//@NotNull(message = "O campo telefone não pode ser nulo.")
+	// @NotNull(message = "O campo telefone não pode ser nulo.")
 	@Fetch(FetchMode.SELECT)
 	@ElementCollection(fetch = FetchType.EAGER)
 	private List<String> telefones;

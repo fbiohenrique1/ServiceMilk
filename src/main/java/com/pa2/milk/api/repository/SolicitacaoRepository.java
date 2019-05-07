@@ -1,10 +1,7 @@
 package com.pa2.milk.api.repository;
 
-import java.util.List;
-
 import javax.persistence.NamedQuery;
 
-import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.pa2.milk.api.model.Solicitacao;
@@ -14,7 +11,5 @@ import com.pa2.milk.api.model.Solicitacao;
 public interface SolicitacaoRepository extends GenericRepository<Solicitacao, Integer> {
 
 //List<Solicitacao> findByFazenda(@Param("fazendaId") Integer fazendaId);
-
-	
 
 }

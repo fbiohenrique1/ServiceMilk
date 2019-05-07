@@ -29,7 +29,6 @@ import com.pa2.milk.api.model.Credencial;
 import com.pa2.milk.api.model.Usuario;
 import com.pa2.milk.api.model.dto.CadastroClienteDto;
 import com.pa2.milk.api.model.enums.EnumTipoPerfilUsuario;
-import com.pa2.milk.api.repository.BolsistaRepository;
 import com.pa2.milk.api.repository.CredencialRepository;
 import com.pa2.milk.api.repository.UsuarioRepository;
 import com.pa2.milk.api.service.BolsistaService;
@@ -52,9 +51,6 @@ public class BolsistaController {
 
 	@Autowired
 	private UsuarioRepository usuarioRepository;
-
-	@Autowired
-	private BolsistaRepository bolsistaRepository;
 
 	@PostMapping
 	public ResponseEntity<Response<CadastroClienteDto>> cadastrarBolsista(
@@ -92,7 +88,8 @@ public class BolsistaController {
 
 		Response<Bolsista> response = new Response<Bolsista>();
 
-		Optional<Bolsista> bolsista = this.bolsistaService.buscarPorTipoPerfilUsuarioandID(EnumTipoPerfilUsuario.ROLE_BOLSISTA, id);
+		Optional<Bolsista> bolsista = this.bolsistaService
+				.buscarPorTipoPerfilUsuarioandID(EnumTipoPerfilUsuario.ROLE_BOLSISTA, id);
 
 		if (!bolsista.isPresent()) {
 			log.info("Bolsista não encontrado");
@@ -176,7 +173,7 @@ public class BolsistaController {
 
 	@GetMapping
 	public List<Bolsista> listarBolsistas() {
-		List<Bolsista> bolsista = this.bolsistaRepository.findByCodigoTipoPerfilUsuario(EnumTipoPerfilUsuario.ROLE_BOLSISTA.getCodigo());
+		List<Bolsista> bolsista = this.bolsistaService.buscarPorTipoPerfilUsuario(EnumTipoPerfilUsuario.ROLE_BOLSISTA);
 		return bolsista;
 	}
 
@@ -211,9 +208,9 @@ public class BolsistaController {
 	}
 
 	@DeleteMapping(value = "{id}")
-	public ResponseEntity<Response<Credencial>> deletarCliente(@PathVariable("id") Integer id) {
+	public ResponseEntity<Response<Credencial>> deletarBolsista(@PathVariable("id") Integer id) {
 
-		log.info("Removendo Cliente: {}", id);
+		log.info("Removendo Bolsista: {}", id);
 
 		Response<Credencial> response = new Response<Credencial>();
 

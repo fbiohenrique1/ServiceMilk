@@ -197,7 +197,7 @@ public class Analise extends AbstractModel<Integer> {
 			this.analisesSolicitadas = analisesSolicitadas;
 			return this;
 		}
-		
+
 		public Analise build() {
 			return new Analise(this);
 		}

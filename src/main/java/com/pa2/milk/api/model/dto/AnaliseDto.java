@@ -4,28 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import javax.persistence.Column;
-import javax.persistence.ElementCollection;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.validation.constraints.NotBlank;
-
-import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.pa2.milk.api.model.Amostra;
 import com.pa2.milk.api.model.Analise;
-import com.pa2.milk.api.model.Solicitacao;
 import com.pa2.milk.api.model.enums.EnumAnalisesSolicitadas;
 import com.pa2.milk.api.model.enums.EnumLeite;
 import com.pa2.milk.api.model.enums.EnumOrigemLeite;

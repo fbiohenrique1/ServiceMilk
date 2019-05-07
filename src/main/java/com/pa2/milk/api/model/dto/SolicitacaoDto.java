@@ -1,8 +1,6 @@
 package com.pa2.milk.api.model.dto;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 import com.pa2.milk.api.model.Analise;

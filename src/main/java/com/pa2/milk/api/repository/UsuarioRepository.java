@@ -8,6 +8,8 @@ import com.pa2.milk.api.model.Usuario;
 public interface UsuarioRepository extends GenericRepository<Usuario, Integer> {
 
 	Usuario findByEmail(String email);
-	Usuario findByCodigoTipoPerfilUsuario(Integer perfil); 
+
+	Usuario findByCodigoTipoPerfilUsuario(Integer perfil);
+
 	Usuario findByCodigoTipoPerfilUsuarioAndId(Integer perfil, Integer id);
 }

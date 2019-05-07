@@ -11,9 +11,9 @@ public interface BolsistaRepository extends GenericRepository<Bolsista, Integer>
 	Bolsista findByEmail(String email);
 
 	Bolsista findByCpfOrEmail(String cpf, String email);
-	
-	List<Bolsista> findByCodigoTipoPerfilUsuario(Integer perfil);
 
-	Bolsista findByCodigoTipoPerfilUsuarioAndId(Integer perfil, Integer id);
+	List<Bolsista> findByCodigoTipoPerfilUsuarioAndAtivoTrue(Integer perfil);
+
+	Bolsista findByCodigoTipoPerfilUsuarioAndIdAndAtivoTrue(Integer perfil, Integer id);
 
 }

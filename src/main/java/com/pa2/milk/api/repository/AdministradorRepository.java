@@ -5,16 +5,15 @@ import java.util.List;
 import com.pa2.milk.api.model.Administrador;
 
 public interface AdministradorRepository extends GenericRepository<Administrador, Integer> {
-;
 
-Administrador findByCpf(String cpf);
+	Administrador findByCpf(String cpf);
 
-Administrador findByEmail(String email);
+	Administrador findByEmail(String email);
 
-Administrador findByCpfOrEmail(String cpf, String email);
+	Administrador findByCpfOrEmail(String cpf, String email);
 
-List<Administrador> findByCodigoTipoPerfilUsuario(Integer perfil);
+	List<Administrador> findByCodigoTipoPerfilUsuarioAndAtivoTrue(Integer perfil);
 
-Administrador findByCodigoTipoPerfilUsuarioAndId(Integer perfil, Integer id);
+	Administrador findByCodigoTipoPerfilUsuarioAndIdAndAtivoTrue(Integer perfil, Integer id);
 
 }

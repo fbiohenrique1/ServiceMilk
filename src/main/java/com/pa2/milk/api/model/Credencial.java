@@ -10,7 +10,7 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.Cascade;
 
-@Entity(name="credencial")
+@Entity(name = "credencial")
 @Table
 public class Credencial extends AbstractModel<Integer> {
 
@@ -27,7 +27,7 @@ public class Credencial extends AbstractModel<Integer> {
 	private String senha;
 
 	@OneToOne
-	@Cascade({org.hibernate.annotations.CascadeType.ALL})
+	@Cascade({ org.hibernate.annotations.CascadeType.ALL })
 	private Usuario usuario;
 
 	@Override

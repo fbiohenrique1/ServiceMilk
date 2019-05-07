@@ -15,12 +15,8 @@ public interface ClienteRepository extends GenericRepository<Cliente, Integer> {
 
 	Cliente findByCpfOrEmail(String cpf, String email);
 
-	List<Cliente> findByCodigoTipoPerfilUsuario(Integer perfil);
+	List<Cliente> findByCodigoTipoPerfilUsuarioAndAtivoTrue(Integer perfil);
 
-	Cliente findByCodigoTipoPerfilUsuarioAndId(Integer perfil, Integer id);
-	
-//	Cliente deleteByCodigoTipoPerfilUsuarioAndId(Integer perfil, Integer id);
-//	
-//	Cliente deleteByCodigoTipoPerfilUsuario(Integer perfil);	
-	
+	Cliente findByCodigoTipoPerfilUsuarioAndIdAndAtivoTrue(Integer perfil, Integer id);
+
 }
