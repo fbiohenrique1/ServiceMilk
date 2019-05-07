@@ -7,7 +7,6 @@ import javax.persistence.NamedQuery;
 import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.pa2.milk.api.model.Cliente;
 import com.pa2.milk.api.model.Solicitacao;
 
 @Transactional(readOnly = true)
