@@ -24,7 +24,6 @@ public class SolicitacaoService {
 	@Autowired
 	private SolicitacaoRepository solicitacaoRepository;
 
-
 	public void salvarSolicitacao(Solicitacao solicitacao) throws NotFoundException {
 		log.info("Salvando Solicitação");
 		solicitacaoRepository.save(solicitacao);
@@ -51,13 +50,13 @@ public class SolicitacaoService {
 		return solicitacaoRepository.findById(id);
 	}
 
-	public List<Solicitacao> listarTodasSolicitacoes(){
+	public List<Solicitacao> listarTodasSolicitacoes() {
 		log.info("Listando Solicitações");
 		return this.solicitacaoRepository.findAll();
 	}
-	
-/*	public List<Fazenda> buscarSolicitacaoFazendaId(Integer fazendaId){
-		return this.solicitacaoRepository.findBySolicitacaoId(fazendaId);
-	}*/
+
+	public List<Solicitacao> buscarSolicitacaoClienteId(Integer clienteId) {
+		return this.solicitacaoRepository.findByClienteId(clienteId);
+	}
 
 }

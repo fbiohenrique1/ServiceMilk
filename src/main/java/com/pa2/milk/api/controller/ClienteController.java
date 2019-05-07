@@ -28,6 +28,7 @@ import com.pa2.milk.api.helper.Response;
 import com.pa2.milk.api.model.Cliente;
 import com.pa2.milk.api.model.Credencial;
 import com.pa2.milk.api.model.Fazenda;
+import com.pa2.milk.api.model.Solicitacao;
 import com.pa2.milk.api.model.Usuario;
 import com.pa2.milk.api.model.dto.CadastroClienteDto;
 import com.pa2.milk.api.model.enums.EnumTipoPerfilUsuario;
@@ -36,6 +37,7 @@ import com.pa2.milk.api.repository.UsuarioRepository;
 import com.pa2.milk.api.service.ClienteService;
 import com.pa2.milk.api.service.CredencialService;
 import com.pa2.milk.api.service.FazendaService;
+import com.pa2.milk.api.service.SolicitacaoService;
 
 @RestController
 @RequestMapping(value = "/cliente")
@@ -58,6 +60,9 @@ public class ClienteController {
 
 	@Autowired
 	private FazendaService fazendaService;
+
+	@Autowired
+	private SolicitacaoService solicitacaoService;
 
 	@GetMapping
 	public List<Cliente> listarClientes() {
@@ -175,6 +180,14 @@ public class ClienteController {
 
 		List<Fazenda> farm = this.fazendaService.buscarFazendaClienteId(id);
 		return farm;
+	}
+
+	@GetMapping(value = "{id}/solicitacao")
+	public List<Solicitacao> buscarSolicitacaoClientePorId(@PathVariable("id") Integer id) {
+		log.info("Buscar Solicitação por Id do Cliente");
+
+		List<Solicitacao> s = this.solicitacaoService.buscarSolicitacaoClienteId(id);
+		return s;
 	}
 
 	private void atualizarDadosCliente(Credencial credencial, CadastroClienteDto clienteDto, BindingResult result)
