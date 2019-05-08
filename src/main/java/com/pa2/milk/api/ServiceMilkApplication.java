@@ -92,10 +92,9 @@ public class ServiceMilkApplication {
 //			usuario.setEmail("pedro@email.com");
 //			usuario.setCodigoTipoPerfilUsuario(EnumTipoPerfilUsuario.ROLE_CLIENTE);
 //			usuario.setNome("Pedro Fernandes");
-//			usuario.setCpf("65750205002");
-//			List<String> t = new ArrayList<String>();
-//			t.add("43242344");
-//			((Cliente) usuario).setTelefones(t);
+//			usuario.setCpf("65750205002");			
+//			((Cliente) usuario).setTelefone1("888888888");
+//			((Cliente) usuario).setTelefone2("999999999");
 //			Credencial c = new Credencial();
 //			c.setId(usuario.getId());
 //			c.setUsername("pedrohnf688");
@@ -163,6 +162,7 @@ public class ServiceMilkApplication {
 //			s.setCliente((Cliente) usuario);
 //			s.setFazenda(fazenda);
 //			s.setStatus(EnumStatusSolicitacao.PENDENTE);
+//			s.setQuantidadeAmostras(100);
 //			this.solicitacaoRepository.save(s);
 //
 //			// OrdemServiço
