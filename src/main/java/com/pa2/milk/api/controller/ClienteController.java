@@ -237,7 +237,8 @@ public class ClienteController {
 		cli.setEmail(clienteDto.getEmail());
 		cli.setNome(clienteDto.getNome());
 		cli.setCodigoTipoPerfilUsuario(EnumTipoPerfilUsuario.ROLE_CLIENTE);
-		((Cliente) cli).setTelefones(clienteDto.getTelefones());
+		((Cliente) cli).setTelefone1(clienteDto.getTelefone1());
+		((Cliente) cli).setTelefone2(clienteDto.getTelefone2());
 
 		return (Cliente) cli;
 	}
@@ -259,7 +260,8 @@ public class ClienteController {
 		clienteDto.setEmail(credencial.getUsuario().getEmail());
 		clienteDto.setCpf(credencial.getUsuario().getCpf());
 		clienteDto.setNome(credencial.getUsuario().getNome());
-		clienteDto.setTelefones(((Cliente) credencial.getUsuario()).getTelefones());
+		clienteDto.setTelefone1(((Cliente) credencial.getUsuario()).getTelefone1());
+		clienteDto.setTelefone2(((Cliente) credencial.getUsuario()).getTelefone2());
 		return clienteDto;
 	}
 

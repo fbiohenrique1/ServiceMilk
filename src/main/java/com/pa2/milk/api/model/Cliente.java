@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
-import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
@@ -18,10 +17,11 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 @Entity(name = "cliente")
 public class Cliente extends Usuario {
 
-	// @NotNull(message = "O campo telefone não pode ser nulo.")
-	@Fetch(FetchMode.SELECT)
-	@ElementCollection(fetch = FetchType.EAGER)
-	private List<String> telefones;
+	//@NotBlank(message = "O campo telefone 1 não pode ser nulo.")
+	private String telefone1;
+	
+	//@NotBlank(message = "O campo telefone 2 não pode ser nulo.")
+	private String telefone2;
 
 	@OneToMany(mappedBy = "cliente", fetch = FetchType.EAGER, orphanRemoval = true)
 	@Fetch(FetchMode.SUBSELECT)
@@ -33,12 +33,20 @@ public class Cliente extends Usuario {
 	@JsonIgnore
 	private List<Solicitacao> listaSolicitacao;
 
-	public List<String> getTelefones() {
-		return telefones;
+	public String getTelefone1() {
+		return telefone1;
 	}
 
-	public void setTelefones(List<String> telefones) {
-		this.telefones = telefones;
+	public void setTelefone1(String telefone1) {
+		this.telefone1 = telefone1;
+	}
+
+	public String getTelefone2() {
+		return telefone2;
+	}
+
+	public void setTelefone2(String telefone2) {
+		this.telefone2 = telefone2;
 	}
 
 	public List<Fazenda> getListaFazenda() {

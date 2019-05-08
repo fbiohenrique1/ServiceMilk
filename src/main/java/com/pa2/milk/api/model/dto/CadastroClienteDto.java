@@ -1,7 +1,5 @@
 package com.pa2.milk.api.model.dto;
 
-import java.util.List;
-
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 
@@ -17,11 +15,14 @@ public class CadastroClienteDto {
 	private String nome;
 
 	@NotEmpty(message = "O campo CPF não pode ser nulo.")
-	//@CPF(message = "CPF inválido.")
+	// @CPF(message = "CPF inválido.")
 	private String cpf;
 
-	//@NotEmpty(message = "O campo telefone não pode ser nulo.")
-	private List<String> telefones;
+	// @NotBlank(message = "O campo telefone 1 não pode ser nulo.")
+	private String telefone1;
+
+	// @NotBlank(message = "O campo telefone 2 não pode ser nulo.")
+	private String telefone2;
 
 	private String username;
 
@@ -59,12 +60,20 @@ public class CadastroClienteDto {
 		this.cpf = cpf;
 	}
 
-	public List<String> getTelefones() {
-		return telefones;
+	public String getTelefone1() {
+		return telefone1;
 	}
 
-	public void setTelefones(List<String> telefones) {
-		this.telefones = telefones;
+	public void setTelefone1(String telefone1) {
+		this.telefone1 = telefone1;
+	}
+
+	public String getTelefone2() {
+		return telefone2;
+	}
+
+	public void setTelefone2(String telefone2) {
+		this.telefone2 = telefone2;
 	}
 
 	public String getUsername() {
@@ -85,8 +94,8 @@ public class CadastroClienteDto {
 
 	@Override
 	public String toString() {
-		return "CadastroClienteDto [id=" + id + ", email=" + email + ", nome=" + nome + ", cpf=" + cpf + ", telefones="
-				+ telefones + ", username=" + username + ", senha=" + senha + "]";
+		return "CadastroClienteDto [id=" + id + ", email=" + email + ", nome=" + nome + ", cpf=" + cpf + ", telefone1="
+				+ telefone1 + ", telefone2=" + telefone2 + ", username=" + username + ", senha=" + senha + "]";
 	}
 
 }
