@@ -69,6 +69,9 @@ public class Analise extends AbstractModel<Integer> {
 	@NotBlank(message = "O campo especie não pode ser nulo.")
 	private String especie;
 
+	@Column(name="quantidade_amostras")
+	private Integer quantidadeAmostras;
+	
 	@OneToMany(mappedBy = "analise", fetch = FetchType.EAGER, orphanRemoval = true)
 	@Fetch(FetchMode.SUBSELECT)
 	@Cascade({ org.hibernate.annotations.CascadeType.ALL })
@@ -86,6 +89,7 @@ public class Analise extends AbstractModel<Integer> {
 		this.produtos = builder.produtos;
 		this.analisesSolicitadas = builder.analisesSolicitadas;
 		this.especie = builder.especie;
+		this.quantidadeAmostras = builder.quantidadeAmostras;
 	}
 
 	public Analise() {
@@ -167,12 +171,21 @@ public class Analise extends AbstractModel<Integer> {
 		removeAmostra.setAnalise(null);
 	}
 
+	public Integer getQuantidadeAmostras() {
+		return quantidadeAmostras;
+	}
+
+	public void setQuantidadeAmostras(Integer quantidadeAmostras) {
+		this.quantidadeAmostras = quantidadeAmostras;
+	}
+
 	public static class Builder {
 		private final String especie;
 		private Collection<EnumLeite> leite;
 		private Collection<EnumOrigemLeite> origemLeite;
 		private Collection<EnumProdutos> produtos;
 		private Collection<EnumAnalisesSolicitadas> analisesSolicitadas;
+		private Integer quantidadeAmostras;
 
 		public Builder(String especie) {
 			this.especie = especie;
@@ -195,6 +208,11 @@ public class Analise extends AbstractModel<Integer> {
 
 		public Builder analisesSolicitadas(Collection<EnumAnalisesSolicitadas> analisesSolicitadas) {
 			this.analisesSolicitadas = analisesSolicitadas;
+			return this;
+		}
+
+		public Builder quantidadeAmostras(Integer quantidadeAmostras) {
+			this.quantidadeAmostras = quantidadeAmostras;
 			return this;
 		}
 

@@ -81,183 +81,185 @@ public class ServiceMilkApplication {
 		SpringApplication.run(ServiceMilkApplication.class, args);
 	}
 
-//	@Bean
-//	public CommandLineRunner commandLineRunner() {
-//		return args -> {
-//
-//			// enumFactory.initializeEnums();
-//
-//			// Cliente
-//			Usuario usuario = new Cliente();
-//			usuario.setEmail("pedro@email.com");
-//			usuario.setCodigoTipoPerfilUsuario(EnumTipoPerfilUsuario.ROLE_CLIENTE);
-//			usuario.setNome("Pedro Fernandes");
-//			usuario.setCpf("65750205002");			
-//			((Cliente) usuario).setTelefone1("888888888");
-//			((Cliente) usuario).setTelefone2("999999999");
-//			Credencial c = new Credencial();
-//			c.setId(usuario.getId());
-//			c.setUsername("pedrohnf688");
-//			c.setSenha(PasswordUtils.gerarBCrypt("pedrohnf"));
-//			c.setUsuario(usuario);
-//			this.credencialRepository.save(c);
-//
-//			// Bolsista
-//			Usuario b = new Bolsista();
-//			b.setEmail("fabio@email.com");
-//			b.setCodigoTipoPerfilUsuario(EnumTipoPerfilUsuario.ROLE_BOLSISTA);
-//			b.setNome("Fábio Henrique");
-//			b.setCpf("13286865745");
-//			Credencial cB = new Credencial();
-//			cB.setUsername("fabio");
-//			cB.setSenha(PasswordUtils.gerarBCrypt("fabio"));
-//			cB.setUsuario(b);
-//			this.credencialRepository.save(cB);
-//
-//			// Administrador
-//			Usuario a = new Administrador();
-//			a.setEmail("teste@email.com");
-//			a.setCodigoTipoPerfilUsuario(EnumTipoPerfilUsuario.ROLE_ADMINISTRADOR);
-//			a.setNome("Teste de sistema");
-//			a.setCpf("11242520023");
-//			Credencial cA = new Credencial();
-//			cA.setUsername("teste");
-//			cA.setSenha(PasswordUtils.gerarBCrypt("teste"));
-//			cA.setUsuario(a);
-//			this.credencialRepository.save(cA);
-//
-//			// Fazenda
-//			Fazenda fazenda = new Fazenda();
-//			fazenda.setNome("bananinha");
-//			fazenda.setBairro("bairro");
-//			fazenda.setCep("cep");
-//			fazenda.setCidade("cidade");
-//			fazenda.setCnpj("84339157000136");
-//			fazenda.setEndereco("endereco");
-//			fazenda.setNumero(211);
-//			fazenda.setImagem("iamgem");
-//			fazenda.setEstado("estado");
-//			this.fazendaRepository.save(fazenda);
-//
-//			Fazenda fazenda1 = new Fazenda();
-//			fazenda1.setNome("bananinha2");
-//			fazenda1.setBairro("bairro2");
-//			fazenda1.setCep("cep2");
-//			fazenda1.setCidade("cidade2");
-//			fazenda1.setCnpj("87996280000118");
-//			fazenda1.setEndereco("endereco2");
-//			fazenda1.setNumero(2112);
-//			fazenda1.setImagem("iamgem2");
-//			fazenda1.setEstado("estado2");
-//			this.fazendaRepository.save(fazenda1);
-//
-//			// Adicionar id de cliente em uma fazenda
-//			Optional<Usuario> cliente = this.usuarioRepository.findById(1);
-//			((Cliente) cliente.get()).addFazenda(fazenda);
-//			((Cliente) cliente.get()).addFazenda(fazenda1);
-//			this.clienteRepository.save((Cliente) cliente.get());
-//
-//			// Solicitação
-//			Solicitacao s = new Solicitacao();
-//			s.setCliente((Cliente) usuario);
-//			s.setFazenda(fazenda);
-//			s.setStatus(EnumStatusSolicitacao.PENDENTE);
-//			s.setQuantidadeAmostras(100);
-//			this.solicitacaoRepository.save(s);
-//
-//			// OrdemServiço
-//			OrdemServico os = new OrdemServico();
-//			os.setDataHora(new Date());
-//			os.setSolicitacao(s);
-//			os.setBolsista((Bolsista) b);
-//			os.setValor(112.0);
-//			this.ordemServicoRepository.save(os);
-//
-//			// Analise 1
-//			Collection<EnumLeite> teste = new ArrayList<>();
-//			teste.add(EnumLeite.CRU);
-//			teste.add(EnumLeite.PASTEURIZADO);
-//
-//			Collection<EnumProdutos> teste2 = new ArrayList<>();
-//			teste2.add(EnumProdutos.SORO);
-//			teste2.add(EnumProdutos.CREME_30_GORDURA);
-//
-//			Collection<EnumOrigemLeite> teste3 = new ArrayList<>();
-//			teste3.add(EnumOrigemLeite.TANQUE);
-//			teste3.add(EnumOrigemLeite.BALDE);
-//
-//			Collection<EnumAnalisesSolicitadas> teste4 = new ArrayList<>();
-//			teste4.add(EnumAnalisesSolicitadas.ANALISES_FRAUDE);
-//			teste4.add(EnumAnalisesSolicitadas.CELULAS_SOMATICAS);
-//
-//			Analise analise = new Analise();
-//			analise.setEspecie("especie");
-//			analise.setLeite(teste);
-//			analise.setProdutos(teste2);
-//			analise.setOrigemLeite(teste3);
-//			analise.setAnalisesSolicitadas(teste4);
-//
-//			Analise analise2 = new Analise();
-//			analise2.setEspecie("especie");
-//			analise2.setLeite(teste);
-//			analise2.setProdutos(teste2);
-//			analise2.setOrigemLeite(teste3);
-//			analise2.setAnalisesSolicitadas(teste4);
-//
-//			Analise analise3 = new Analise();
-//			analise3.setEspecie("especie");
-//			analise3.setLeite(teste);
-//			analise3.setProdutos(teste2);
-//			analise3.setOrigemLeite(teste3);
-//			analise3.setAnalisesSolicitadas(teste4);
-//			// this.analiseRepository.save(analise);
-//
-//			// Amostra 1
-//			Amostra amostra = new Amostra();
-//			amostra.setDataColeta(new Date());
-//			amostra.setNumeroAmostra(30);
-//			amostra.setObservacao("obs");
-//			amostra.setQrCode("qrCode");
-////			this.amostraRepository.save(amostra);
-//
-//			// Amostra 2
-//			Amostra amostra2 = new Amostra();
-//			amostra2.setDataColeta(new Date());
-//			amostra2.setNumeroAmostra(323);
-//			amostra2.setObservacao("obs2");
-//			amostra2.setQrCode("qrCode2");
-////			this.amostraRepository.save(amostra2);
-//
-//
-//			// Adicionar id de solicitação em uma analise
-//			Optional<Solicitacao> solicitacao = this.solicitacaoRepository.findById(1);
-//			List<Analise> listaAnalises = new ArrayList<>();
-//			listaAnalises.add(analise);
-//			listaAnalises.add(analise2);
-//			listaAnalises.add(analise3);
-//			listaAnalises.stream().forEach(objAnalise -> solicitacao.get().addAnalise(objAnalise));
-//			//solicitacao.get().addAnalise(analise);
-//			// solicitacao.get().addAnalise(analise2);
-//			this.solicitacaoRepository.save(solicitacao.get());
-//
-//	//-------------------------------------------------------------(NAO FUNCIONA)---------------------------------------------
-//			// Cadastro de uma amostra em um analise de uma solicitação 
-////			Optional<Solicitacao> testeSoli = this.solicitacaoRepository.findById(1);
-////			List<Analise> testeAnalise = testeSoli.get().getListaAnalise();
-////			for (int i = 0; i < testeAnalise.size(); i++) {
-////				System.out.println("analise" + testeAnalise.get(i).getId());
-////				System.out.println("analise" + testeAnalise.get(i).getLeite());
-////				System.out.println("analise" + testeAnalise.get(i).getOrigemLeite());
-////				System.out.println("analise" + testeAnalise.get(i).getProdutos());
-////				System.out.println("analise" + testeAnalise.get(i).getSolicitacao());
-////				testeAnalise.get(i).addAmostra(amostra);
-////				testeAnalise.get(i).addAmostra(amostra2);
-////				this.analiseRepository.save(testeAnalise.get(i));
-////			}
-//			
-//			//-------------------------------------------------------------(NAO FUNCIONA)---------------------------------------------
-//
-//		};
-//	}
+	@Bean
+	public CommandLineRunner commandLineRunner() {
+		return args -> {
+
+			// enumFactory.initializeEnums();
+
+			// Cliente
+			Usuario usuario = new Cliente();
+			usuario.setEmail("pedro@email.com");
+			usuario.setCodigoTipoPerfilUsuario(EnumTipoPerfilUsuario.ROLE_CLIENTE);
+			usuario.setNome("Pedro Fernandes");
+			usuario.setCpf("65750205002");			
+			((Cliente) usuario).setTelefone1("888888888");
+			((Cliente) usuario).setTelefone2("999999999");
+			Credencial c = new Credencial();
+			c.setId(usuario.getId());
+			c.setUsername("pedrohnf688");
+			c.setSenha(PasswordUtils.gerarBCrypt("pedrohnf"));
+			c.setUsuario(usuario);
+			this.credencialRepository.save(c);
+
+			// Bolsista
+			Usuario b = new Bolsista();
+			b.setEmail("fabio@email.com");
+			b.setCodigoTipoPerfilUsuario(EnumTipoPerfilUsuario.ROLE_BOLSISTA);
+			b.setNome("Fábio Henrique");
+			b.setCpf("13286865745");
+			Credencial cB = new Credencial();
+			cB.setUsername("fabio");
+			cB.setSenha(PasswordUtils.gerarBCrypt("fabio"));
+			cB.setUsuario(b);
+			this.credencialRepository.save(cB);
+
+			// Administrador
+			Usuario a = new Administrador();
+			a.setEmail("teste@email.com");
+			a.setCodigoTipoPerfilUsuario(EnumTipoPerfilUsuario.ROLE_ADMINISTRADOR);
+			a.setNome("Teste de sistema");
+			a.setCpf("11242520023");
+			Credencial cA = new Credencial();
+			cA.setUsername("teste");
+			cA.setSenha(PasswordUtils.gerarBCrypt("teste"));
+			cA.setUsuario(a);
+			this.credencialRepository.save(cA);
+
+			// Fazenda
+			Fazenda fazenda = new Fazenda();
+			fazenda.setNome("bananinha");
+			fazenda.setBairro("bairro");
+			fazenda.setCep("cep");
+			fazenda.setCidade("cidade");
+			fazenda.setCnpj("84339157000136");
+			fazenda.setEndereco("endereco");
+			fazenda.setNumero(211);
+			fazenda.setImagem("iamgem");
+			fazenda.setEstado("estado");
+			this.fazendaRepository.save(fazenda);
+
+			Fazenda fazenda1 = new Fazenda();
+			fazenda1.setNome("bananinha2");
+			fazenda1.setBairro("bairro2");
+			fazenda1.setCep("cep2");
+			fazenda1.setCidade("cidade2");
+			fazenda1.setCnpj("87996280000118");
+			fazenda1.setEndereco("endereco2");
+			fazenda1.setNumero(2112);
+			fazenda1.setImagem("iamgem2");
+			fazenda1.setEstado("estado2");
+			this.fazendaRepository.save(fazenda1);
+
+			// Adicionar id de cliente em uma fazenda
+			Optional<Usuario> cliente = this.usuarioRepository.findById(1);
+			((Cliente) cliente.get()).addFazenda(fazenda);
+			((Cliente) cliente.get()).addFazenda(fazenda1);
+			this.clienteRepository.save((Cliente) cliente.get());
+
+			// Solicitação
+			Solicitacao s = new Solicitacao();
+			s.setCliente((Cliente) usuario);
+			s.setFazenda(fazenda);
+			s.setStatus(EnumStatusSolicitacao.PENDENTE);
+			this.solicitacaoRepository.save(s);
+
+			// OrdemServiço
+			OrdemServico os = new OrdemServico();
+			os.setDataHora(new Date());
+			os.setSolicitacao(s);
+			os.setBolsista((Bolsista) b);
+			os.setValor(112.0);
+			this.ordemServicoRepository.save(os);
+
+			// Analise 1
+			Collection<EnumLeite> teste = new ArrayList<>();
+			teste.add(EnumLeite.CRU);
+			teste.add(EnumLeite.PASTEURIZADO);
+
+			Collection<EnumProdutos> teste2 = new ArrayList<>();
+			teste2.add(EnumProdutos.SORO);
+			teste2.add(EnumProdutos.CREME_30_GORDURA);
+
+			Collection<EnumOrigemLeite> teste3 = new ArrayList<>();
+			teste3.add(EnumOrigemLeite.TANQUE);
+			teste3.add(EnumOrigemLeite.BALDE);
+
+			Collection<EnumAnalisesSolicitadas> teste4 = new ArrayList<>();
+			teste4.add(EnumAnalisesSolicitadas.ANALISES_FRAUDE);
+			teste4.add(EnumAnalisesSolicitadas.CELULAS_SOMATICAS);
+
+			Analise analise = new Analise();
+			analise.setEspecie("especie");
+			analise.setLeite(teste);
+			analise.setProdutos(teste2);
+			analise.setOrigemLeite(teste3);
+			analise.setAnalisesSolicitadas(teste4);
+			analise.setQuantidadeAmostras(70);
+
+			Analise analise2 = new Analise();
+			analise2.setEspecie("especie");
+			analise2.setLeite(teste);
+			analise2.setProdutos(teste2);
+			analise2.setOrigemLeite(teste3);
+			analise2.setAnalisesSolicitadas(teste4);
+			analise2.setQuantidadeAmostras(60);
+
+			Analise analise3 = new Analise();
+			analise3.setEspecie("especie");
+			analise3.setLeite(teste);
+			analise3.setProdutos(teste2);
+			analise3.setOrigemLeite(teste3);
+			analise3.setAnalisesSolicitadas(teste4);
+			analise3.setQuantidadeAmostras(5);
+			// this.analiseRepository.save(analise);
+
+			// Amostra 1
+			Amostra amostra = new Amostra();
+			amostra.setDataColeta(new Date());
+			amostra.setNumeroAmostra(30);
+			amostra.setObservacao("obs");
+			amostra.setQrCode("qrCode");
+//			this.amostraRepository.save(amostra);
+
+			// Amostra 2
+			Amostra amostra2 = new Amostra();
+			amostra2.setDataColeta(new Date());
+			amostra2.setNumeroAmostra(323);
+			amostra2.setObservacao("obs2");
+			amostra2.setQrCode("qrCode2");
+//			this.amostraRepository.save(amostra2);
+
+
+			// Adicionar id de solicitação em uma analise
+			Optional<Solicitacao> solicitacao = this.solicitacaoRepository.findById(1);
+			List<Analise> listaAnalises = new ArrayList<>();
+			listaAnalises.add(analise);
+			listaAnalises.add(analise2);
+			listaAnalises.add(analise3);
+			listaAnalises.stream().forEach(objAnalise -> solicitacao.get().addAnalise(objAnalise));
+			//solicitacao.get().addAnalise(analise);
+			// solicitacao.get().addAnalise(analise2);
+			this.solicitacaoRepository.save(solicitacao.get());
+
+	//-------------------------------------------------------------(NAO FUNCIONA)---------------------------------------------
+			// Cadastro de uma amostra em um analise de uma solicitação 
+//			Optional<Solicitacao> testeSoli = this.solicitacaoRepository.findById(1);
+//			List<Analise> testeAnalise = testeSoli.get().getListaAnalise();
+//			for (int i = 0; i < testeAnalise.size(); i++) {
+//				System.out.println("analise" + testeAnalise.get(i).getId());
+//				System.out.println("analise" + testeAnalise.get(i).getLeite());
+//				System.out.println("analise" + testeAnalise.get(i).getOrigemLeite());
+//				System.out.println("analise" + testeAnalise.get(i).getProdutos());
+//				System.out.println("analise" + testeAnalise.get(i).getSolicitacao());
+//				testeAnalise.get(i).addAmostra(amostra);
+//				testeAnalise.get(i).addAmostra(amostra2);
+//				this.analiseRepository.save(testeAnalise.get(i));
+//			}
+			
+			//-------------------------------------------------------------(NAO FUNCIONA)---------------------------------------------
+
+		};
+	}
 
 }

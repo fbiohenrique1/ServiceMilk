@@ -24,6 +24,8 @@ public class AnaliseDto {
 
 	private List<AmostraDto> amostras = new ArrayList<>();
 
+	private Integer quantidadeAmostras;
+
 	public Collection<EnumLeite> getLeite() {
 		return leite;
 	}
@@ -72,8 +74,16 @@ public class AnaliseDto {
 		this.amostras = amostra;
 	}
 
+	public Integer getQuantidadeAmostras() {
+		return quantidadeAmostras;
+	}
+	
+	public void setQuantidadeAmostras(Integer quantidadeAmostras) {
+		this.quantidadeAmostras = quantidadeAmostras;
+	}
+	
 	public Analise transformarParaAnalise() {
 		return new Analise.Builder(especie).leite(leite).origemLeite(origemLeite)
-				.analisesSolicitadas(analisesSolicitadas).build();
+				.analisesSolicitadas(analisesSolicitadas).quantidadeAmostras(quantidadeAmostras).produtos(produtos).build();
 	}
 }

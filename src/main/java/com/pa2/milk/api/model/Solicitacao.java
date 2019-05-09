@@ -52,9 +52,6 @@ public class Solicitacao extends AbstractModel<Integer> {
 	@Column(length = 2047)
 	private String observacao;
 
-	@Column(nullable = false)
-	private int quantidadeAmostras;
-
 //    public Solicitacao(Fazenda fazenda) {
 //	this.fazenda = fazenda;
 //    }
@@ -111,14 +108,6 @@ public class Solicitacao extends AbstractModel<Integer> {
 
 	public void setObservacao(String observacao) {
 		this.observacao = observacao;
-	}
-
-	public int getQuantidadeAmostras() {
-		return quantidadeAmostras;
-	}
-
-	public void setQuantidadeAmostras(int quantidadeAmostras) {
-		this.quantidadeAmostras = quantidadeAmostras;
 	}
 
 	public void addAnalise(Analise novaAnalise) {
