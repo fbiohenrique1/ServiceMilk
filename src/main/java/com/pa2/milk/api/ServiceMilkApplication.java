@@ -85,14 +85,12 @@ public class ServiceMilkApplication {
 	public CommandLineRunner commandLineRunner() {
 		return args -> {
 
-			// enumFactory.initializeEnums();
-
 			// Cliente
 			Usuario usuario = new Cliente();
 			usuario.setEmail("pedro@email.com");
 			usuario.setCodigoTipoPerfilUsuario(EnumTipoPerfilUsuario.ROLE_CLIENTE);
 			usuario.setNome("Pedro Fernandes");
-			usuario.setCpf("65750205002");			
+			usuario.setCpf("65750205002");
 			((Cliente) usuario).setTelefone1("888888888");
 			((Cliente) usuario).setTelefone2("999999999");
 			Credencial c = new Credencial();
@@ -230,7 +228,6 @@ public class ServiceMilkApplication {
 			amostra2.setQrCode("qrCode2");
 //			this.amostraRepository.save(amostra2);
 
-
 			// Adicionar id de solicitação em uma analise
 			Optional<Solicitacao> solicitacao = this.solicitacaoRepository.findById(1);
 			List<Analise> listaAnalises = new ArrayList<>();
@@ -238,12 +235,12 @@ public class ServiceMilkApplication {
 			listaAnalises.add(analise2);
 			listaAnalises.add(analise3);
 			listaAnalises.stream().forEach(objAnalise -> solicitacao.get().addAnalise(objAnalise));
-			//solicitacao.get().addAnalise(analise);
+			// solicitacao.get().addAnalise(analise);
 			// solicitacao.get().addAnalise(analise2);
 			this.solicitacaoRepository.save(solicitacao.get());
 
-	//-------------------------------------------------------------(NAO FUNCIONA)---------------------------------------------
-			// Cadastro de uma amostra em um analise de uma solicitação 
+//-------------------------------------------------------------(NAO FUNCIONA)---------------------------------------------
+			// Cadastro de uma amostra em um analise de uma solicitação
 //			Optional<Solicitacao> testeSoli = this.solicitacaoRepository.findById(1);
 //			List<Analise> testeAnalise = testeSoli.get().getListaAnalise();
 //			for (int i = 0; i < testeAnalise.size(); i++) {
@@ -255,9 +252,8 @@ public class ServiceMilkApplication {
 //				testeAnalise.get(i).addAmostra(amostra);
 //				testeAnalise.get(i).addAmostra(amostra2);
 //				this.analiseRepository.save(testeAnalise.get(i));
-//			}
-			
-			//-------------------------------------------------------------(NAO FUNCIONA)---------------------------------------------
+//			}			
+//-------------------------------------------------------------(NAO FUNCIONA)---------------------------------------------
 
 		};
 	}

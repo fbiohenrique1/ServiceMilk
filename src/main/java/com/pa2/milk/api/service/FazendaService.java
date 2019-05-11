@@ -45,7 +45,7 @@ public class FazendaService {
 	}
 
 	public List<Fazenda> buscarFazendaClienteId(Integer clienteId) {
-		return this.fazendaRepository.findByClienteId(clienteId);
+		return this.fazendaRepository.findByClienteIdAndAtivoTrue(clienteId);
 	}
 
 }

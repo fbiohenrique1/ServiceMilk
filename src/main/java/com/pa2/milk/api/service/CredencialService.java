@@ -20,7 +20,7 @@ public class CredencialService {
 
 	public Optional<Credencial> buscarPorUsername(String username) {
 		log.info("Buscando usuario pelo username: {}", username);
-		return Optional.ofNullable(this.credencialRepository.findByUsername(username));
+		return Optional.ofNullable(this.credencialRepository.findByUsernameAndAtivoTrue(username));
 	}
 
 	public void salvar(Credencial credencial) {

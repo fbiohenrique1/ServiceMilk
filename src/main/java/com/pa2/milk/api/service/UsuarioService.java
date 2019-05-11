@@ -27,13 +27,13 @@ public class UsuarioService {
 	
 	public Optional<Usuario> buscarPorTipoPerfilUsuario(EnumTipoPerfilUsuario tipoPerfilUsuario) {
 		log.info("Buscando usuario pelo tipoPerfilUsuario: {}", tipoPerfilUsuario);
-		return Optional.ofNullable(this.usuarioRepositorio.findByCodigoTipoPerfilUsuario(tipoPerfilUsuario.getCodigo()));
+		return Optional.ofNullable(this.usuarioRepositorio.findByCodigoTipoPerfilUsuarioAndAtivoTrue(tipoPerfilUsuario.getCodigo()));
 	}
 
 
 	public Optional<Usuario> buscarPorTipoPerfilUsuarioandID(EnumTipoPerfilUsuario tipoPerfilUsuario, Integer id) {
 		log.info("Buscando usuario pelo tipoPerfilUsuario: {}", tipoPerfilUsuario);
-		return Optional.ofNullable(this.usuarioRepositorio.findByCodigoTipoPerfilUsuarioAndId(tipoPerfilUsuario.getCodigo(), id));
+		return Optional.ofNullable(this.usuarioRepositorio.findByCodigoTipoPerfilUsuarioAndIdAndAtivoTrue(tipoPerfilUsuario.getCodigo(), id));
 	}
 
 	public Usuario buscarPorId(Integer id) {

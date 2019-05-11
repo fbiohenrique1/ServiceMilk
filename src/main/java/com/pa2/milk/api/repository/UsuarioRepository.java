@@ -9,7 +9,7 @@ public interface UsuarioRepository extends GenericRepository<Usuario, Integer> {
 
 	Usuario findByEmail(String email);
 
-	Usuario findByCodigoTipoPerfilUsuario(Integer perfil);
+	Usuario findByCodigoTipoPerfilUsuarioAndAtivoTrue(Integer perfil);
 
-	Usuario findByCodigoTipoPerfilUsuarioAndId(Integer perfil, Integer id);
+	Usuario findByCodigoTipoPerfilUsuarioAndIdAndAtivoTrue(Integer perfil, Integer id);
 }

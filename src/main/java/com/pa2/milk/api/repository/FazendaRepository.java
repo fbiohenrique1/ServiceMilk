@@ -15,6 +15,6 @@ public interface FazendaRepository extends GenericRepository<Fazenda, Integer> {
 
 	Fazenda findByCnpj(String cnpj);
 
-	List<Fazenda> findByClienteId(@Param("clienteId") Integer funcionarioId);
+	List<Fazenda> findByClienteIdAndAtivoTrue(@Param("clienteId") Integer funcionarioId);
 
 }

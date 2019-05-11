@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 import com.pa2.milk.api.model.Fazenda;
 import com.pa2.milk.api.model.Solicitacao;
 import com.pa2.milk.api.model.enums.EnumStatusSolicitacao;
-import com.pa2.milk.api.repository.FazendaRepository;
 import com.pa2.milk.api.repository.SolicitacaoRepository;
 
 import javassist.NotFoundException;
