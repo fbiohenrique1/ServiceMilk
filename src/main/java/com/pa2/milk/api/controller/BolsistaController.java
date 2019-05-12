@@ -92,9 +92,9 @@ public class BolsistaController {
 				.buscarPorTipoPerfilUsuarioandID(EnumTipoPerfilUsuario.ROLE_BOLSISTA, id);
 
 		if (!bolsista.isPresent()) {
-			log.info("Bolsista não encontrado");
+			log.info("Bolsista não encontrado: {}", bolsista);
 			response.getErros().add("Bolsista não encontrado");
-			ResponseEntity.badRequest().body(response);
+			return ResponseEntity.badRequest().body(response);
 		}
 
 		response.setData(bolsista.get());
@@ -113,13 +113,14 @@ public class BolsistaController {
 		Optional<Credencial> credencial = this.credencialService.buscarPorId(id);
 
 		if (!credencial.isPresent()) {
+			log.info("Credencial não encontrada: {}", credencial.get());
 			result.addError(new ObjectError("credencial", "Credencial não encontrada."));
 		}
 
 		this.atualizarDadosBolsista(credencial.get(), bolsistaDto, result);
 
 		if (result.hasErrors()) {
-			log.error("Erro validando a Credencial:{}", result.getAllErrors());
+			log.error("Erro validando a Credencial: {}", result.getAllErrors());
 			result.getAllErrors().forEach(error -> response.getErros().add(error.getDefaultMessage()));
 			return ResponseEntity.badRequest().body(response);
 		}
@@ -217,9 +218,9 @@ public class BolsistaController {
 		Optional<Credencial> credencial = credencialService.buscarPorId(id);
 
 		if (!credencial.isPresent()) {
-			log.info("Credencial não encontrada");
+			log.info("Credencial não encontrada: {}", credencial.get());
 			response.getErros().add("Credencial não encontrada");
-			ResponseEntity.badRequest().body(response);
+			return ResponseEntity.badRequest().body(response);
 		}
 
 		response.setData(credencial.get());

@@ -48,7 +48,7 @@ public class SolicitacaoService {
 		log.info("Listando Solicitações por Id");
 		return solicitacaoRepository.findById(id);
 	}
-
+	
 	public List<Solicitacao> listarTodasSolicitacoes() {
 		log.info("Listando Solicitações");
 		return this.solicitacaoRepository.findAll();

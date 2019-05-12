@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -55,24 +56,23 @@ public class SolicitacaoController {
 
 		Response<Solicitacao> response = new Response<Solicitacao>();
 
-		if (result.hasErrors()) {
-			log.info("Erro validando dados de cadastro da Solicitacao: {}", result.getAllErrors());
-			result.getAllErrors().forEach(error -> response.getErros().add(error.getDefaultMessage()));
-			return ResponseEntity.badRequest().body(response);
-		}
-
 		Optional<Fazenda> fazenda = fazendaSerice.buscarPorCnpj(solicitacaoDTO.getCnpj());
-		
+
 		if (!fazenda.isPresent()) {
 			log.info("Não existe fazenda cadastrada com tais dados: {}", solicitacaoDTO.getCnpj());
-			result.getAllErrors().forEach(error -> response.getErros().add(error.getDefaultMessage()));
-			return ResponseEntity.badRequest().body(response);
+			result.addError(new ObjectError("solicitacao", "Solicitação não encontrada."));
 		}
-		
+
 		Solicitacao solicitacao = gerarSolicitacao(solicitacaoDTO, fazenda.get());
 
 		solicitacaoService.salvarSolicitacao(solicitacao);
-		
+
+		if (result.hasErrors()) {
+			log.info("Erro no cadastro da Solicitacao: {}", result.getAllErrors());
+			result.getAllErrors().forEach(error -> response.getErros().add(error.getDefaultMessage()));
+			return ResponseEntity.badRequest().body(response);
+		}
+
 		response.setData(solicitacao);
 
 		return ResponseEntity.ok(response);
@@ -95,6 +95,11 @@ public class SolicitacaoController {
 		Response<Solicitacao> response = new Response<Solicitacao>();
 
 		Optional<Solicitacao> solicitacao = solicitacaoService.buscarSolicitacaoPorId(id);
+
+		if (!solicitacao.isPresent()) {
+			log.info("Cliente não encontrado: {}", solicitacao.get());
+			return ResponseEntity.badRequest().body(response);
+		}
 
 		response.setData(solicitacao.get());
 

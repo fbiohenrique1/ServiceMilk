@@ -85,9 +85,7 @@ public class ClienteController {
 		Credencial credencial = this.converterDtoParaCredencial(clienteDto, result);
 
 		if (result.hasErrors()) {
-
 			log.error("Erro validando dados do cadastro Cliente: {}", result.getAllErrors());
-
 			result.getAllErrors().forEach(error -> response.getErros().add(error.getDefaultMessage()));
 			return ResponseEntity.badRequest().body(response);
 		}
@@ -112,9 +110,9 @@ public class ClienteController {
 				.buscarPorTipoPerfilUsuarioandID(EnumTipoPerfilUsuario.ROLE_CLIENTE, id);
 
 		if (!cliente.isPresent()) {
-			log.info("Cliente não encontrado");
+			log.info("Cliente não encontrado: {}", cliente.get());
 			response.getErros().add("Cliente não encontrado");
-			ResponseEntity.badRequest().body(response);
+			return ResponseEntity.badRequest().body(response);
 		}
 
 		response.setData(cliente.get());
@@ -133,6 +131,7 @@ public class ClienteController {
 		Optional<Credencial> credencial = this.credencialService.buscarPorId(id);
 
 		if (!credencial.isPresent()) {
+			log.info("Cliente não encontrado: {}", credencial.get());
 			result.addError(new ObjectError("credencial", "Credencial não encontrada."));
 		}
 
@@ -163,7 +162,7 @@ public class ClienteController {
 		if (!credencial.isPresent()) {
 			log.info("Credencial não encontrada");
 			response.getErros().add("Credencial não encontrada");
-			ResponseEntity.badRequest().body(response);
+			return ResponseEntity.badRequest().body(response);
 		}
 
 		response.setData(credencial.get());
