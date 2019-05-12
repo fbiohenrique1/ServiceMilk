@@ -38,29 +38,25 @@ public class Analise extends AbstractModel<Integer> {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 
-	@ElementCollection(targetClass = EnumLeite.class, fetch = FetchType.EAGER)
-	@Fetch(FetchMode.SUBSELECT)
+	@ElementCollection(targetClass = EnumLeite.class)
 	@JoinTable(name = "enumLeite", joinColumns = @JoinColumn(name = "id"))
 	@Column(name = "enumLeite", nullable = false)
 	@Enumerated(EnumType.STRING)
 	private Collection<EnumLeite> leite;
 
-	@ElementCollection(targetClass = EnumOrigemLeite.class, fetch = FetchType.EAGER)
-	@Fetch(FetchMode.SUBSELECT)
+	@ElementCollection(targetClass = EnumOrigemLeite.class)
 	@JoinTable(name = "enumOrigemLeite", joinColumns = @JoinColumn(name = "id"))
 	@Column(name = "enumOrigemLeite", nullable = false)
 	@Enumerated(EnumType.STRING)
 	private Collection<EnumOrigemLeite> origemLeite;
 
-	@ElementCollection(targetClass = EnumProdutos.class, fetch = FetchType.EAGER)
-	@Fetch(FetchMode.SUBSELECT)
+	@ElementCollection(targetClass = EnumProdutos.class)
 	@JoinTable(name = "enumProdutos", joinColumns = @JoinColumn(name = "id"))
 	@Column(name = "enumProdutos", nullable = false)
 	@Enumerated(EnumType.STRING)
 	private Collection<EnumProdutos> produtos;
 
-	@ElementCollection(targetClass = EnumAnalisesSolicitadas.class, fetch = FetchType.EAGER)
-	@Fetch(FetchMode.SUBSELECT)
+	@ElementCollection(targetClass = EnumAnalisesSolicitadas.class)
 	@JoinTable(name = "enumAnalisesSolicitadas", joinColumns = @JoinColumn(name = "id"))
 	@Column(name = "enumAnalisesSolicitadas", nullable = false)
 	@Enumerated(EnumType.STRING)

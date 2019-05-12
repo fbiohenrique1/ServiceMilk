@@ -21,6 +21,7 @@ import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.pa2.milk.api.model.enums.EnumStatusSolicitacao;
 
 @Entity(name = "solicitacao")
@@ -33,6 +34,7 @@ public class Solicitacao extends AbstractModel<Integer> {
 
 	@ManyToOne
 	@JoinColumn(name = "cliente_id", nullable = false)
+	@JsonIgnore
 	private Cliente cliente;
 
 	@OneToOne

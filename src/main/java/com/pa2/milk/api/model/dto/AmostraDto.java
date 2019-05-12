@@ -2,8 +2,6 @@ package com.pa2.milk.api.model.dto;
 
 import java.util.Date;
 
-import com.pa2.milk.api.model.Analise;
-
 public class AmostraDto {
 	private Date dataColeta;
 
@@ -13,7 +11,7 @@ public class AmostraDto {
 
 	private String observacao;
 		
-	private Analise analise;
+//	private Analise analise;
 
 	public Date getDataColeta() {
 		return dataColeta;
@@ -47,11 +45,11 @@ public class AmostraDto {
 		this.observacao = observacao;
 	}
 
-	public Analise getAnalise() {
-		return analise;
-	}
-
-	public void setAnalise(Analise analise) {
-		this.analise = analise;
-	}
+//	public Analise getAnalise() {
+//		return analise;
+//	}
+//
+//	public void setAnalise(Analise analise) {
+//		this.analise = analise;
+//	}
 }
