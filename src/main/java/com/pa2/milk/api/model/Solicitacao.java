@@ -48,7 +48,7 @@ public class Solicitacao extends AbstractModel<Integer> {
 	private List<Analise> listaAnalise;
 
 	@Enumerated(EnumType.STRING)
-	@Column(name = "produtos", nullable = false)
+	@Column(name = "status", nullable = false)
 	private EnumStatusSolicitacao status;
 
 	@Column(length = 2047)

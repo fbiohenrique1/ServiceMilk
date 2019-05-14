@@ -24,6 +24,7 @@ import com.pa2.milk.api.model.Analise;
 import com.pa2.milk.api.model.Fazenda;
 import com.pa2.milk.api.model.Solicitacao;
 import com.pa2.milk.api.model.dto.SolicitacaoDto;
+import com.pa2.milk.api.model.dto.StatusSolicitacaoDTO;
 import com.pa2.milk.api.model.enums.EnumStatusSolicitacao;
 import com.pa2.milk.api.service.FazendaService;
 import com.pa2.milk.api.service.SolicitacaoService;
@@ -127,4 +128,30 @@ public class SolicitacaoController {
 		return ResponseEntity.ok(response);
 	}
 
+	// TODO: Atualizar solicitação
+
+	@PostMapping(value = "/status")
+	public ResponseEntity<Response<Solicitacao>> atualizarStatus(
+			@RequestBody StatusSolicitacaoDTO statusSolicitacaoDTO) throws NotFoundException {
+		log.info("Atualizando Status de Solicitação: {}", statusSolicitacaoDTO.getSolicitacaoId());
+
+		Response<Solicitacao> response = new Response<Solicitacao>();
+
+		Optional<Solicitacao> solicitacao = solicitacaoService
+				.buscarSolicitacaoPorId(statusSolicitacaoDTO.getSolicitacaoId());
+
+		if (!solicitacao.isPresent()) {
+			log.info("Solicitacao não encontrada");
+			response.getErros().add("Solicitacao não encontrada");
+			ResponseEntity.badRequest().body(response);
+		}		
+
+		solicitacao.get().setStatus(statusSolicitacaoDTO.getStatus());	
+		solicitacao.get().setObservacao(statusSolicitacaoDTO.getObservacao());
+		solicitacaoService.salvarSolicitacao(solicitacao.get());
+		
+		response.setData(solicitacao.get());
+
+		return ResponseEntity.ok(response);
+	}
 }
