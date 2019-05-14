@@ -120,7 +120,7 @@ public class FazendaController {
 		}
 
 		response.setData(farm.get());
-		this.fazendaService.salvar(fazenda);
+		this.fazendaService.salvar(farm.get());
 
 		return ResponseEntity.ok(response);
 
@@ -164,6 +164,55 @@ public class FazendaController {
 			farm.setCnpj(fazenda.getCnpj());
 		}
 
+		if (fazenda.getNome() != null) {
+			farm.setNome(fazenda.getNome());
+		}else {
+			farm.setNome(farm.getNome());
+		}
+		
+		if (fazenda.getBairro() != null) {
+			farm.setBairro(fazenda.getBairro());
+		}else {
+			farm.setBairro(farm.getBairro());
+		}
+		
+		if (fazenda.getCep() != null) {
+			farm.setCep(fazenda.getCep());
+		}else {
+			farm.setCep(farm.getCep());
+		}
+		
+		if (fazenda.getCidade() != null) {
+			farm.setCidade(fazenda.getCidade());
+		}
+		else {
+			farm.setCidade(farm.getCidade());
+		}
+		
+		if (fazenda.getEndereco() != null) {
+			farm.setEndereco(fazenda.getEndereco());
+		}else {
+			farm.setEndereco(farm.getEndereco());
+		}
+		
+		if (fazenda.getEstado() != null) {
+			farm.setEstado(fazenda.getEstado());
+		}else {
+			farm.setEstado(farm.getEstado());
+		}
+		
+		if (fazenda.getImagem() != null) {
+			farm.setImagem(fazenda.getImagem());
+		}else {
+			farm.setImagem(farm.getImagem());
+		}
+		
+		if (fazenda.getNumero() != 0) {
+			farm.setNumero(fazenda.getNumero());
+		}else {
+			farm.setNumero(farm.getNumero());
+		}
+		
 	}
 
 	private void validarDadosExistentes(Fazenda Fazenda, BindingResult result) {

@@ -208,15 +208,21 @@ public class ClienteController {
 			credencial.getUsuario().setCpf(clienteDto.getCpf());
 		}
 
-		if (!credencial.getUsername().equals(clienteDto.getUsername())) {
+		if (clienteDto.getUsername() != null || clienteDto.getSenha() != null) {
 
-			this.credencialService.buscarPorUsername(clienteDto.getUsername())
-					.ifPresent(crede -> result.addError(new ObjectError("username", "Username já existente.")));
-			credencial.setUsername(clienteDto.getUsername());
+			if (!credencial.getUsername().equals(clienteDto.getUsername())) {
+				this.credencialService.buscarPorUsername(clienteDto.getUsername())
+						.ifPresent(crede -> result.addError(new ObjectError("username", "Username já existente.")));
+				credencial.setUsername(clienteDto.getUsername());
+			}
+
+			credencial.setSenha(PasswordUtils.gerarBCrypt(clienteDto.getSenha()));
+
+		} else {
+			credencial.setUsername(credencial.getUsername());
+			credencial.setSenha(credencial.getSenha());
+
 		}
-
-		credencial.setSenha(PasswordUtils.gerarBCrypt(clienteDto.getSenha()));
-
 	}
 
 	private void validarDadosExistentes(CadastroClienteDto clienteDto, BindingResult result) {
