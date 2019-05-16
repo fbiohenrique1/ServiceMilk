@@ -4,10 +4,13 @@ import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import java.util.Optional;
 
+import javax.validation.Valid;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -15,14 +18,17 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.pa2.milk.api.helper.Response;
 import com.pa2.milk.api.model.Analise;
+import com.pa2.milk.api.model.Credencial;
 import com.pa2.milk.api.model.Fazenda;
 import com.pa2.milk.api.model.Solicitacao;
+import com.pa2.milk.api.model.dto.CadastroClienteDto;
 import com.pa2.milk.api.model.dto.SolicitacaoDto;
 import com.pa2.milk.api.model.dto.StatusSolicitacaoDTO;
 import com.pa2.milk.api.model.enums.EnumStatusSolicitacao;
@@ -50,6 +56,7 @@ public class SolicitacaoController {
 		return this.solicitacaoService.listarTodasSolicitacoes();
 	}
 
+	@PreAuthorize("hasAnyRole('ADMINISTRADOR','BOLSISTA','CLIENTE')")
 	@PostMapping
 	public ResponseEntity<Response<Solicitacao>> cadastrarSolicitacao(@RequestBody SolicitacaoDto solicitacaoDTO,
 			BindingResult result) throws NoSuchAlgorithmException, NotFoundException {
@@ -88,7 +95,8 @@ public class SolicitacaoController {
 		solicitacao.setStatus(EnumStatusSolicitacao.PENDENTE);
 		return solicitacao;
 	}
-
+	
+	@PreAuthorize("hasAnyRole('ADMINISTRADOR','BOLSISTA','CLIENTE')")
 	@GetMapping(value = "{id}")
 	public ResponseEntity<Response<Solicitacao>> buscarSolicitacaoPorID(@PathVariable("id") Integer id) {
 		log.info("Buscar Solicitacao por Id");
@@ -107,6 +115,7 @@ public class SolicitacaoController {
 		return ResponseEntity.ok(response);
 	}
 
+	@PreAuthorize("hasAnyRole('ADMINISTRADOR','BOLSISTA')")
 	@DeleteMapping(value = "{id}")
 	public ResponseEntity<Response<Solicitacao>> deletarCliente(@PathVariable("id") Integer id) {
 		log.info("Removendo Solicitação: {}", id);
@@ -130,9 +139,10 @@ public class SolicitacaoController {
 
 	// TODO: Atualizar solicitação
 
+	@PreAuthorize("hasAnyRole('ADMINISTRADOR','BOLSISTA','CLIENTE')")
 	@PostMapping(value = "/status")
-	public ResponseEntity<Response<Solicitacao>> atualizarStatus(
-			@RequestBody StatusSolicitacaoDTO statusSolicitacaoDTO) throws NotFoundException {
+	public ResponseEntity<Response<Solicitacao>> atualizarStatus(@RequestBody StatusSolicitacaoDTO statusSolicitacaoDTO)
+			throws NotFoundException {
 		log.info("Atualizando Status de Solicitação: {}", statusSolicitacaoDTO.getSolicitacaoId());
 
 		Response<Solicitacao> response = new Response<Solicitacao>();
@@ -144,14 +154,42 @@ public class SolicitacaoController {
 			log.info("Solicitacao não encontrada");
 			response.getErros().add("Solicitacao não encontrada");
 			ResponseEntity.badRequest().body(response);
-		}		
+		}
 
-		solicitacao.get().setStatus(statusSolicitacaoDTO.getStatus());	
+		solicitacao.get().setStatus(statusSolicitacaoDTO.getStatus());
 		solicitacao.get().setObservacao(statusSolicitacaoDTO.getObservacao());
 		solicitacaoService.salvarSolicitacao(solicitacao.get());
-		
+
 		response.setData(solicitacao.get());
 
 		return ResponseEntity.ok(response);
 	}
+
+//	@PutMapping(value = "{id}")
+//	public ResponseEntity<Response<SolicitacaoDto>> atualizarSolicitacao(@PathVariable("id") Integer id,
+//			@Valid @RequestBody SolicitacaoDto solicitacaoDto, BindingResult result) throws NoSuchAlgorithmException {
+//
+//		log.info("Atualizando o Solicitacao:{}", solicitacaoDto.toString());
+//
+//		Response<SolicitacaoDto> response = new Response<SolicitacaoDto>();
+//
+//		Optional<Solicitacao> solicitacao = this.solicitacaoService.buscarSolicitacaoPorId(id);
+//
+//		if (!solicitacao.isPresent()) {
+//			log.info("Solicitacao não encontrada");
+//			response.getErros().add("Solicitacao não encontrada");
+//			ResponseEntity.badRequest().body(response);
+//		}
+//
+//		this.atualizarDadosSolicitacao(solicitacao.get(), solicitacaoDto, result);
+//
+//		return ResponseEntity.ok(response);
+//
+//	}
+//
+//	private void atualizarDadosSolicitacao(Solicitacao solicitacao, SolicitacaoDto solicitacaoDto, BindingResult result)
+//			throws NoSuchAlgorithmException {
+//
+//	}
+
 }

@@ -10,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -48,6 +49,7 @@ public class FazendaController {
 		return fazendas;
 	}
 
+	@PreAuthorize("hasAnyRole('ADMINISTRADOR','BOLSISTA','CLIENTE')")
 	@PostMapping("/{clienteId}")
 	public ResponseEntity<Response<Fazenda>> cadastrarFazenda(@Valid @RequestBody Fazenda fazenda,
 			@PathVariable("clienteId") Integer clienteId, BindingResult result) throws NoSuchAlgorithmException {
@@ -75,6 +77,7 @@ public class FazendaController {
 		return ResponseEntity.ok(response);
 	}
 
+	@PreAuthorize("hasAnyRole('ADMINISTRADOR','BOLSISTA','CLIENTE')")
 	@GetMapping(value = "{id}")
 	public ResponseEntity<Response<Fazenda>> buscarFazendaPorId(@PathVariable("id") Integer id) {
 
@@ -95,6 +98,7 @@ public class FazendaController {
 		return ResponseEntity.ok(response);
 	}
 
+	@PreAuthorize("hasAnyRole('ADMINISTRADOR','BOLSISTA','CLIENTE')")
 	@PutMapping(value = "{id}")
 	public ResponseEntity<Response<Fazenda>> atualizarFazenda(@PathVariable("id") Integer id,
 			@Valid @RequestBody Fazenda fazenda, BindingResult result) {
@@ -126,6 +130,7 @@ public class FazendaController {
 
 	}
 
+	@PreAuthorize("hasAnyRole('ADMINISTRADOR','BOLSISTA')")
 	@DeleteMapping(value = "{id}")
 	public ResponseEntity<Response<Fazenda>> deletarFazenda(@PathVariable("id") Integer id) {
 

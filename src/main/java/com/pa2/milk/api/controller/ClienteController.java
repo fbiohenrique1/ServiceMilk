@@ -11,6 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -70,6 +71,7 @@ public class ClienteController {
 		return clientes;
 	}
 
+	@PreAuthorize("hasAnyRole('ADMINISTRADOR','BOLSISTA','CLIENTE')")
 	@PostMapping
 	public ResponseEntity<Response<CadastroClienteDto>> cadastrarCliente(
 			@Valid @RequestBody CadastroClienteDto clienteDto, BindingResult result) throws NoSuchAlgorithmException {
@@ -99,6 +101,7 @@ public class ClienteController {
 		return ResponseEntity.ok(response);
 	}
 
+	@PreAuthorize("hasAnyRole('ADMINISTRADOR','BOLSISTA')")
 	@GetMapping(value = "{id}")
 	public ResponseEntity<Response<Cliente>> buscarClientePorId(@PathVariable("id") Integer id) {
 
@@ -120,6 +123,7 @@ public class ClienteController {
 		return ResponseEntity.ok(response);
 	}
 
+	@PreAuthorize("hasAnyRole('ADMINISTRADOR','BOLSISTA','CLIENTE')")
 	@PutMapping(value = "{id}")
 	public ResponseEntity<Response<CadastroClienteDto>> atualizarCliente(@PathVariable("id") Integer id,
 			@Valid @RequestBody CadastroClienteDto clienteDto, BindingResult result) throws NoSuchAlgorithmException {
@@ -150,6 +154,7 @@ public class ClienteController {
 
 	}
 
+	@PreAuthorize("hasAnyRole('ADMINISTRADOR','BOLSISTA')")
 	@DeleteMapping(value = "{id}")
 	public ResponseEntity<Response<Credencial>> deletarCliente(@PathVariable("id") Integer id) {
 
@@ -173,6 +178,7 @@ public class ClienteController {
 		return ResponseEntity.ok(response);
 	}
 
+	@PreAuthorize("hasAnyRole('ADMINISTRADOR','BOLSISTA','CLIENTE')")
 	@GetMapping(value = "{id}/fazenda")
 	public List<Fazenda> buscarFazendaClientePorId(@PathVariable("id") Integer id) {
 		log.info("Buscar Fazenda por Id do Cliente");
@@ -181,6 +187,7 @@ public class ClienteController {
 		return farm;
 	}
 
+	@PreAuthorize("hasAnyRole('ADMINISTRADOR','BOLSISTA','CLIENTE')")
 	@GetMapping(value = "{id}/solicitacao")
 	public List<Solicitacao> buscarSolicitacaoClientePorId(@PathVariable("id") Integer id) {
 		log.info("Buscar Solicitação por Id do Cliente");

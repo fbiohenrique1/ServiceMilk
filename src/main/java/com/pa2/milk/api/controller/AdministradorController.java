@@ -10,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -53,6 +54,7 @@ public class AdministradorController {
 	@Autowired
 	private UsuarioRepository usuarioRepository;
 
+	@PreAuthorize("hasAnyRole('ADMINISTRADOR')")
 	@PostMapping
 	public ResponseEntity<Response<CadastroClienteDto>> cadastrarAdministrador(
 			@Valid @RequestBody CadastroClienteDto clienteDto, BindingResult result) throws NoSuchAlgorithmException {
@@ -84,6 +86,7 @@ public class AdministradorController {
 		return ResponseEntity.ok(response);
 	}
 
+	@PreAuthorize("hasAnyRole('ADMINISTRADOR')")
 	@GetMapping(value = "{id}")
 	public ResponseEntity<Response<Administrador>> buscarAdministradorPorId(@PathVariable("id") Integer id) {
 
@@ -105,6 +108,7 @@ public class AdministradorController {
 		return ResponseEntity.ok(response);
 	}
 
+	@PreAuthorize("hasAnyRole('ADMINISTRADOR')")
 	@GetMapping
 	public List<Administrador> listarAdministradores() {
 		List<Administrador> administrador = this.administradorService
@@ -112,6 +116,7 @@ public class AdministradorController {
 		return administrador;
 	}
 
+	@PreAuthorize("hasAnyRole('ADMINISTRADOR')")
 	@DeleteMapping(value = "{id}")
 	public ResponseEntity<Response<Credencial>> deletarAdministrador(@PathVariable("id") Integer id) {
 
@@ -134,6 +139,7 @@ public class AdministradorController {
 		return ResponseEntity.ok(response);
 	}
 
+	@PreAuthorize("hasAnyRole('ADMINISTRADOR')")
 	@PutMapping(value = "{id}")
 	public ResponseEntity<Response<CadastroClienteDto>> atualizarBolsista(@PathVariable("id") Integer id,
 			@Valid @RequestBody CadastroClienteDto adminDto, BindingResult result) throws NoSuchAlgorithmException {
@@ -182,14 +188,22 @@ public class AdministradorController {
 			credencial.getUsuario().setCpf(adminDto.getCpf());
 		}
 
-		if (!credencial.getUsername().equals(adminDto.getUsername())) {
+		if (adminDto.getUsername() != null || adminDto.getSenha() != null) {
 
-			this.credencialService.buscarPorUsername(adminDto.getUsername())
-					.ifPresent(crede -> result.addError(new ObjectError("username", "Username já existente.")));
-			credencial.setUsername(adminDto.getUsername());
+			if (!credencial.getUsername().equals(adminDto.getUsername())) {
+
+				this.credencialService.buscarPorUsername(adminDto.getUsername())
+						.ifPresent(crede -> result.addError(new ObjectError("username", "Username já existente.")));
+				credencial.setUsername(adminDto.getUsername());
+			}
+
+			credencial.setSenha(PasswordUtils.gerarBCrypt(adminDto.getSenha()));
+
+		} else {
+			credencial.setUsername(credencial.getUsername());
+			credencial.setSenha(credencial.getSenha());
+
 		}
-
-		credencial.setSenha(PasswordUtils.gerarBCrypt(adminDto.getSenha()));
 
 	}
 

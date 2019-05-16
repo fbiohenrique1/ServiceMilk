@@ -10,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -52,6 +53,7 @@ public class BolsistaController {
 	@Autowired
 	private UsuarioRepository usuarioRepository;
 
+	@PreAuthorize("hasAnyRole('ADMINISTRADOR')")
 	@PostMapping
 	public ResponseEntity<Response<CadastroClienteDto>> cadastrarBolsista(
 			@Valid @RequestBody CadastroClienteDto clienteDto, BindingResult result) throws NoSuchAlgorithmException {
@@ -81,6 +83,7 @@ public class BolsistaController {
 		return ResponseEntity.ok(response);
 	}
 
+	@PreAuthorize("hasAnyRole('ADMINISTRADOR')")
 	@GetMapping(value = "{id}")
 	public ResponseEntity<Response<Bolsista>> buscarBolsistaPorId(@PathVariable("id") Integer id) {
 
@@ -102,6 +105,7 @@ public class BolsistaController {
 		return ResponseEntity.ok(response);
 	}
 
+	@PreAuthorize("hasAnyRole('ADMINISTRADOR','BOLSISTA')")
 	@PutMapping(value = "{id}")
 	public ResponseEntity<Response<CadastroClienteDto>> atualizarBolsista(@PathVariable("id") Integer id,
 			@Valid @RequestBody CadastroClienteDto bolsistaDto, BindingResult result) throws NoSuchAlgorithmException {
@@ -172,6 +176,7 @@ public class BolsistaController {
 		return clienteDto;
 	}
 
+	@PreAuthorize("hasAnyRole('ADMINISTRADOR')")
 	@GetMapping
 	public List<Bolsista> listarBolsistas() {
 		List<Bolsista> bolsista = this.bolsistaService.buscarPorTipoPerfilUsuario(EnumTipoPerfilUsuario.ROLE_BOLSISTA);
@@ -197,17 +202,24 @@ public class BolsistaController {
 			credencial.getUsuario().setCpf(bolsistaDto.getCpf());
 		}
 
-		if (!credencial.getUsername().equals(bolsistaDto.getUsername())) {
+		if (bolsistaDto.getUsername() != null || bolsistaDto.getSenha() != null) {
+			if (!credencial.getUsername().equals(bolsistaDto.getUsername())) {
 
-			this.credencialService.buscarPorUsername(bolsistaDto.getUsername())
-					.ifPresent(crede -> result.addError(new ObjectError("username", "Username já existente.")));
-			credencial.setUsername(bolsistaDto.getUsername());
+				this.credencialService.buscarPorUsername(bolsistaDto.getUsername())
+						.ifPresent(crede -> result.addError(new ObjectError("username", "Username já existente.")));
+				credencial.setUsername(bolsistaDto.getUsername());
+			}
+
+			credencial.setSenha(PasswordUtils.gerarBCrypt(bolsistaDto.getSenha()));
+
+		} else {
+			credencial.setUsername(credencial.getUsername());
+			credencial.setSenha(credencial.getSenha());
+
 		}
-
-		credencial.setSenha(PasswordUtils.gerarBCrypt(bolsistaDto.getSenha()));
-
 	}
 
+	@PreAuthorize("hasAnyRole('ADMINISTRADOR')")
 	@DeleteMapping(value = "{id}")
 	public ResponseEntity<Response<Credencial>> deletarBolsista(@PathVariable("id") Integer id) {
 
