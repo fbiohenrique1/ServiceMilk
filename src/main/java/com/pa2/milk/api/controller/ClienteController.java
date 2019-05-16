@@ -71,7 +71,6 @@ public class ClienteController {
 		return clientes;
 	}
 
-	@PreAuthorize("hasAnyRole('ADMINISTRADOR','BOLSISTA','CLIENTE')")
 	@PostMapping
 	public ResponseEntity<Response<CadastroClienteDto>> cadastrarCliente(
 			@Valid @RequestBody CadastroClienteDto clienteDto, BindingResult result) throws NoSuchAlgorithmException {
