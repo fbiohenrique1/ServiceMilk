@@ -65,6 +65,7 @@ public class ClienteController {
 	@Autowired
 	private SolicitacaoService solicitacaoService;
 
+	@PreAuthorize("hasAnyRole('ADMINISTRADOR','BOLSISTA')")
 	@GetMapping
 	public List<Cliente> listarClientes() {
 		List<Cliente> clientes = this.clienteService.buscarPorTipoPerfilUsuario(EnumTipoPerfilUsuario.ROLE_CLIENTE);
@@ -213,6 +214,10 @@ public class ClienteController {
 					.ifPresent(clien -> result.addError(new ObjectError("cpf", "CPF já existente.")));
 			credencial.getUsuario().setCpf(clienteDto.getCpf());
 		}
+
+		((Cliente) credencial.getUsuario()).setTelefone1(clienteDto.getTelefone1());
+
+		((Cliente) credencial.getUsuario()).setTelefone2(clienteDto.getTelefone2());
 
 		if (clienteDto.getUsername() != null || clienteDto.getSenha() != null) {
 
