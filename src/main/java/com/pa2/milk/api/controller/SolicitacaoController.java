@@ -115,7 +115,7 @@ public class SolicitacaoController {
 		return ResponseEntity.ok(response);
 	}
 
-	@PreAuthorize("hasAnyRole('ADMINISTRADOR','BOLSISTA')")
+	@PreAuthorize("hasAnyRole('ADMINISTRADOR','BOLSISTA','CLIENTE')")
 	@DeleteMapping(value = "{id}")
 	public ResponseEntity<Response<Solicitacao>> deletarCliente(@PathVariable("id") Integer id) {
 		log.info("Removendo Solicitação: {}", id);

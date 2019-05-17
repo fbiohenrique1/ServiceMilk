@@ -130,7 +130,7 @@ public class FazendaController {
 
 	}
 
-	@PreAuthorize("hasAnyRole('ADMINISTRADOR','BOLSISTA')")
+	@PreAuthorize("hasAnyRole('ADMINISTRADOR','BOLSISTA','CLIENTE')")
 	@DeleteMapping(value = "{id}")
 	public ResponseEntity<Response<Fazenda>> deletarFazenda(@PathVariable("id") Integer id) {
 
