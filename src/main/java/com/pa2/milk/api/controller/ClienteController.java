@@ -101,7 +101,7 @@ public class ClienteController {
 		return ResponseEntity.ok(response);
 	}
 
-	@PreAuthorize("hasAnyRole('ADMINISTRADOR','BOLSISTA')")
+	@PreAuthorize("hasAnyRole('ADMINISTRADOR','BOLSISTA','CLIENTE')")
 	@GetMapping(value = "{id}")
 	public ResponseEntity<Response<Cliente>> buscarClientePorId(@PathVariable("id") Integer id) {
 

@@ -43,6 +43,7 @@ public class FazendaController {
 	@Autowired
 	private ClienteService clienteService;
 
+	@PreAuthorize("hasAnyRole('ADMINISTRADOR','BOLSISTA')")
 	@GetMapping
 	public List<Fazenda> listarFazendas() {
 		List<Fazenda> fazendas = this.fazendaService.listarFazenda();
