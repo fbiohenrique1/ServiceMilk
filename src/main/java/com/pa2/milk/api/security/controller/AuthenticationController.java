@@ -81,6 +81,8 @@ public class AuthenticationController {
 		
 		r.addHeader(TOKEN_HEADER, BEARER_PREFIX + " " + token);
 		r.addHeader("Usuario","ID:"+credencial.get().getUsuario().getId());
+		r.addHeader("UsuarioPerfil:","Perfil:"+credencial.get().getUsuario().getCodigoTipoPerfilUsuario());
+		
 		
 		return ResponseEntity.ok(response);
 
