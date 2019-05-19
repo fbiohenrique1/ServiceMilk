@@ -90,7 +90,7 @@ public class SolicitacaoController {
 		solicitacao.setStatus(EnumStatusSolicitacao.PENDENTE);
 		return solicitacao;
 	}
-	
+
 	@PreAuthorize("hasAnyRole('ADMINISTRADOR','BOLSISTA','CLIENTE')")
 	@GetMapping(value = "{id}")
 	public ResponseEntity<Response<Solicitacao>> buscarSolicitacaoPorID(@PathVariable("id") Integer id) {
@@ -106,6 +106,24 @@ public class SolicitacaoController {
 		}
 
 		response.setData(solicitacao.get());
+
+		return ResponseEntity.ok(response);
+	}
+
+	@GetMapping(value = "/status/{id}")
+	public ResponseEntity<Response<EnumStatusSolicitacao>> statusSolicitacao(@PathVariable("id") Integer id) {
+		log.info("Status Solicitação");
+
+		Response<EnumStatusSolicitacao> response = new Response<EnumStatusSolicitacao>();
+
+		Optional<Solicitacao> solicitacao = solicitacaoService.buscarSolicitacaoPorId(id);
+
+		if (!solicitacao.isPresent()) {
+			log.info("Solicitação não encontrada: {}", solicitacao.get());
+			return ResponseEntity.badRequest().body(response);
+		}
+
+		response.setData(solicitacao.get().getStatus());
 
 		return ResponseEntity.ok(response);
 	}
