@@ -4,8 +4,6 @@ import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import java.util.Optional;
 
-import javax.validation.Valid;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,17 +16,14 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.pa2.milk.api.helper.Response;
 import com.pa2.milk.api.model.Analise;
-import com.pa2.milk.api.model.Credencial;
 import com.pa2.milk.api.model.Fazenda;
 import com.pa2.milk.api.model.Solicitacao;
-import com.pa2.milk.api.model.dto.CadastroClienteDto;
 import com.pa2.milk.api.model.dto.SolicitacaoDto;
 import com.pa2.milk.api.model.dto.StatusSolicitacaoDTO;
 import com.pa2.milk.api.model.enums.EnumStatusSolicitacao;
@@ -117,7 +112,7 @@ public class SolicitacaoController {
 
 	@PreAuthorize("hasAnyRole('ADMINISTRADOR','BOLSISTA','CLIENTE')")
 	@DeleteMapping(value = "{id}")
-	public ResponseEntity<Response<Solicitacao>> deletarCliente(@PathVariable("id") Integer id) {
+	public ResponseEntity<Response<Solicitacao>> deletarSolicitacao(@PathVariable("id") Integer id) {
 		log.info("Removendo Solicitação: {}", id);
 
 		Response<Solicitacao> response = new Response<Solicitacao>();

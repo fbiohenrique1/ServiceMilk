@@ -37,7 +37,7 @@ public class AdministradorService {
 	}
 
 	public Administrador buscarPorCpfNormal(String cpf) {
-		log.info("Buscando Cliente pelo Cpf: {}", cpf);
+		log.info("Buscando Administrador pelo Cpf: {}", cpf);
 		return this.administradorRepository.findByCpf(cpf);
 	}
 
@@ -47,7 +47,7 @@ public class AdministradorService {
 	}
 
 	public List<Administrador> listarAdministrador() {
-		log.info("Listando Bolsista");
+		log.info("Listando Administrador");
 		return this.administradorRepository.findAll();
 	}
 

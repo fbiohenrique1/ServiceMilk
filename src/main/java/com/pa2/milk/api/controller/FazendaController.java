@@ -54,6 +54,7 @@ public class FazendaController {
 	@PostMapping("/{clienteId}")
 	public ResponseEntity<Response<Fazenda>> cadastrarFazenda(@Valid @RequestBody Fazenda fazenda,
 			@PathVariable("clienteId") Integer clienteId, BindingResult result) throws NoSuchAlgorithmException {
+		
 		log.info("Cadastrando Fazenda: {}", fazenda.toString());
 
 		Response<Fazenda> response = new Response<Fazenda>();
