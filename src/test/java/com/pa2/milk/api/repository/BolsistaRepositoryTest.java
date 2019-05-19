@@ -40,7 +40,7 @@ public class BolsistaRepositoryTest {
 		credencial.setSenha("123456");
 		credencial.setId(1);
 
-		Usuario usuario = new Bolsista();
+		Bolsista usuario = new Bolsista();
 
 		usuario.setId(1);
 		usuario.setNome("lucas");
