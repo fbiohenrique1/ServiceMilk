@@ -126,27 +126,27 @@ public class ServiceMilkApplication {
 
 			// Fazenda
 			Fazenda fazenda = new Fazenda();
-			fazenda.setNome("bananinha");
-			fazenda.setBairro("bairro");
-			fazenda.setCep("cep");
-			fazenda.setCidade("cidade");
-			fazenda.setCnpj("84339157000136");
-			fazenda.setEndereco("endereco");
+			fazenda.setNome("Fazenda Monte Alegre");
+			fazenda.setBairro("Iguaçu");
+			fazenda.setCep("64965970");
+			fazenda.setCidade("Avelino Lopes");
+			fazenda.setCnpj("07204356000196");
+			fazenda.setEndereco("Avenida Sérgio Gama 105");
 			fazenda.setNumero(211);
-			fazenda.setImagem("iamgem");
-			fazenda.setEstado("estado");
+			fazenda.setImagem("imagem");
+			fazenda.setEstado("Piauí");
 			this.fazendaRepository.save(fazenda);
 
 			Fazenda fazenda1 = new Fazenda();
-			fazenda1.setNome("bananinha2");
-			fazenda1.setBairro("bairro2");
-			fazenda1.setCep("cep2");
-			fazenda1.setCidade("cidade2");
-			fazenda1.setCnpj("87996280000118");
-			fazenda1.setEndereco("endereco2");
+			fazenda1.setNome("Chácara Pedacinho do Céu");
+			fazenda1.setBairro("Aracuí");
+			fazenda1.setCep("29365984");
+			fazenda1.setCidade("Aracui");
+			fazenda1.setCnpj("66965755000139");
+			fazenda1.setEndereco("Rodovia Fued Nemer, s/n");
 			fazenda1.setNumero(2112);
-			fazenda1.setImagem("iamgem2");
-			fazenda1.setEstado("estado2");
+			fazenda1.setImagem("imagem2");
+			fazenda1.setEstado("Minas Gerais");
 			this.fazendaRepository.save(fazenda1);
 
 			// Adicionar id de cliente em uma fazenda
