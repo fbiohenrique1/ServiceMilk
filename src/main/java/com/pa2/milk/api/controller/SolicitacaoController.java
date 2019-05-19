@@ -24,6 +24,7 @@ import com.pa2.milk.api.helper.Response;
 import com.pa2.milk.api.model.Analise;
 import com.pa2.milk.api.model.Fazenda;
 import com.pa2.milk.api.model.Solicitacao;
+import com.pa2.milk.api.model.dto.SolicitacaoDetalhesDto;
 import com.pa2.milk.api.model.dto.SolicitacaoDto;
 import com.pa2.milk.api.model.dto.StatusSolicitacaoDTO;
 import com.pa2.milk.api.model.enums.EnumStatusSolicitacao;
@@ -111,10 +112,10 @@ public class SolicitacaoController {
 	}
 
 	@GetMapping(value = "/status/{id}")
-	public ResponseEntity<Response<EnumStatusSolicitacao>> statusSolicitacao(@PathVariable("id") Integer id) {
-		log.info("Status Solicitação");
+	public ResponseEntity<Response<SolicitacaoDetalhesDto>> statusSolicitacao(@PathVariable("id") Integer id) {
+		log.info("Status e Observação da Solicitação");
 
-		Response<EnumStatusSolicitacao> response = new Response<EnumStatusSolicitacao>();
+		Response<SolicitacaoDetalhesDto> response = new Response<SolicitacaoDetalhesDto>();
 
 		Optional<Solicitacao> solicitacao = solicitacaoService.buscarSolicitacaoPorId(id);
 
@@ -123,7 +124,11 @@ public class SolicitacaoController {
 			return ResponseEntity.badRequest().body(response);
 		}
 
-		response.setData(solicitacao.get().getStatus());
+		SolicitacaoDetalhesDto s = new SolicitacaoDetalhesDto();
+		s.setStatus(solicitacao.get().getStatus());
+		s.setObservacao(solicitacao.get().getObservacao());
+
+		response.setData(s);
 
 		return ResponseEntity.ok(response);
 	}
