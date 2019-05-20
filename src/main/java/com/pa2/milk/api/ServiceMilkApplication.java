@@ -90,7 +90,7 @@ public class ServiceMilkApplication {
 			usuario.setEmail("pedro@email.com");
 			usuario.setCodigoTipoPerfilUsuario(EnumTipoPerfilUsuario.ROLE_CLIENTE);
 			usuario.setNome("Pedro Fernandes");
-			usuario.setCpf("65750205002");
+			usuario.setCpf("26302742099");
 			((Cliente) usuario).setTelefone1("888888888");
 			((Cliente) usuario).setTelefone2("999999999");
 			Credencial c = new Credencial();
@@ -105,7 +105,7 @@ public class ServiceMilkApplication {
 			b.setEmail("fabio@email.com");
 			b.setCodigoTipoPerfilUsuario(EnumTipoPerfilUsuario.ROLE_BOLSISTA);
 			b.setNome("Fábio Henrique");
-			b.setCpf("13286865745");
+			b.setCpf("19056419072");
 			Credencial cB = new Credencial();
 			cB.setUsername("fabio");
 			cB.setSenha(PasswordUtils.gerarBCrypt("fabio"));
@@ -116,7 +116,7 @@ public class ServiceMilkApplication {
 			Usuario a = new Administrador();
 			a.setEmail("teste@email.com");
 			a.setCodigoTipoPerfilUsuario(EnumTipoPerfilUsuario.ROLE_ADMINISTRADOR);
-			a.setNome("Teste de sistema");
+			a.setNome("Cliente teste de sistema");
 			a.setCpf("11242520023");
 			Credencial cA = new Credencial();
 			cA.setUsername("teste");
