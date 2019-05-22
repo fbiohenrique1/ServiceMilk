@@ -11,7 +11,7 @@ public class SolicitacaoDto {
 
 	private String cpfcnpj;
 
-	private Date dataCriada;
+//	private Date dataCriada;
 
 	private List<AnaliseDto> listaAnalise;
 
@@ -34,13 +34,13 @@ public class SolicitacaoDto {
 		this.listaAnalise = listaAnalise;
 	}
 
-	public Date getDataCriada() {
-		return dataCriada;
-	}
-
-	public void setDataCriada(Date dataCriada) {
-		this.dataCriada = dataCriada;
-	}
+//	public Date getDataCriada() {
+//		return dataCriada;
+//	}
+//
+//	public void setDataCriada(Date dataCriada) {
+//		this.dataCriada = dataCriada;
+//	}
 
 	public Solicitacao transformarParaSolicitacao() {
 		return new Solicitacao();
