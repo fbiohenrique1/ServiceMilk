@@ -10,7 +10,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
-@Entity(name="fazenda")
+@Entity(name = "fazenda")
 @Table
 public class Fazenda extends AbstractModel<Integer> {
 	@Id
@@ -20,12 +20,12 @@ public class Fazenda extends AbstractModel<Integer> {
 	@NotBlank(message = "O campo nome não pode ser nulo.")
 	private String nome;
 
-	@NotBlank (message = "O campo imagem não pode ser nulo.")
+	@NotBlank(message = "O campo imagem não pode ser nulo.")
 	private String imagem;
 
-	//@CNPJ(message = "O campo CNPJ é invalido")
+	// @CNPJ(message = "O campo CNPJ é invalido")
 	@NotBlank(message = "O campo CNPJ não pode ser nulo.")
-	private String cnpj;
+	private String cpfcnpj;
 
 	@NotBlank(message = "O campo cep não pode ser nulo.")
 	private String cep;
@@ -71,12 +71,12 @@ public class Fazenda extends AbstractModel<Integer> {
 		this.imagem = imagem;
 	}
 
-	public String getCnpj() {
-		return cnpj;
+	public String getCpfcnpj() {
+		return cpfcnpj;
 	}
 
-	public void setCnpj(String cnpj) {
-		this.cnpj = cnpj;
+	public void setCpfcnpj(String cpfcnpj) {
+		this.cpfcnpj = cpfcnpj;
 	}
 
 	public String getCep() {

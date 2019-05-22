@@ -164,11 +164,11 @@ public class FazendaController {
 
 	private void atualizarDadosFazenda(Fazenda farm, Fazenda fazenda, BindingResult result) {
 
-		if (!farm.getCnpj().equals(fazenda.getCnpj())) {
+		if (!farm.getCpfcnpj().equals(fazenda.getCpfcnpj())) {
 
-			this.fazendaService.buscarPorCnpj(fazenda.getCnpj())
+			this.fazendaService.buscarPorCpfCnpj(fazenda.getCpfcnpj())
 					.ifPresent(faze -> result.addError(new ObjectError("cnpj", "CNPJ já exitente.")));
-			farm.setCnpj(fazenda.getCnpj());
+			farm.setCpfcnpj(fazenda.getCpfcnpj());
 		}
 
 		if (fazenda.getNome() != null) {
@@ -223,7 +223,7 @@ public class FazendaController {
 	}
 
 	private void validarDadosExistentes(Fazenda Fazenda, BindingResult result) {
-		this.fazendaService.buscarPorCnpj(Fazenda.getCnpj())
+		this.fazendaService.buscarPorCpfCnpj(Fazenda.getCpfcnpj())
 				.ifPresent(farm -> result.addError(new ObjectError("fazenda", "Fazenda já existente.")));
 
 	}

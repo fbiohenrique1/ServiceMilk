@@ -1,8 +1,10 @@
 package com.pa2.milk.api.controller;
 
 import java.security.NoSuchAlgorithmException;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Optional;
+import java.util.TimeZone;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -60,11 +61,13 @@ public class SolicitacaoController {
 
 		Response<Solicitacao> response = new Response<Solicitacao>();
 
-		Optional<Fazenda> fazenda = fazendaSerice.buscarPorCnpj(solicitacaoDTO.getCnpj());
+		Optional<Fazenda> fazenda = fazendaSerice.buscarPorCpfCnpj(solicitacaoDTO.getCpfcnpj());
 
 		if (!fazenda.isPresent()) {
-			log.info("Não existe fazenda cadastrada com tais dados: {}", solicitacaoDTO.getCnpj());
-			result.addError(new ObjectError("solicitacao", "Solicitação não encontrada."));
+			log.info("Não existe fazenda cadastrada com tais dados: {}", solicitacaoDTO.getCpfcnpj());
+			response.getErros().add("Fazenda não encontrada");
+			return ResponseEntity.badRequest().body(response);
+			//result.addError(new ObjectError("solicitacao", "Fazenda não encontrada."));
 		}
 
 		Solicitacao solicitacao = gerarSolicitacao(solicitacaoDTO, fazenda.get());
@@ -87,6 +90,7 @@ public class SolicitacaoController {
 		Solicitacao solicitacao = solicitacaoDTO.transformarParaSolicitacao();
 		solicitacao.setFazenda(fazenda);
 		solicitacao.setCliente(fazenda.getCliente());
+		solicitacao.setDataCriada(Calendar.getInstance(TimeZone.getTimeZone("GMT-03:00")).getTime());
 		analises.stream().forEach(objAnalise -> solicitacao.addAnalise(objAnalise));
 		solicitacao.setStatus(EnumStatusSolicitacao.PENDENTE);
 		return solicitacao;

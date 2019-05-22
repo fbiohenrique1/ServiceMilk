@@ -1,6 +1,7 @@
 package com.pa2.milk.api.model;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -21,6 +22,7 @@ import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.pa2.milk.api.model.enums.EnumStatusSolicitacao;
 
@@ -44,19 +46,18 @@ public class Solicitacao extends AbstractModel<Integer> {
 	@OneToMany(mappedBy = "solicitacao", fetch = FetchType.EAGER, orphanRemoval = true)
 	@Fetch(FetchMode.SUBSELECT)
 	@Cascade({ org.hibernate.annotations.CascadeType.ALL })
-	// @JsonIgnore
 	private List<Analise> listaAnalise;
 
 	@Enumerated(EnumType.STRING)
 	@Column(name = "status", nullable = false)
 	private EnumStatusSolicitacao status;
 
+	@Column(name = "dataCriada", nullable = false)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Brazil/East")
+	private Date dataCriada;
+
 	@Column(length = 2047)
 	private String observacao;
-
-//    public Solicitacao(Fazenda fazenda) {
-//	this.fazenda = fazenda;
-//    }
 
 	public Solicitacao() {
 		listaAnalise = new ArrayList<>();
@@ -102,6 +103,14 @@ public class Solicitacao extends AbstractModel<Integer> {
 
 	public void setStatus(EnumStatusSolicitacao status) {
 		this.status = status;
+	}
+
+	public Date getDataCriada() {
+		return dataCriada;
+	}
+
+	public void setDataCriada(Date dataCriada) {
+		this.dataCriada = dataCriada;
 	}
 
 	public String getObservacao() {

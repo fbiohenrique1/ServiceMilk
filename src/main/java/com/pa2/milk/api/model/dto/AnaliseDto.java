@@ -6,40 +6,51 @@ import java.util.List;
 
 import com.pa2.milk.api.model.Analise;
 import com.pa2.milk.api.model.enums.EnumAnalisesSolicitadas;
+import com.pa2.milk.api.model.enums.EnumEspecie;
 import com.pa2.milk.api.model.enums.EnumLeite;
 import com.pa2.milk.api.model.enums.EnumOrigemLeite;
 import com.pa2.milk.api.model.enums.EnumProdutos;
 
 public class AnaliseDto {
 
-	private Collection<EnumLeite> leite;
+	private EnumLeite leite;
 
-	private Collection<EnumOrigemLeite> origemLeite;
+	private EnumOrigemLeite origemLeite;
 
 	private Collection<EnumProdutos> produtos;
 
 	private Collection<EnumAnalisesSolicitadas> analisesSolicitadas;
 
-	private String especie;
+	private EnumEspecie especie;
 
 	private List<AmostraDto> amostras = new ArrayList<>();
 
 	private Integer quantidadeAmostras;
 
-	public Collection<EnumLeite> getLeite() {
+	private String descricao;
+
+	public EnumLeite getLeite() {
 		return leite;
 	}
 
-	public void setLeite(Collection<EnumLeite> leite) {
+	public void setLeite(EnumLeite leite) {
 		this.leite = leite;
 	}
 
-	public Collection<EnumOrigemLeite> getOrigemLeite() {
+	public EnumOrigemLeite getOrigemLeite() {
 		return origemLeite;
 	}
 
-	public void setOrigemLeite(Collection<EnumOrigemLeite> origemLeite) {
+	public void setOrigemLeite(EnumOrigemLeite origemLeite) {
 		this.origemLeite = origemLeite;
+	}
+
+	public List<AmostraDto> getAmostras() {
+		return amostras;
+	}
+
+	public void setAmostras(List<AmostraDto> amostras) {
+		this.amostras = amostras;
 	}
 
 	public Collection<EnumProdutos> getProdutos() {
@@ -58,11 +69,11 @@ public class AnaliseDto {
 		this.analisesSolicitadas = analisesSolicitadas;
 	}
 
-	public String getEspecie() {
+	public EnumEspecie getEspecie() {
 		return especie;
 	}
 
-	public void setEspecie(String especie) {
+	public void setEspecie(EnumEspecie especie) {
 		this.especie = especie;
 	}
 
@@ -77,13 +88,22 @@ public class AnaliseDto {
 	public Integer getQuantidadeAmostras() {
 		return quantidadeAmostras;
 	}
-	
+
 	public void setQuantidadeAmostras(Integer quantidadeAmostras) {
 		this.quantidadeAmostras = quantidadeAmostras;
 	}
-	
+
+	public String getDescricao() {
+		return descricao;
+	}
+
+	public void setDescricao(String descricao) {
+		this.descricao = descricao;
+	}
+
 	public Analise transformarParaAnalise() {
-		return new Analise.Builder(especie).leite(leite).origemLeite(origemLeite)
-				.analisesSolicitadas(analisesSolicitadas).quantidadeAmostras(quantidadeAmostras).produtos(produtos).build();
+		return new Analise.Builder(descricao).especie(especie).leite(leite).origemLeite(origemLeite)
+				.analisesSolicitadas(analisesSolicitadas).quantidadeAmostras(quantidadeAmostras).produtos(produtos)
+				.build();
 	}
 }

@@ -13,7 +13,7 @@ import com.pa2.milk.api.model.Fazenda;
 @NamedQuery(name = "FazendaRepository.findByClienteId", query = "SELECT f FROM Fazenda f WHERE f.cliente.id = :clienteId")
 public interface FazendaRepository extends GenericRepository<Fazenda, Integer> {
 
-	Fazenda findByCnpj(String cnpj);
+	Fazenda findByCpfcnpj(String cpfCnpj);
 
 	List<Fazenda> findByClienteIdAndAtivoTrue(@Param("clienteId") Integer funcionarioId);
 

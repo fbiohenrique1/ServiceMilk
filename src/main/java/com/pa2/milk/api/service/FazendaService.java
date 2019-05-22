@@ -39,9 +39,9 @@ public class FazendaService {
 		return this.fazendaRepository.findAll();
 	}
 
-	public Optional<Fazenda> buscarPorCnpj(String cnpj) {
-		log.info("Buscando fazenda pelo Cnpj: {}", cnpj);
-		return Optional.ofNullable(this.fazendaRepository.findByCnpj(cnpj));
+	public Optional<Fazenda> buscarPorCpfCnpj(String cpfCnpj) {
+		log.info("Buscando fazenda pelo cpfcnpj: {}", cpfCnpj);
+		return Optional.ofNullable(this.fazendaRepository.findByCpfcnpj(cpfCnpj));
 	}
 
 	public List<Fazenda> buscarFazendaClienteId(Integer clienteId) {

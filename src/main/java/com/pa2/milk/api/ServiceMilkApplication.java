@@ -1,10 +1,12 @@
 package com.pa2.milk.api;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.TimeZone;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -26,6 +28,7 @@ import com.pa2.milk.api.model.OrdemServico;
 import com.pa2.milk.api.model.Solicitacao;
 import com.pa2.milk.api.model.Usuario;
 import com.pa2.milk.api.model.enums.EnumAnalisesSolicitadas;
+import com.pa2.milk.api.model.enums.EnumEspecie;
 import com.pa2.milk.api.model.enums.EnumLeite;
 import com.pa2.milk.api.model.enums.EnumOrigemLeite;
 import com.pa2.milk.api.model.enums.EnumProdutos;
@@ -130,7 +133,7 @@ public class ServiceMilkApplication {
 			fazenda.setBairro("Iguaçu");
 			fazenda.setCep("64965970");
 			fazenda.setCidade("Avelino Lopes");
-			fazenda.setCnpj("07204356000196");
+			fazenda.setCpfcnpj("07204356000196");
 			fazenda.setEndereco("Avenida Sérgio Gama 105");
 			fazenda.setNumero(211);
 			fazenda.setImagem("imagem");
@@ -142,7 +145,7 @@ public class ServiceMilkApplication {
 			fazenda1.setBairro("Aracuí");
 			fazenda1.setCep("29365984");
 			fazenda1.setCidade("Aracui");
-			fazenda1.setCnpj("66965755000139");
+			fazenda1.setCpfcnpj("66965755000139");
 			fazenda1.setEndereco("Rodovia Fued Nemer, s/n");
 			fazenda1.setNumero(2112);
 			fazenda1.setImagem("imagem2");
@@ -160,6 +163,7 @@ public class ServiceMilkApplication {
 			s.setCliente((Cliente) usuario);
 			s.setFazenda(fazenda);
 			s.setStatus(EnumStatusSolicitacao.PENDENTE);
+			s.setDataCriada(Calendar.getInstance(TimeZone.getTimeZone("GMT-03:00")).getTime());
 			this.solicitacaoRepository.save(s);
 
 			// OrdemServiço
@@ -180,7 +184,7 @@ public class ServiceMilkApplication {
 			teste2.add(EnumProdutos.CREME_30_GORDURA);
 
 			Collection<EnumOrigemLeite> teste3 = new ArrayList<>();
-			teste3.add(EnumOrigemLeite.TANQUE);
+			teste3.add(EnumOrigemLeite.TANQUE_COLETIVO);
 			teste3.add(EnumOrigemLeite.BALDE);
 
 			Collection<EnumAnalisesSolicitadas> teste4 = new ArrayList<>();
@@ -188,28 +192,30 @@ public class ServiceMilkApplication {
 			teste4.add(EnumAnalisesSolicitadas.CELULAS_SOMATICAS);
 
 			Analise analise = new Analise();
-			analise.setEspecie("especie");
-			analise.setLeite(teste);
+			analise.setEspecie(EnumEspecie.BOVINO);
+			analise.setLeite(EnumLeite.CRU);
 			analise.setProdutos(teste2);
-			analise.setOrigemLeite(teste3);
+			analise.setOrigemLeite(EnumOrigemLeite.TETEIRA);
 			analise.setAnalisesSolicitadas(teste4);
 			analise.setQuantidadeAmostras(70);
 
 			Analise analise2 = new Analise();
-			analise2.setEspecie("especie");
-			analise2.setLeite(teste);
+			analise2.setEspecie(EnumEspecie.OUVINO);
+			analise2.setLeite(EnumLeite.CRU);
 			analise2.setProdutos(teste2);
-			analise2.setOrigemLeite(teste3);
+			analise2.setOrigemLeite(EnumOrigemLeite.TETEIRA);
 			analise2.setAnalisesSolicitadas(teste4);
 			analise2.setQuantidadeAmostras(60);
+			analise2.setDescricao("analise 2");
 
 			Analise analise3 = new Analise();
-			analise3.setEspecie("especie");
-			analise3.setLeite(teste);
+			analise3.setEspecie(EnumEspecie.CAPRINO);
+			analise3.setLeite(EnumLeite.CRU);
 			analise3.setProdutos(teste2);
-			analise3.setOrigemLeite(teste3);
+			analise3.setOrigemLeite(EnumOrigemLeite.TETEIRA);
 			analise3.setAnalisesSolicitadas(teste4);
 			analise3.setQuantidadeAmostras(5);
+			analise3.setDescricao("analise 3");
 			// this.analiseRepository.save(analise);
 
 			// Amostra 1
