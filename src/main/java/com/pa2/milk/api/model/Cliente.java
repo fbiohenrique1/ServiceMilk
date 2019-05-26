@@ -75,4 +75,14 @@ public class Cliente extends Usuario {
 		removeFazenda.setCliente(null);
 	}
 
+	public Cliente(String telefone1, String telefone2, List<Fazenda> listaFazenda, List<Solicitacao> listaSolicitacao) {
+		super();
+		this.telefone1 = telefone1;
+		this.telefone2 = telefone2;
+		this.listaFazenda = listaFazenda;
+		this.listaSolicitacao = listaSolicitacao;
+	}
+	
+	
+
 }
