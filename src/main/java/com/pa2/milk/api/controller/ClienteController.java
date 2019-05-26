@@ -11,6 +11,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
@@ -65,6 +67,9 @@ public class ClienteController {
 	@Autowired
 	private SolicitacaoService solicitacaoService;
 
+	@Autowired
+	private JavaMailSender javaMailSender;
+
 	@PreAuthorize("hasAnyRole('ADMINISTRADOR','BOLSISTA')")
 	@GetMapping
 	public List<Cliente> listarClientes() {
@@ -95,9 +100,8 @@ public class ClienteController {
 		this.clienteService.salvar(cliente);
 		credencial.setUsuario(cliente);
 		this.credencialService.salvar(credencial);
-
 		response.setData(this.converterCadastroClienteDto(credencial));
-
+		enviarEmail(cliente);
 		return ResponseEntity.ok(response);
 	}
 
@@ -279,6 +283,22 @@ public class ClienteController {
 		clienteDto.setTelefone1(((Cliente) credencial.getUsuario()).getTelefone1());
 		clienteDto.setTelefone2(((Cliente) credencial.getUsuario()).getTelefone2());
 		return clienteDto;
+	}
+
+	public void enviarEmail(Cliente cliente) {
+		StringBuilder titulo = new StringBuilder("Cadastro efetuado com sucesso.");
+		StringBuilder mensagemTexto = new StringBuilder();
+		SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
+
+		mensagemTexto.append("Nome: " + cliente.getNome());
+		mensagemTexto.append(System.lineSeparator());
+		mensagemTexto.append("CPF: " + cliente.getCpf());
+
+		simpleMailMessage.setTo(cliente.getEmail());
+		simpleMailMessage.setSubject(titulo.toString());
+		simpleMailMessage.setText(mensagemTexto.toString());
+
+		javaMailSender.send(simpleMailMessage);
 	}
 
 }

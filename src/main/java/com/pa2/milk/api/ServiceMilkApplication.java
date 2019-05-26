@@ -16,6 +16,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 
+import com.pa2.milk.api.controller.EnviarEmail;
 import com.pa2.milk.api.helper.PasswordUtils;
 import com.pa2.milk.api.model.Administrador;
 import com.pa2.milk.api.model.Amostra;
@@ -80,6 +81,9 @@ public class ServiceMilkApplication {
 	@Autowired
 	private AmostraRepository amostraRepository;
 
+	@Autowired
+	private EnviarEmail enviar;
+	
 	public static void main(String[] args) {
 		SpringApplication.run(ServiceMilkApplication.class, args);
 	}
@@ -261,6 +265,8 @@ public class ServiceMilkApplication {
 //			}			
 //-------------------------------------------------------------(NAO FUNCIONA)---------------------------------------------
 
+//			enviar.sendEmail();
+			 
 		};
 	}
 
