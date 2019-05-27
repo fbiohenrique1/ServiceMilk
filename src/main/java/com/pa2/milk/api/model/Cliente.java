@@ -17,10 +17,10 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 @Entity(name = "cliente")
 public class Cliente extends Usuario {
 
-	//@NotBlank(message = "O campo telefone 1 não pode ser nulo.")
+	// @NotBlank(message = "O campo telefone 1 não pode ser nulo.")
 	private String telefone1;
-	
-	//@NotBlank(message = "O campo telefone 2 não pode ser nulo.")
+
+	// @NotBlank(message = "O campo telefone 2 não pode ser nulo.")
 	private String telefone2;
 
 	@OneToMany(mappedBy = "cliente", fetch = FetchType.EAGER, orphanRemoval = true)
@@ -32,6 +32,18 @@ public class Cliente extends Usuario {
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "cliente")
 	@JsonIgnore
 	private List<Solicitacao> listaSolicitacao;
+	
+	public Cliente() {
+		
+	}
+
+	public Cliente(String telefone1, String telefone2, List<Fazenda> listaFazenda, List<Solicitacao> listaSolicitacao) {
+		super();
+		this.telefone1 = telefone1;
+		this.telefone2 = telefone2;
+		this.listaFazenda = listaFazenda;
+		this.listaSolicitacao = listaSolicitacao;
+	}
 
 	public String getTelefone1() {
 		return telefone1;
@@ -75,14 +87,6 @@ public class Cliente extends Usuario {
 		removeFazenda.setCliente(null);
 	}
 
-	public Cliente(String telefone1, String telefone2, List<Fazenda> listaFazenda, List<Solicitacao> listaSolicitacao) {
-		super();
-		this.telefone1 = telefone1;
-		this.telefone2 = telefone2;
-		this.listaFazenda = listaFazenda;
-		this.listaSolicitacao = listaSolicitacao;
-	}
-	
 	
 
 }
