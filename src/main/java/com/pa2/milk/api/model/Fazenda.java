@@ -49,6 +49,30 @@ public class Fazenda extends AbstractModel<Integer> {
 	@JoinColumn(name = "cliente_id")
 	private Cliente cliente;
 
+	public Fazenda() {
+	}
+
+	public Fazenda(@NotBlank(message = "O campo nome não pode ser nulo.") String nome,
+			@NotBlank(message = "O campo imagem não pode ser nulo.") String imagem,
+			@NotBlank(message = "O campo CNPJ não pode ser nulo.") String cpfcnpj,
+			@NotBlank(message = "O campo cep não pode ser nulo.") String cep,
+			@NotBlank(message = "O campo endereço não pode ser nulo.") String endereco,
+			@NotNull(message = "O campo numero não pode ser nulo.") int numero,
+			@NotBlank(message = "O campo bairro não pode ser nulo.") String bairro,
+			@NotBlank(message = "O campo cidade não pode ser nulo.") String cidade,
+			@NotBlank(message = "O campo estado não pode ser nulo.") String estado, Cliente cliente) {
+		this.nome = nome;
+		this.imagem = imagem;
+		this.cpfcnpj = cpfcnpj;
+		this.cep = cep;
+		this.endereco = endereco;
+		this.numero = numero;
+		this.bairro = bairro;
+		this.cidade = cidade;
+		this.estado = estado;
+		this.cliente = cliente;
+	}
+
 	@Override
 	public Integer getId() {
 		return id;

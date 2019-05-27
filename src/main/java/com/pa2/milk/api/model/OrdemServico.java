@@ -36,6 +36,18 @@ public class OrdemServico extends AbstractModel<Integer> {
 	@NotNull(message = "O campo valor não pode ser nulo.")
 	private double valor;
 
+	public OrdemServico() {
+	}
+
+	public OrdemServico(Date dataHora, Bolsista bolsista, Solicitacao solicitacao,
+			@NotNull(message = "O campo valor não pode ser nulo.") double valor) {
+		super();
+		this.dataHora = dataHora;
+		this.bolsista = bolsista;
+		this.solicitacao = solicitacao;
+		this.valor = valor;
+	}
+
 	@Override
 	public Integer getId() {
 		return id;

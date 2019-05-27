@@ -32,9 +32,9 @@ public class Cliente extends Usuario {
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "cliente")
 	@JsonIgnore
 	private List<Solicitacao> listaSolicitacao;
-	
+
 	public Cliente() {
-		
+
 	}
 
 	public Cliente(String telefone1, String telefone2, List<Fazenda> listaFazenda, List<Solicitacao> listaSolicitacao) {
@@ -86,7 +86,5 @@ public class Cliente extends Usuario {
 		listaFazenda.remove(removeFazenda);
 		removeFazenda.setCliente(null);
 	}
-
-	
 
 }

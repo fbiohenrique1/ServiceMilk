@@ -44,6 +44,21 @@ public class Amostra extends AbstractModel<Integer> {
 	@JsonIgnore
 	private Analise analise;
 
+	public Amostra() {
+	}
+
+	public Amostra(Date dataColeta,
+			@NotNull(message = "O campo número de Amostra não pode ser nulo.") int numeroAmostra,
+			@NotBlank(message = "O campo qrCode não pode ser nulo.") String qrCode, String observacao,
+			Analise analise) {
+		super();
+		this.dataColeta = dataColeta;
+		this.numeroAmostra = numeroAmostra;
+		this.qrCode = qrCode;
+		this.observacao = observacao;
+		this.analise = analise;
+	}
+
 	@Override
 	public Integer getId() {
 		return id;

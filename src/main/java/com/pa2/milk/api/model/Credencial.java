@@ -30,6 +30,16 @@ public class Credencial extends AbstractModel<Integer> {
 	@Cascade({ org.hibernate.annotations.CascadeType.ALL })
 	private Usuario usuario;
 
+	public Credencial() {
+	}
+
+	public Credencial(String username, String senha, Usuario usuario) {
+		super();
+		this.username = username;
+		this.senha = senha;
+		this.usuario = usuario;
+	}
+
 	@Override
 	public Integer getId() {
 		return id;

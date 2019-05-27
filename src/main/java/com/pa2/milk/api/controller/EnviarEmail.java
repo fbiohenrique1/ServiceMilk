@@ -9,16 +9,16 @@ import org.springframework.stereotype.Component;
 public class EnviarEmail {
 
 	@Autowired
-    private JavaMailSender javaMailSender;
-	
+	private JavaMailSender javaMailSender;
+
 	public void sendEmail() {
-        SimpleMailMessage msg = new SimpleMailMessage();
-        msg.setTo("adryel.juliao1@gmail.com");
+		SimpleMailMessage msg = new SimpleMailMessage();
+		msg.setTo("adryel.juliao1@gmail.com");
 
-        msg.setSubject("Cadastro efetuado com sucesso.");
-        msg.setText("Hello World \n Spring Boot Email");
+		msg.setSubject("Cadastro efetuado com sucesso.");
+		msg.setText("Hello World \n Spring Boot Email");
 
-        javaMailSender.send(msg);
+		javaMailSender.send(msg);
 
-    }
+	}
 }

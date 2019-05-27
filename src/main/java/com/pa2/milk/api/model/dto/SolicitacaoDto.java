@@ -1,6 +1,5 @@
 package com.pa2.milk.api.model.dto;
 
-import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -10,8 +9,6 @@ import com.pa2.milk.api.model.Solicitacao;
 public class SolicitacaoDto {
 
 	private String cpfcnpj;
-
-//	private Date dataCriada;
 
 	private List<AnaliseDto> listaAnalise;
 
@@ -33,14 +30,6 @@ public class SolicitacaoDto {
 	public void setListaAnalise(List<AnaliseDto> listaAnalise) {
 		this.listaAnalise = listaAnalise;
 	}
-
-//	public Date getDataCriada() {
-//		return dataCriada;
-//	}
-//
-//	public void setDataCriada(Date dataCriada) {
-//		this.dataCriada = dataCriada;
-//	}
 
 	public Solicitacao transformarParaSolicitacao() {
 		return new Solicitacao();

@@ -14,7 +14,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import com.pa2.milk.api.model.Bolsista;
 import com.pa2.milk.api.model.Credencial;
-import com.pa2.milk.api.model.Usuario;
 import com.pa2.milk.api.model.enums.EnumTipoPerfilUsuario;
 
 @RunWith(SpringRunner.class)
