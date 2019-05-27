@@ -1,10 +1,8 @@
 package com.pa2.milk.api.controller;
 
 import java.security.NoSuchAlgorithmException;
-import java.util.Calendar;
 import java.util.List;
 import java.util.Optional;
-import java.util.TimeZone;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -90,7 +88,8 @@ public class SolicitacaoController {
 		Solicitacao solicitacao = solicitacaoDTO.transformarParaSolicitacao();
 		solicitacao.setFazenda(fazenda);
 		solicitacao.setCliente(fazenda.getCliente());
-		solicitacao.setDataCriada(Calendar.getInstance(TimeZone.getTimeZone("GMT-03:00")).getTime());
+		//solicitacao.setDataCriada(Calendar.getInstance(TimeZone.getTimeZone("GMT-03:00")).getTime());
+		solicitacao.setDataCriada(solicitacaoDTO.getDataCriada());
 		analises.stream().forEach(objAnalise -> solicitacao.addAnalise(objAnalise));
 		solicitacao.setStatus(EnumStatusSolicitacao.PENDENTE);
 		return solicitacao;
