@@ -1,6 +1,5 @@
 package com.pa2.milk.api.model.dto;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -23,7 +22,7 @@ public class AnaliseDto {
 
 	private EnumEspecie especie;
 
-	private List<AmostraDto> amostras = new ArrayList<>();
+	private List<AmostraDto> amostras;
 
 	private Integer quantidadeAmostras;
 
@@ -43,14 +42,6 @@ public class AnaliseDto {
 
 	public void setOrigemLeite(EnumOrigemLeite origemLeite) {
 		this.origemLeite = origemLeite;
-	}
-
-	public List<AmostraDto> getAmostras() {
-		return amostras;
-	}
-
-	public void setAmostras(List<AmostraDto> amostras) {
-		this.amostras = amostras;
 	}
 
 	public Collection<EnumProdutos> getProdutos() {
@@ -77,12 +68,12 @@ public class AnaliseDto {
 		this.especie = especie;
 	}
 
-	public List<AmostraDto> getAmostra() {
+	public List<AmostraDto> getAmostras() {
 		return amostras;
 	}
 
-	public void setAmostra(List<AmostraDto> amostra) {
-		this.amostras = amostra;
+	public void setAmostras(List<AmostraDto> amostras) {
+		this.amostras = amostras;
 	}
 
 	public Integer getQuantidadeAmostras() {
