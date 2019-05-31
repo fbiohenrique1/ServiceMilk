@@ -189,10 +189,10 @@ public class ServiceMilkApplication {
 
 			Collection<EnumOrigemLeite> teste3 = new ArrayList<>();
 			teste3.add(EnumOrigemLeite.TANQUE_COLETIVO);
-			teste3.add(EnumOrigemLeite.BALDE);
+			teste3.add(EnumOrigemLeite.REBANHO_BALDE);
 
 			Collection<EnumAnalisesSolicitadas> teste4 = new ArrayList<>();
-			teste4.add(EnumAnalisesSolicitadas.ANALISES_FRAUDE);
+			teste4.add(EnumAnalisesSolicitadas.ANALISES_FRAUDE_FORMOL);
 			teste4.add(EnumAnalisesSolicitadas.CELULAS_SOMATICAS);
 
 			Analise analise = new Analise();
@@ -204,7 +204,7 @@ public class ServiceMilkApplication {
 			analise.setQuantidadeAmostras(70);
 
 			Analise analise2 = new Analise();
-			analise2.setEspecie(EnumEspecie.OUVINO);
+			analise2.setEspecie(EnumEspecie.OVINO);
 			analise2.setLeite(EnumLeite.CRU);
 			analise2.setProdutos(teste2);
 			analise2.setOrigemLeite(EnumOrigemLeite.TETEIRA);
