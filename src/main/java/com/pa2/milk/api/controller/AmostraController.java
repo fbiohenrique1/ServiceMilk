@@ -38,36 +38,34 @@ public class AmostraController {
 	@Autowired
 	private AnaliseRepository analiseRepositorio;
 
-	@GetMapping(value = "{id}/QrCode")
-	public void getQRCodeImage(@PathVariable("idAnalise") Integer idAnalise) throws WriterException, IOException {
+	@GetMapping(value = "{analiseId}/QrCode")
+	public void getQRCodeImage(@PathVariable("analiseId") Integer analiseId) throws WriterException, IOException {
 
-		List<Amostra> a = this.amostraRepositorio.findByAnalise(idAnalise);
+		// List<Amostra> a = this.amostraRepositorio.findByAnaliseId(analiseId);
 
-		for (int i = 0; i < a.size(); i++) {
+		Optional<Amostra> a = this.amostraRepositorio.findById(analiseId);
+		
+		VCard vCard = new VCard();
+		vCard.setName("Amostra " + String.valueOf(a.get().getId()));
+		vCard.setCompany(String.valueOf(a.get().getDataColeta()));
+		vCard.setTitle(String.valueOf(a.get().getNumeroAmostra()));
+		vCard.setEmail(String.valueOf(a.get().getObservacao()));
+		vCard.setWebsite(String.valueOf(a.get().getQrCode()));
 
-			 VCard vCard = new VCard();
-			 vCard.setName("Amostra "+String.valueOf(a.get(i).getId()));
-			 vCard.setCompany(String.valueOf(a.get(i).getDataColeta()));
-		     vCard.setTitle(String.valueOf(a.get(i).getNumeroAmostra()) );
-		     vCard.setEmail(String.valueOf(a.get(i).getObservacao()));
-		     vCard.setWebsite(String.valueOf(a.get(i).getQrCode()));
-		        
-			ByteArrayOutputStream bout = QRCode.from(vCard).withSize(250, 250).to(ImageType.PNG).stream();
+		ByteArrayOutputStream bout = QRCode.from(vCard).withSize(250, 250).to(ImageType.PNG).stream();
 
-			try {
-				File file = new File("C:\\Users\\phnf2\\Pictures\\teste\\qr_code("+i+").png");
-				OutputStream out = new FileOutputStream(file);
-				bout.writeTo(out);
-				out.flush();
-				out.close();
+		try {
+			File file = new File("C:\\Users\\phnf2\\Pictures\\teste\\qr_code.png");
+			OutputStream out = new FileOutputStream(file);
+			bout.writeTo(out);
 
-			} catch (FileNotFoundException e) {
-				e.printStackTrace();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+			out.flush();
+			out.close();
 
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 	}
-
 }

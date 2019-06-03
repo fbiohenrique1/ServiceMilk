@@ -220,7 +220,7 @@ public class ServiceMilkApplication {
 			analise3.setAnalisesSolicitadas(teste4);
 			analise3.setQuantidadeAmostras(5);
 			analise3.setDescricao("analise 3");
-			// this.analiseRepository.save(analise);
+			this.analiseRepository.save(analise);
 
 			// Amostra 1
 			Amostra amostra = new Amostra();
@@ -228,7 +228,7 @@ public class ServiceMilkApplication {
 			amostra.setNumeroAmostra(30);
 			amostra.setObservacao("obs");
 			amostra.setQrCode("qrCode");
-//			this.amostraRepository.save(amostra);
+			this.amostraRepository.save(amostra);
 
 			// Amostra 2
 			Amostra amostra2 = new Amostra();
@@ -236,7 +236,7 @@ public class ServiceMilkApplication {
 			amostra2.setNumeroAmostra(323);
 			amostra2.setObservacao("obs2");
 			amostra2.setQrCode("qrCode2");
-//			this.amostraRepository.save(amostra2);
+			this.amostraRepository.save(amostra2);
 
 			// Adicionar id de solicitação em uma analise
 			Optional<Solicitacao> solicitacao = this.solicitacaoRepository.findById(1);
