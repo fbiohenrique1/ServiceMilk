@@ -1,26 +1,21 @@
 package service;
 
-import org.junit.runner.RunWith;
-import org.mockito.junit.MockitoJUnitRunner;
-
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
-import org.springframework.boot.test.mock.mockito.MockBean;
 
 import com.pa2.milk.api.model.Cliente;
 import com.pa2.milk.api.model.Credencial;
 import com.pa2.milk.api.model.Fazenda;
 import com.pa2.milk.api.model.Solicitacao;
-import com.pa2.milk.api.repository.ClienteRepository;
-import com.pa2.milk.api.service.ClienteService;
 import com.pa2.milk.api.service.CredencialService;;
 
 
@@ -29,6 +24,7 @@ public class CredencialServicoTest {
 	
 	@Mock
 	private Credencial credencial;
+	
 	@Mock
 	private CredencialService credencialService;
 	
@@ -46,11 +42,21 @@ public class CredencialServicoTest {
 	
 	Cliente cliente = new Cliente(TEL1,TEL2,FAZENDA,SOLICITACAO);
 	
+	@Before
+	public void init() {
+		credencial = new Credencial(USERNAME,SENHA,cliente);
+	}
 	
+	/*@After	
+	public void after() {
+		//Mockito.doCallRealMethod().when(clienteservice).);
+		//Não foi possivel identific como apagar o credencial
+		
+	}*/
 	
 	@Test
 	public void SalvarCredencial() {
-		credencial = new Credencial(USERNAME,SENHA,cliente);
+		
 		credencialService.salvar(credencial);
 		
 		assertTrue("cadastro" + credencial + "com sucesso", true);

@@ -4,6 +4,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.verify;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
@@ -22,6 +23,9 @@ public class AdministradorServicoTeste {
 
 	@Mock
 	private AdministradorRepository adminrepository;
+	
+	@Mock
+	private Administrador admin;
 
 	private static final String CPF = "08653685030";
 	private static final String CPF2 = "00000000000";
@@ -34,11 +38,21 @@ public class AdministradorServicoTeste {
 	private static final String NOME = "lucas antonio";
 
 	private static final Integer PERFIL = EnumTipoPerfilUsuario.ROLE_ADMINISTRADOR.getCodigo();
+	
+	@Before
+	public void init() {
+		 admin = new Administrador(EMAIL, NOME, CPF, PERFIL);
+	}
+	
+	/*@After	
+	public void after() {
+		//Mockito.doCallRealMethod().when(clienteservice).);
+		//Não foi possivel identific como apagar o administrador
+		
+	}*/
 
 	@Test
 	public void salvarAdministrador() {
-
-		Administrador admin = new Administrador(EMAIL, NOME, CPF, PERFIL);
 
 		adminservico.salvar(admin);
 
@@ -51,14 +65,14 @@ public class AdministradorServicoTeste {
 	@Test
 	public void salvarAdministradorSemNome() {
 
-		Administrador admin = new Administrador(EMAIL, null, CPF, PERFIL);
+		admin = new Administrador(EMAIL, null, CPF, PERFIL);
 		assertFalse("cadatro" + admin + "com falha ", false);
 	}
 
 	@Test
 	public void salvarAdministradorSemEmail() {
 
-		Administrador admin = new Administrador(null, NOME, CPF, PERFIL);
+		admin = new Administrador(null, NOME, CPF, PERFIL);
 
 		assertFalse("cadatro" + admin + "com falha ", false);
 
@@ -67,7 +81,7 @@ public class AdministradorServicoTeste {
 	@Test
 	public void salvarAdministradorEmail2() {
 
-		Administrador admin = new Administrador(EMAIL2, NOME, CPF, PERFIL);
+		admin = new Administrador(EMAIL2, NOME, CPF, PERFIL);
 
 		assertFalse("cadatro" + admin + "com falha ", false);
 
@@ -76,7 +90,7 @@ public class AdministradorServicoTeste {
 	@Test
 	public void salvarAdministradorSemCPF() {
 
-		Administrador admin = new Administrador(EMAIL, NOME, null, PERFIL);
+		admin = new Administrador(EMAIL, NOME, null, PERFIL);
 
 		assertFalse("cadatro" + admin + "com falha ", false);
 	}
@@ -84,14 +98,14 @@ public class AdministradorServicoTeste {
 	@Test
 	public void salvarAdministradorCPF2() {
 
-		Administrador admin = new Administrador(EMAIL, NOME, CPF2, PERFIL);
+		admin = new Administrador(EMAIL, NOME, CPF2, PERFIL);
 
 		assertFalse("cadatro" + admin + "com falha ", false);
 	}
 	@Test
 	public void salvarAdministradorCPF3() {
 
-		Administrador admin = new Administrador(EMAIL, NOME, CPF3, PERFIL);
+		admin = new Administrador(EMAIL, NOME, CPF3, PERFIL);
 
 		assertFalse("cadatro" + admin + "com falha ", false);
 	}
@@ -99,7 +113,7 @@ public class AdministradorServicoTeste {
 	@Test
 	public void salvarAdministradorSemPerfil() {
 
-		Administrador admin = new Administrador(EMAIL, NOME, CPF, null);
+		admin = new Administrador(EMAIL, NOME, CPF, null);
 
 		assertFalse("cadatro" + admin + "com falha ", false);
 	}

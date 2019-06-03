@@ -1,12 +1,18 @@
 package service;
 
+import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.verify;
 
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
@@ -23,6 +29,9 @@ public class BolsistaServicoTest {
 
 	@MockBean
 	private BolsistaRepository bolsistarepository;
+	
+	@Mock
+	private Bolsista bolsista;
 
 	private static final String CPF = "08653685030";
 
@@ -34,8 +43,6 @@ public class BolsistaServicoTest {
 
 	@Test
 	public void salvaBolsista() {
-		Bolsista bolsista = new Bolsista(EMAIL, NOME, CPF, PERFIL);
-
 		bolsistaservice.salvar(bolsista);
 
 		assertTrue("cadastro" + bolsista + "com sucesso", true);
@@ -46,7 +53,7 @@ public class BolsistaServicoTest {
 
 	@Test
 	public void salvarBolsistaSemNome() {
-		Bolsista bolsista = new Bolsista(EMAIL, null, CPF, PERFIL);
+		bolsista = new Bolsista(EMAIL, null, CPF, PERFIL);
 
 		assertFalse("cadastro" + bolsista + "com falha", false);
 
@@ -54,7 +61,7 @@ public class BolsistaServicoTest {
 
 	@Test
 	public void salvarBolsistaSemEmail() {
-		Bolsista bolsista = new Bolsista(null, NOME, CPF, PERFIL);
+		bolsista = new Bolsista(null, NOME, CPF, PERFIL);
 
 		assertFalse("cadastro" + bolsista + "com falha", false);
 
@@ -62,7 +69,7 @@ public class BolsistaServicoTest {
 
 	@Test
 	public void salvarBolsistaSemCpf() {
-		Bolsista bolsista = new Bolsista(EMAIL, NOME, null, PERFIL);
+		bolsista = new Bolsista(EMAIL, NOME, null, PERFIL);
 
 		assertFalse("cadastro" + bolsista + "com falha", false);
 
@@ -70,11 +77,26 @@ public class BolsistaServicoTest {
 
 	@Test
 	public void salvarBolsistaSemTipoDePerfil() {
-		Bolsista bolsista = new Bolsista(EMAIL, NOME, CPF, null);
+		bolsista = new Bolsista(EMAIL, NOME, CPF, null);
 
 		assertFalse("cadastro" + bolsista + "com falha", false);
 
 	}
+	
+	@Before //recriar o objeto bolsista
+	public void init() {
+		 bolsista = new Bolsista(EMAIL, NOME, CPF, PERFIL);
+		 
+		
+	}
+	
+	/*@After//apagar e/ou tirar o objeto garantindo que ele não esteja no banco de dados real.	
+	public void after() {
+		//Mockito.doCallRealMethod().when(bolsistaservice).);
+		//Não foi possivel identific como apagar o bolsita
+		
+	}*/
+	
 	/*
 	@Test
 	public void buscarBosistaPorEmail() {
@@ -85,10 +107,14 @@ public class BolsistaServicoTest {
 		
 		assertNotNull(bolsistaservice.buscarPorCpfNormal(CPF));
 		
-		Mockito.doCallRealMethod().when(bolsistaservice).buscarPorCpfNormal(bolsista2.getCpf());
+		Mockito.doCallRealMethod().when(bolsistaservice).salvar(bolsista);
+		
+		Mockito.doCallRealMethod().when(bolsistaservice).buscarPorCpfNormal(bolsista.getCpf());
 
 		assertEquals(bolsistaservice.buscarPorCpfNormal(bolsista2.getCpf()).getCpf(),bolsista2.getCpf());
+		
 	}
 	*/
+	
 	
 }
