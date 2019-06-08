@@ -18,6 +18,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.Fetch;
@@ -40,10 +41,12 @@ public class Analise extends AbstractModel<Integer> {
 
 	@Column(name = "enumLeite", nullable = false)
 	@Enumerated(EnumType.STRING)
+	@NotNull(message = "O campo leite não pode ser vazio.")
 	private EnumLeite leite;
 
 	@Column(name = "enumOrigemLeite", nullable = false)
 	@Enumerated(EnumType.STRING)
+	@NotNull(message = "O campo origem do leite não pode ser vazio.")
 	private EnumOrigemLeite origemLeite;
 
 	@ElementCollection(targetClass = EnumProdutos.class)
@@ -60,9 +63,11 @@ public class Analise extends AbstractModel<Integer> {
 
 	@Column(name = "enumEspecie", nullable = false)
 	@Enumerated(EnumType.STRING)
+	@NotNull(message = "O campo especie não pode ser vazio.")
 	private EnumEspecie especie;
 
 	@Column(name = "quantidade_amostras")
+	@NotNull(message = "O campo quantidade de amostras não pode ser vazio.")
 	private Integer quantidadeAmostras;
 
 	@OneToMany(mappedBy = "analise", fetch = FetchType.EAGER, orphanRemoval = true)

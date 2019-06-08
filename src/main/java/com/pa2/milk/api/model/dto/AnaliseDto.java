@@ -16,9 +16,9 @@ public class AnaliseDto {
 
 	private EnumOrigemLeite origemLeite;
 
-	private Collection<EnumProdutos> produtos;
+	private List<EnumProdutos> produtos;
 
-	private Collection<EnumAnalisesSolicitadas> analisesSolicitadas;
+	private List<EnumAnalisesSolicitadas> analisesSolicitadas;
 
 	private EnumEspecie especie;
 
@@ -44,19 +44,19 @@ public class AnaliseDto {
 		this.origemLeite = origemLeite;
 	}
 
-	public Collection<EnumProdutos> getProdutos() {
+	public List<EnumProdutos> getProdutos() {
 		return produtos;
 	}
 
-	public void setProdutos(Collection<EnumProdutos> produtos) {
+	public void setProdutos(List<EnumProdutos> produtos) {
 		this.produtos = produtos;
 	}
 
-	public Collection<EnumAnalisesSolicitadas> getAnalisesSolicitadas() {
+	public List<EnumAnalisesSolicitadas> getAnalisesSolicitadas() {
 		return analisesSolicitadas;
 	}
 
-	public void setAnalisesSolicitadas(Collection<EnumAnalisesSolicitadas> analisesSolicitadas) {
+	public void setAnalisesSolicitadas(List<EnumAnalisesSolicitadas> analisesSolicitadas) {
 		this.analisesSolicitadas = analisesSolicitadas;
 	}
 

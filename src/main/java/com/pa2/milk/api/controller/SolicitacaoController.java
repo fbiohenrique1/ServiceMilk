@@ -1,6 +1,7 @@
 package com.pa2.milk.api.controller;
 
 import java.security.NoSuchAlgorithmException;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -10,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -56,7 +58,6 @@ public class SolicitacaoController {
 	public ResponseEntity<Response<Solicitacao>> cadastrarSolicitacao(@RequestBody SolicitacaoDto solicitacaoDTO,
 			BindingResult result) throws NoSuchAlgorithmException, NotFoundException {
 		log.info("Cadastrando solicitacao: {}", solicitacaoDTO.toString());
-
 		Response<Solicitacao> response = new Response<Solicitacao>();
 
 		Optional<Fazenda> fazenda = fazendaSerice.buscarPorCpfCnpj(solicitacaoDTO.getCpfcnpj());
@@ -65,31 +66,32 @@ public class SolicitacaoController {
 			log.info("Não existe fazenda cadastrada com tais dados: {}", solicitacaoDTO.getCpfcnpj());
 			response.getErros().add("Fazenda não encontrada");
 			return ResponseEntity.badRequest().body(response);
-			//result.addError(new ObjectError("solicitacao", "Fazenda não encontrada."));
+			// result.addError(new ObjectError("solicitacao", "Fazenda não encontrada."));
 		}
-
-		Solicitacao solicitacao = gerarSolicitacao(solicitacaoDTO, fazenda.get());
-
-		solicitacaoService.salvarSolicitacao(solicitacao);
-
+		Solicitacao solicitacao = gerarSolicitacao(solicitacaoDTO, fazenda.get(), result);
 		if (result.hasErrors()) {
 			log.info("Erro no cadastro da Solicitacao: {}", result.getAllErrors());
 			result.getAllErrors().forEach(error -> response.getErros().add(error.getDefaultMessage()));
 			return ResponseEntity.badRequest().body(response);
 		}
-
+		
+		solicitacaoService.salvarSolicitacao(solicitacao);
 		response.setData(solicitacao);
 
 		return ResponseEntity.ok(response);
 	}
 
-	private Solicitacao gerarSolicitacao(SolicitacaoDto solicitacaoDTO, Fazenda fazenda) {
+	private Solicitacao gerarSolicitacao(SolicitacaoDto solicitacaoDTO, Fazenda fazenda, BindingResult result)
+			throws NoSuchAlgorithmException {
 		List<Analise> analises = solicitacaoDTO.transformarParaListaAnalise();
+		if(analises.isEmpty()) {
+			result.addError(new ObjectError("analises", "Lista de análises vazia"));
+		}
 		Solicitacao solicitacao = solicitacaoDTO.transformarParaSolicitacao();
 		solicitacao.setFazenda(fazenda);
 		solicitacao.setCliente(fazenda.getCliente());
-		//solicitacao.setDataCriada(Calendar.getInstance(TimeZone.getTimeZone("GMT-03:00")).getTime());
-		solicitacao.setDataCriada(solicitacaoDTO.getDataCriada());
+		// solicitacao.setDataCriada(Calendar.getInstance(TimeZone.getTimeZone("GMT-03:00")).getTime());
+		solicitacao.setDataCriada(new Date());
 		analises.stream().forEach(objAnalise -> solicitacao.addAnalise(objAnalise));
 		solicitacao.setStatus(EnumStatusSolicitacao.PENDENTE);
 		return solicitacao;

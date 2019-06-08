@@ -4,15 +4,17 @@ import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.validation.constraints.NotEmpty;
+
 import com.pa2.milk.api.model.Analise;
 import com.pa2.milk.api.model.Solicitacao;
 
 public class SolicitacaoDto {
-
+	
+	@NotEmpty(message = "O campo CPF/CNPJ não pode ser vazio.")
 	private String cpfcnpj;
-
-	private Date dataCriada;
-
+	
+	@NotEmpty(message = "A lista de análise não pode ser vazia.")
 	private List<AnaliseDto> listaAnalise;
 
 	public SolicitacaoDto() {
@@ -32,14 +34,6 @@ public class SolicitacaoDto {
 
 	public void setListaAnalise(List<AnaliseDto> listaAnalise) {
 		this.listaAnalise = listaAnalise;
-	}
-
-	public Date getDataCriada() {
-		return dataCriada;
-	}
-
-	public void setDataCriada(Date dataCriada) {
-		this.dataCriada = dataCriada;
 	}
 
 	public Solicitacao transformarParaSolicitacao() {
