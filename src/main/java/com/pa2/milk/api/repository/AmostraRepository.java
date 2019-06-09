@@ -11,8 +11,10 @@ import com.pa2.milk.api.model.Amostra;
 
 @Transactional(readOnly = true)
 @NamedQuery(name = "AmostraRepository.findByAnaliseId", query = "SELECT a FROM Amostra a WHERE a.analise.id = :analiseId")
+@NamedQuery(name = "AmostraRepository.deleteByAnaliseId", query = "SELECT a FROM Amostra a WHERE a.analise.id = :analiseId")
 public interface AmostraRepository extends GenericRepository<Amostra, Integer> {
 
 	List<Amostra> findByAnaliseId(@Param("analiseId") Integer analiseId);
+	List<Amostra> deleteByAnaliseId(@Param("analiseId") Integer analiseId);
 
 }
