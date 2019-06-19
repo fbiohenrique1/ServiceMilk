@@ -57,7 +57,7 @@ public class SolicitacaoController {
 	@PostMapping
 	public ResponseEntity<Response<Solicitacao>> cadastrarSolicitacao(@RequestBody SolicitacaoDto solicitacaoDTO,
 			BindingResult result) throws NoSuchAlgorithmException, NotFoundException {
-		log.info("Cadastrando solicitacao: {}", solicitacaoDTO.toString());
+		log.info("Cadastrando solicitacao: {}", solicitacaoDTO.toString(),"cpfcnj");
 		Response<Solicitacao> response = new Response<Solicitacao>();
 
 		Optional<Fazenda> fazenda = fazendaSerice.buscarPorCpfCnpj(solicitacaoDTO.getCpfcnpj());

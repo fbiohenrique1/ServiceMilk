@@ -12,7 +12,7 @@ import com.pa2.milk.api.model.enums.EnumProdutos;
 
 public class AnaliseDto {
 
-	private EnumLeite leite;
+	//private EnumLeite leite;
 
 	private EnumOrigemLeite origemLeite;
 
@@ -28,13 +28,13 @@ public class AnaliseDto {
 
 	private String descricao;
 
-	public EnumLeite getLeite() {
+	/*public EnumLeite getLeite() {
 		return leite;
 	}
 
 	public void setLeite(EnumLeite leite) {
 		this.leite = leite;
-	}
+	}*/
 
 	public EnumOrigemLeite getOrigemLeite() {
 		return origemLeite;
@@ -93,7 +93,7 @@ public class AnaliseDto {
 	}
 
 	public Analise transformarParaAnalise() {
-		return new Analise.Builder(descricao).especie(especie).leite(leite).origemLeite(origemLeite)
+		return new Analise.Builder(descricao).especie(especie).origemLeite(origemLeite)
 				.analisesSolicitadas(analisesSolicitadas).quantidadeAmostras(quantidadeAmostras).produtos(produtos)
 				.build();
 	}

@@ -197,7 +197,7 @@ public class ServiceMilkApplication {
 
 			Analise analise = new Analise();
 			analise.setEspecie(EnumEspecie.BOVINO);
-			analise.setLeite(EnumLeite.CRU);
+			//analise.setLeite(EnumLeite.CRU);
 			analise.setProdutos(teste2);
 			analise.setOrigemLeite(EnumOrigemLeite.TETEIRA);
 			analise.setAnalisesSolicitadas(teste4);
@@ -205,7 +205,7 @@ public class ServiceMilkApplication {
 
 			Analise analise2 = new Analise();
 			analise2.setEspecie(EnumEspecie.OVINO);
-			analise2.setLeite(EnumLeite.CRU);
+			//analise2.setLeite(EnumLeite.CRU);
 			analise2.setProdutos(teste2);
 			analise2.setOrigemLeite(EnumOrigemLeite.TETEIRA);
 			analise2.setAnalisesSolicitadas(teste4);
@@ -214,7 +214,7 @@ public class ServiceMilkApplication {
 
 			Analise analise3 = new Analise();
 			analise3.setEspecie(EnumEspecie.CAPRINO);
-			analise3.setLeite(EnumLeite.CRU);
+			//analise3.setLeite(EnumLeite.CRU);
 			analise3.setProdutos(teste2);
 			analise3.setOrigemLeite(EnumOrigemLeite.TETEIRA);
 			analise3.setAnalisesSolicitadas(teste4);

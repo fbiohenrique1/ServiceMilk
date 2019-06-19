@@ -39,10 +39,10 @@ public class Analise extends AbstractModel<Integer> {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 
-	@Column(name = "enumLeite", nullable = false)
-	@Enumerated(EnumType.STRING)
-	@NotNull(message = "O campo leite não pode ser vazio.")
-	private EnumLeite leite;
+	//@Column(name = "enumLeite", nullable = false)
+	//@Enumerated(EnumType.STRING)
+	//@NotNull(message = "O campo leite não pode ser vazio.")
+	//private EnumLeite leite;
 
 	@Column(name = "enumOrigemLeite", nullable = false)
 	@Enumerated(EnumType.STRING)
@@ -86,7 +86,7 @@ public class Analise extends AbstractModel<Integer> {
 	private Solicitacao solicitacao;
 
 	public Analise(Builder builder) {
-		this.leite = builder.leite;
+		//this.leite = builder.leite;
 		this.origemLeite = builder.origemLeite;
 		this.produtos = builder.produtos;
 		this.analisesSolicitadas = builder.analisesSolicitadas;
@@ -108,13 +108,13 @@ public class Analise extends AbstractModel<Integer> {
 		this.id = id;
 	}
 
-	public EnumLeite getLeite() {
+	/*public EnumLeite getLeite() {
 		return leite;
 	}
 
 	public void setLeite(EnumLeite leite) {
 		this.leite = leite;
-	}
+	}*/
 
 	public EnumOrigemLeite getOrigemLeite() {
 		return origemLeite;
