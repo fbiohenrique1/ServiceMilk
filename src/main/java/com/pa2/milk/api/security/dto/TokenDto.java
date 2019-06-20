@@ -4,13 +4,15 @@ public class TokenDto {
 
 	private String token;
 	private String perfil;
+	private int id;
 
 	public TokenDto() {
 	}
 
-	public TokenDto(String token, String perfil) {
+	public TokenDto(String token, String perfil, int id) {
 		this.token = token;
 		this.perfil = perfil;
+		this.id = id;
 	}
 
 	public String getToken() {
@@ -28,6 +30,14 @@ public class TokenDto {
 	public void setPerfil(String perfil) {
 		this.perfil = perfil;
 	}
-	
 
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+	
+	
 }

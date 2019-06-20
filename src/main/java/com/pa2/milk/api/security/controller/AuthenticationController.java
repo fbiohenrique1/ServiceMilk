@@ -82,7 +82,7 @@ public class AuthenticationController {
 		r.addHeader("Usuario","ID:"+credencial.get().getUsuario().getId());
 		r.addHeader("UsuarioPerfil:",String.valueOf(credencial.get().getUsuario().getCodigoTipoPerfilUsuario()));
 		
-		response.setData(new TokenDto(token, String.valueOf(credencial.get().getUsuario().getCodigoTipoPerfilUsuario())));
+		response.setData(new TokenDto(token, String.valueOf(credencial.get().getUsuario().getCodigoTipoPerfilUsuario()), credencial.get().getUsuario().getId()));
 		
 		return ResponseEntity.ok(response);
 
@@ -110,7 +110,7 @@ public class AuthenticationController {
 		}
 
 		String refreshedToken = jwtTokenUtil.refreshToken(token.get());
-		response.setData(new TokenDto(refreshedToken, null));
+		response.setData(new TokenDto(refreshedToken, null, (Integer) null));
 
 		return ResponseEntity.ok(response);
 
