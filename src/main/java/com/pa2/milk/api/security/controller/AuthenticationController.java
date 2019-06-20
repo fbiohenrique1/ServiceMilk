@@ -75,14 +75,14 @@ public class AuthenticationController {
 		UserDetails userDetails = userDetailsService.loadUserByUsername(authenticationDto.getUsername());
 
 		String token = jwtTokenUtil.obterToken(userDetails);
-		response.setData(new TokenDto(token));
 
 		Optional<Credencial> credencial = this.credencialService.buscarPorUsername(authenticationDto.getUsername());
 		
 		r.addHeader(TOKEN_HEADER, BEARER_PREFIX + " " + token);
 		r.addHeader("Usuario","ID:"+credencial.get().getUsuario().getId());
-		r.addHeader("UsuarioPerfil:","Perfil:"+credencial.get().getUsuario().getCodigoTipoPerfilUsuario());
+		r.addHeader("UsuarioPerfil:",String.valueOf(credencial.get().getUsuario().getCodigoTipoPerfilUsuario()));
 		
+		response.setData(new TokenDto(token, String.valueOf(credencial.get().getUsuario().getCodigoTipoPerfilUsuario())));
 		
 		return ResponseEntity.ok(response);
 
@@ -110,7 +110,7 @@ public class AuthenticationController {
 		}
 
 		String refreshedToken = jwtTokenUtil.refreshToken(token.get());
-		response.setData(new TokenDto(refreshedToken));
+		response.setData(new TokenDto(refreshedToken, null));
 
 		return ResponseEntity.ok(response);
 
