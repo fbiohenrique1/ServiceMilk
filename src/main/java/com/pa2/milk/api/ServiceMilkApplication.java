@@ -92,6 +92,18 @@ public class ServiceMilkApplication {
 	public CommandLineRunner commandLineRunner() {
 		return args -> {
 
+			// Administrador
+			Usuario a = new Administrador();
+			a.setEmail("admin@email.com");
+			a.setCodigoTipoPerfilUsuario(EnumTipoPerfilUsuario.ROLE_ADMINISTRADOR);
+			a.setNome("ADM");
+			a.setCpf("11242520023");
+			Credencial cA = new Credencial();
+			cA.setUsername("admin");
+			cA.setSenha(PasswordUtils.gerarBCrypt("admin"));
+			cA.setUsuario(a);
+			this.credencialRepository.save(cA);
+			/*
 			// Cliente
 			Usuario usuario = new Cliente();
 			usuario.setEmail("pedro@email.com");
@@ -119,17 +131,6 @@ public class ServiceMilkApplication {
 			cB.setUsuario(b);
 			this.credencialRepository.save(cB);
 
-			// Administrador
-			Usuario a = new Administrador();
-			a.setEmail("teste@email.com");
-			a.setCodigoTipoPerfilUsuario(EnumTipoPerfilUsuario.ROLE_ADMINISTRADOR);
-			a.setNome("Cliente teste de sistema");
-			a.setCpf("11242520023");
-			Credencial cA = new Credencial();
-			cA.setUsername("teste");
-			cA.setSenha(PasswordUtils.gerarBCrypt("teste"));
-			cA.setUsuario(a);
-			this.credencialRepository.save(cA);
 
 			// Fazenda
 			Fazenda fazenda = new Fazenda();
@@ -248,6 +249,7 @@ public class ServiceMilkApplication {
 			// solicitacao.get().addAnalise(analise);
 			// solicitacao.get().addAnalise(analise2);
 			this.solicitacaoRepository.save(solicitacao.get());
+			*/
 
 //-------------------------------------------------------------(NAO FUNCIONA)---------------------------------------------
 			// Cadastro de uma amostra em um analise de uma solicitação
