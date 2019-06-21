@@ -15,6 +15,7 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.data.domain.Example;
 
 import com.pa2.milk.api.controller.EnviarEmail;
 import com.pa2.milk.api.helper.PasswordUtils;
@@ -93,6 +94,7 @@ public class ServiceMilkApplication {
 		return args -> {
 
 			// Administrador
+			/*
 			Usuario a = new Administrador();
 			a.setEmail("admin@email.com");
 			a.setCodigoTipoPerfilUsuario(EnumTipoPerfilUsuario.ROLE_ADMINISTRADOR);
@@ -102,7 +104,10 @@ public class ServiceMilkApplication {
 			cA.setUsername("admin");
 			cA.setSenha(PasswordUtils.gerarBCrypt("admin"));
 			cA.setUsuario(a);
+			
+			if(!this.credencialRepository.existsById(cA.getId()))
 			this.credencialRepository.save(cA);
+			*/
 			/*
 			// Cliente
 			Usuario usuario = new Cliente();
